@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- Secrets: unlock protected values with the fingerprint or screen lock. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Self-update: install an APK of this same app that the agent built (Android asks the user to confirm). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <application
+        android:allowBackup="false"
+        android:label="Self Forming"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".MainActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="${signInScheme}" android:host="signin-complete" />
+            </intent-filter>
+        </activity>
+        <!-- Shown as the gear in Android Settings → Apps → Self Forming. Holds app recovery. -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Self Forming settings"
+            android:theme="@android:style/Theme.DeviceDefault.Light"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <service android:name=".ExecutionService" android:exported="false"
+            android:stopWithTask="false" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="User-started local development commands and loopback servers, with an ongoing notification and an explicit Stop action; stops when no commands remain." />
+        </service>
+        <service android:name=".AgentService" android:exported="false"
+            android:stopWithTask="false" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Keeps a user-started AI assistant reply running while the app is in the background, with an ongoing notification and a Stop action; stops when the reply ends." />
+        </service>
+        <receiver android:name=".InstallResultReceiver" android:exported="false" />
+        <service android:name=".SignInService" android:exported="false"
+            android:stopWithTask="true" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="User-initiated ChatGPT OAuth loopback callback listener, active only during browser sign-in (maximum five minutes)." />
+        </service>
+    </application>
+</manifest>

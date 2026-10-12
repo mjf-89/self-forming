@@ -1,0 +1,102 @@
+name: Import pinned ARM64 runtime
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_sha256:
+        description: Expected source asset SHA-256 (leave blank to reuse the current runtime pin)
+        required: false
+        type: string
+      source_format:
+        description: Format of the source asset supplied with source_sha256
+        required: true
+        default: apk
+        type: choice
+        options: [apk, tar]
+      rebrand_from:
+        description: Optional previous runtime identifier to migrate to Self Forming
+        required: false
+        type: string
+      runtime_tag:
+        description: New runtime release tag in this repository
+        required: true
+        default: runtime-ubuntu-24.04-2
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RUNTIME_DOWNLOAD_URL: ${{ secrets.RUNTIME_IMPORT_URL }}
+      SOURCE_SHA256: ${{ inputs.source_sha256 }}
+      SOURCE_FORMAT: ${{ inputs.source_format }}
+      RUNTIME_TAG: ${{ inputs.runtime_tag }}
+      FROM_BRAND: ${{ inputs.rebrand_from }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Import only verified runtime members
+        run: |
+          [[ "$RUNTIME_TAG" =~ ^runtime-[A-Za-z0-9_.-]+$ ]]
+          if gh release view "$RUNTIME_TAG" >/dev/null 2>&1; then
+            echo '::error::Runtime releases are immutable; choose a new tag.'
+            exit 1
+          fi
+          existing=$(gh api "repos/$GH_REPO/git/matching-refs/tags/$RUNTIME_TAG" --jq ".[] | select(.ref == \"refs/tags/$RUNTIME_TAG\") | .object.sha")
+          if [[ -n "$existing" ]]; then
+            echo '::error::Runtime tag already exists; choose a new tag.'
+            exit 1
+          fi
+          preserve_archive=
+          if [[ -n "$SOURCE_SHA256" ]]; then
+            test -n "$RUNTIME_DOWNLOAD_URL"
+            [[ "$SOURCE_SHA256" =~ ^[a-f0-9]{64}$ ]]
+            source_format=${SOURCE_FORMAT:-apk}
+            case "$source_format" in
+              apk) source_archive=runtime-source.apk ;;
+              tar) source_archive=self-forming-runtime-arm64-v8a.tar.gz ;;
+              *) echo '::error::Source format must be apk or tar.'; exit 1 ;;
+            esac
+            pin="$RUNNER_TEMP/runtime-input.env"
+            cache="$RUNNER_TEMP/runtime-import-cache"
+            printf 'RUNTIME_REPO=%s\nRUNTIME_TAG=%s\nRUNTIME_ARCHIVE=%s\nRUNTIME_SHA256=%s\nRUNTIME_FORMAT=%s\n' \
+              "$GH_REPO" "$RUNTIME_TAG" "$source_archive" "$SOURCE_SHA256" "$source_format" > "$pin"
+            RUNTIME_PIN_FILE="$pin" bash scripts/fetch-runtime.sh "$cache"
+            if [[ "$source_format" == tar && -z "$FROM_BRAND" ]]; then
+              preserve_archive="$cache/$source_archive"
+            fi
+          else
+            unset RUNTIME_DOWNLOAD_URL
+            bash scripts/fetch-runtime.sh
+          fi
+          if [[ -n "$FROM_BRAND" ]]; then
+            python3 -m unittest discover -s tests -p '*_test.py'
+            python3 scripts/rebrand-runtime.py --from-brand "$FROM_BRAND" --to-brand self-forming
+          fi
+          if [[ -n "$preserve_archive" ]]; then
+            # fetch-runtime checked the digest, allowed members, licenses and rootfs manifest.
+            # Keep the exact verified tar bytes so the public bootstrap retains its committed pin.
+            mkdir -p .runtime-build
+            cp -- "$preserve_archive" .runtime-build/self-forming-runtime-arm64-v8a.tar.gz
+            printf '%s  %s\n' "$SOURCE_SHA256" .runtime-build/self-forming-runtime-arm64-v8a.tar.gz | sha256sum --check --status
+          else
+            bash scripts/package-runtime.sh .runtime-build
+          fi
+          (cd .runtime-build && sha256sum self-forming-runtime-arm64-v8a.tar.gz > SHA256SUMS)
+          printf 'ARM64 Ubuntu 24.04, Box64 and PRoot runtime.\n\nOnly runtime files and licenses are included; no app code or user data.\n' > "$RUNNER_TEMP/runtime-notes.md"
+          if [[ -n "$SOURCE_SHA256" ]]; then printf 'Source format: %s\nSource asset SHA-256: %s\n' "$source_format" "$SOURCE_SHA256" >> "$RUNNER_TEMP/runtime-notes.md"; fi
+          if [[ -n "$preserve_archive" ]]; then printf 'The published archive preserves the verified source bytes exactly.\n' >> "$RUNNER_TEMP/runtime-notes.md"; fi
+          if [[ -n "$FROM_BRAND" ]]; then printf 'Runtime metadata uses Self Forming naming; content scan and manifest checks passed.\n' >> "$RUNNER_TEMP/runtime-notes.md"; fi
+          cat .runtime-build/SHA256SUMS >> "$RUNNER_TEMP/runtime-notes.md"
+          test "$(gh api "repos/$GH_REPO/commits/main" --jq .sha)" = "$GITHUB_SHA"
+          gh release create "$RUNTIME_TAG" .runtime-build/self-forming-runtime-arm64-v8a.tar.gz .runtime-build/SHA256SUMS \
+            --target "$GITHUB_SHA" --latest=false --title "Self Forming ARM64 runtime" --notes-file "$RUNNER_TEMP/runtime-notes.md"
+          cat .runtime-build/SHA256SUMS >> "$GITHUB_STEP_SUMMARY"

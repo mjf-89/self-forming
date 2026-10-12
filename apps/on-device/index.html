@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f6f6f3" />
+    <title>Self Forming</title>
+    <link rel="stylesheet" href="./app.css" />
+  </head>
+  <body class="app-layout">
+    <main id="chat-screen" class="shell">
+      <header class="topbar app-view-header">
+        <h1 id="chat-title" class="sr-only">Self Forming</h1>
+        <div class="header-actions">
+          <button id="chat-settings" type="button" hidden aria-hidden="true" tabindex="-1"></button>
+        </div>
+      </header>
+      <div class="main-scroll" id="main-scroll" tabindex="0" role="region" aria-label="Conversation">
+      <details class="connection-panel" id="agent-settings" open>
+        <summary class="connection-heading"><span class="settings-title">Agent settings</span><span id="storage-label" class="storage-label">Opening…</span></summary>
+        <div class="settings-content">
+        <div class="mode-controls"><label class="select-label" for="mode">Use<select id="mode"><option value="offline">Offline demo</option><option value="chatgpt">ChatGPT</option><option value="claude">Claude Code</option><option value="openai">OpenAI API key</option></select></label><span id="mode-description" hidden></span></div>
+        <div id="chatgpt-account" class="account-panel" hidden>
+          <div class="account-actions"><button id="chatgpt-login" class="login-button" type="button" aria-label="Log in with ChatGPT">Continue with ChatGPT</button><button id="chatgpt-logout" class="quiet-button" type="button" hidden>Sign out</button><button id="chatgpt-switch" class="quiet-button" type="button" hidden>Use another account</button><button id="chatgpt-cancel" class="quiet-button" type="button" hidden>Cancel sign-in</button></div>
+          <p id="auth-status" class="settings-note" role="status">Connect your ChatGPT account to use its available models.</p>
+          <a id="chatgpt-open" class="auth-link" target="_blank" rel="noopener noreferrer" hidden>Open the sign-in page</a>
+        </div>
+        <div id="claude-account" class="account-panel" hidden>
+          <div class="account-actions"><button id="claude-login" class="login-button" type="button">Continue with Claude Code</button><button id="claude-logout" class="quiet-button" type="button" hidden>Sign out of Claude</button><button id="claude-cancel" class="quiet-button" type="button" hidden>Cancel Claude sign-in</button></div>
+          <p id="claude-auth-status" class="settings-note" role="status">Connect your Claude account through Claude Code sign-in.</p>
+          <a id="claude-open" class="auth-link" target="_blank" rel="noopener noreferrer" hidden>Open the Claude sign-in page</a>
+          <form id="claude-code-form" class="key-settings" autocomplete="off" hidden>
+            <label for="claude-code">Code from Claude<input id="claude-code" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Paste the code from your browser" /></label>
+            <button id="claude-code-submit" class="login-button" type="submit">Finish sign-in</button>
+          </form>
+        </div>
+        <div id="chatgpt-settings" class="key-settings" hidden><label>Model<select id="chatgpt-model" disabled><option value="">Sign in to see your models</option></select></label><button id="refresh-models" class="quiet-button" type="button" hidden>Refresh models</button><p id="chatgpt-note" class="settings-note"></p></div>
+        <div id="claude-settings" class="key-settings" hidden><label for="claude-model">Model<select id="claude-model" disabled></select></label></div>
+        <div id="openai-settings" class="key-settings" hidden>
+          <label>API key<input id="api-key" type="password" placeholder="Your OpenAI API key" autocomplete="off" autocapitalize="off" spellcheck="false" /></label>
+          <label>Model<input id="model" type="text" value="gpt-4.1-mini" autocapitalize="off" spellcheck="false" /></label>
+        </div>
+        <div id="thinking-settings" class="key-settings" hidden><label for="thinking-effort">Thinking<select id="thinking-effort"><option value="">Default</option></select></label><p id="thinking-note" class="settings-note"></p></div>
+        <details id="native-settings" class="native-settings" hidden>
+          <summary>Device tools</summary>
+        </details>
+        <p id="secrets-unavailable" class="settings-note" hidden>Secrets need the latest app update.</p>
+        <details id="secrets-settings" class="native-settings" hidden>
+          <summary>Secrets</summary>
+          <p id="secrets-error" class="settings-note secrets-error" role="alert" hidden></p>
+          <p id="secrets-lock" class="settings-note secrets-lock" hidden><span id="secrets-lock-text"></span> <button id="secrets-unlock" class="secrets-action" type="button" hidden>Unlock</button></p>
+          <div id="secrets-list" class="secrets-list"></div>
+          <form id="secrets-form" class="secrets-form" autocomplete="off">
+            <label class="secrets-field">Name<input id="secrets-name" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" pattern="^[A-Z_][A-Z0-9_]*$" required placeholder="API_TOKEN" /></label>
+            <label class="secrets-field">Value<input id="secrets-value" type="password" autocomplete="off" spellcheck="false" required /></label>
+            <div id="secrets-new-toggles" class="secrets-toggles"></div>
+            <div class="secrets-actions"><button id="secrets-save" class="secrets-action" type="submit">Save</button></div>
+          </form>
+        </details>
+        <details id="execution-settings" class="native-settings" hidden>
+          <summary>Background work</summary>
+          <p id="execution-status" class="settings-note" role="status" aria-live="polite">Reading background work status…</p>
+          <div class="app-edit-actions"><button id="execution-refresh" class="quiet-button" type="button">Refresh status</button><button id="execution-battery" class="quiet-button" type="button">Battery settings</button><button id="execution-stop" class="quiet-button" type="button">Stop all commands</button></div>
+        </details>
+        <details id="app-editing" class="app-editing" hidden>
+          <summary>Edit this app</summary>
+          <p id="app-revision-status" class="settings-note" role="status" aria-live="polite">Reading the current revision…</p>
+          <details class="app-source"><summary>Editable files</summary><code id="app-source-path"></code></details>
+          <div class="app-edit-actions"><button id="app-apply" class="quiet-button" type="button" disabled>Apply edits</button><button id="app-previous" class="quiet-button" type="button" disabled>Previous version</button><button id="app-original" class="quiet-button" type="button" disabled>Original app</button></div>
+        </details>
+        </div>
+      </details>
+      <section class="conversation" aria-label="Conversation">
+        <div id="welcome" class="welcome">
+          <header class="masthead"><h2 class="brand">SELF FORMING</h2><div class="rule"></div></header>
+          <div class="invitation-wrap"><p class="invitation">Tell me what you need. I'll become it.</p></div>
+          <p id="toolchain-note" class="notice" role="status" hidden>Preparing Android build tools in the background &middot; by using Self Forming you accept the <a href="https://developer.android.com/studio/terms" rel="noopener noreferrer">Android SDK License</a></p>
+          <div class="credit"><span>Powered by <a href="https://earendil.com/posts/pi-durable/" rel="noopener noreferrer">pi-durable</a></span></div>
+        </div>
+        <div id="messages" class="messages" aria-label="Messages"></div>
+      </section>
+      </div>
+      <footer class="composer-panel">
+        <button id="jump-latest" class="app-icon-button" type="button" aria-label="Jump to latest message" title="Jump to latest message" hidden><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4v16M5 13l7 7 7-7"/></svg></button>
+        <div class="composer-notices">
+        <div id="error" class="error" role="alert" hidden></div>
+        <div id="resume-panel" class="resume-panel" hidden><p>A reply was interrupted. Resume it or stop to write a new message.</p><button id="resume" type="button">Resume reply</button></div>
+        </div>
+        <form id="composer" class="composer">
+          <div id="composer-attachments" class="composer-attachments" role="group" aria-label="Files attached to this draft" hidden></div>
+          <input id="attachment-files-input" type="file" multiple hidden />
+          <input id="attachment-images-input" type="file" accept="image/*" multiple hidden />
+          <label class="sr-only" for="prompt">Message</label><textarea id="prompt" rows="1" placeholder="Transform yourself into…" maxlength="16000" disabled></textarea>
+          <div class="composer-actions">
+            <div class="composer-shortcuts-wrap">
+              <button id="composer-shortcuts" class="chat-icon-button" type="button" aria-label="Add attachments" title="Add attachments" aria-controls="composer-shortcuts-menu" aria-expanded="false"><span class="attachment-plus" aria-hidden="true">+</span></button>
+              <div id="composer-shortcuts-menu" class="chat-menu" role="group" aria-label="Attachments" hidden><button id="attach-files" class="quiet-button attach-icon" type="button" aria-label="Attach files" title="Attach files" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20.5 11.5 12.3 19.7a5 5 0 0 1-7-7l8.5-8.5a3.3 3.3 0 0 1 4.7 4.7l-8.5 8.5a1.7 1.7 0 0 1-2.4-2.4l7.8-7.8"/></svg></button><button id="attach-images" class="quiet-button attach-icon" type="button" aria-label="Photos and images" title="Photos and images" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m4 17.5 5-5 4 4 2.5-2.5 5 5"/></svg></button></div>
+            </div>
+            <button id="send" class="send-button" type="submit" aria-label="Send message" disabled><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20V4M5 11l7-7 7 7"/></svg></button>
+          </div>
+        </form>
+        <p id="storage-note" class="sr-only">Starting Self Forming.</p>
+      </footer>
+    </main>
+    <footer id="app-footer" aria-label="Model and activity">
+      <button id="composer-model" class="composer-model" type="button" aria-label="Choose model in Settings" aria-haspopup="dialog"><span id="composer-model-label">Offline demo</span><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m3 6 5 5 5-5"/></svg></button>
+      <div class="status-row"><span class="status-dot" id="status-dot" aria-hidden="true"></span><span id="status" role="status" aria-live="polite">Opening your conversation…</span><button id="stop" class="stop-button" type="button" hidden>Stop</button></div>
+    </footer>
+    <dialog id="settings-dialog" class="storage-dialog page-dialog" aria-labelledby="settings-heading">
+      <header class="inspector-header app-view-header"><button id="settings-close" class="app-icon-button" type="button" aria-label="Back to conversation" title="Back to conversation" autofocus><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m14 6-6 6 6 6"/></svg></button><h2 id="settings-heading">Settings</h2></header>
+      <div id="settings-content" class="inspector-scroll"></div>
+    </dialog>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pi Durable — upstream API example</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { max-width: 44rem; margin: 3rem auto; padding: 0 1rem; font: 17px/1.6 system-ui; }
+    button { font: inherit; padding: .6rem 1rem; cursor: pointer; }
+    button:disabled { cursor: wait; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <h1>Pi Durable in your browser</h1>
+  <p>This example calls the upstream <code>Harness</code> API directly. A scripted offline provider supplies the reply; no model request leaves this page. Each run uses fresh temporary memory storage.</p>
+  <button id="run" disabled>Run offline conversation</button>
+  <pre id="output" aria-live="polite">Loading modules…</pre>
+  <script type="module" src="./example.js"></script>
+</body>
+</html>

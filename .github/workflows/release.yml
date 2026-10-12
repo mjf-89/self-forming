@@ -1,0 +1,158 @@
+name: Self Forming release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Publish a new public release after checks pass
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Check and build ARM64 app
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    env:
+      SELF_FORMING_SIGNING_REQUIRED: ${{ github.event_name != 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+      - name: Cache locked dependencies
+        uses: actions/cache@v4
+        with:
+          path: .pnpm-store
+          key: pnpm-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Install and check web app
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          pnpm check
+          pnpm test
+          pnpm build
+          bash scripts/font-notices.sh
+      - name: Check release metadata
+        id: version
+        run: |
+          version=$(node -p "JSON.parse(require('node:fs').readFileSync('package.json','utf8')).version")
+          [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
+          grep -Fq "versionName = \"$version\"" apps/android/app/build.gradle.kts
+          test -f "docs/releases/$version.md"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+      - name: Cache pinned runtime download
+        uses: actions/cache@v4
+        with:
+          path: .runtime-cache
+          key: runtime-${{ runner.os }}-${{ hashFiles('runtime-source.env') }}
+      - name: Reuse verified Ubuntu, Box64 and PRoot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/fetch-runtime.sh
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: android-actions/setup-android@v4
+      - name: Android SDK
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          gradle-version: '8.13'
+      - name: Restore permanent signing identity
+        if: env.SELF_FORMING_SIGNING_REQUIRED == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.SELF_FORMING_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.SELF_FORMING_KEYSTORE_PASSWORD }}
+        shell: python
+        run: |
+          import base64, os
+          from pathlib import Path
+          encoded = os.environ.get('KEYSTORE_BASE64', '')
+          password = os.environ.get('KEYSTORE_PASSWORD', '')
+          if not encoded or not password or '\n' in password or '\r' in password:
+              raise SystemExit('Permanent signing secrets are missing or invalid; refusing a disposable debug key.')
+          directory = Path('.signing')
+          directory.mkdir(mode=0o700)
+          key = directory / 'self-forming.p12'
+          key.write_bytes(base64.b64decode(encoded, validate=True))
+          key.chmod(0o600)
+          (directory / 'password').write_text(password)
+          (directory / 'password').chmod(0o600)
+          with open(os.environ['GITHUB_ENV'], 'a') as output:
+              output.write(f'SELF_FORMING_KEYSTORE_PATH={key.resolve()}\nSELF_FORMING_KEYSTORE_PASSWORD={password}\n')
+      - name: Embed clean rebuildable source
+        run: bash scripts/pack-source.sh
+      - name: Android JVM checks and APK
+        working-directory: apps/android
+        run: gradle --no-daemon --console=plain :app:testDebugUnitTest :app:assembleDebug
+      - name: Verify signed app and package downloads
+        if: env.SELF_FORMING_SIGNING_REQUIRED == 'true'
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+        run: python3 scripts/verify-release.py
+      - uses: actions/upload-artifact@v4
+        if: env.SELF_FORMING_SIGNING_REQUIRED == 'true'
+        with:
+          name: self-forming-release
+          path: out/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Remove temporary signing files
+        if: always()
+        run: rm -rf -- .signing
+
+  publish:
+    name: Publish verified release
+    needs: build
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      RELEASE_SHA: ${{ github.sha }}
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: self-forming-release
+          path: out
+      - name: Publish the exact checked build once
+        run: |
+          test "$(gh api "repos/$GH_REPO" --jq .private)" = false
+          test "$(gh api "repos/$GH_REPO/commits/main" --jq .sha)" = "$RELEASE_SHA"
+          (cd out && sha256sum --check SHA256SUMS)
+          tag="v$RELEASE_VERSION"
+          if gh release view "$tag" >/dev/null 2>&1; then
+            echo 'This version is already published; its assets will not be replaced. Bump the version for another release.'
+            exit 0
+          fi
+          existing=$(gh api "repos/$GH_REPO/git/matching-refs/tags/$tag" --jq ".[] | select(.ref == \"refs/tags/$tag\") | .object.sha")
+          if [[ -n "$existing" && "$existing" != "$RELEASE_SHA" ]]; then
+            echo '::error::Existing tag differs from the checked commit.'
+            exit 1
+          fi
+          gh release create "$tag" out/* --target "$RELEASE_SHA" \
+            --title "Self Forming $tag" --notes-file "docs/releases/$RELEASE_VERSION.md"
