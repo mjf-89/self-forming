@@ -1,0 +1,8 @@
+kernel/fs/netfs/netfs.ko:
+kernel/net/9p/9pnet.ko: kernel/fs/netfs/netfs.ko
+kernel/net/9p/9pnet_virtio.ko: kernel/net/9p/9pnet.ko kernel/fs/netfs/netfs.ko
+kernel/net/9p/9pnet_fd.ko: kernel/net/9p/9pnet.ko kernel/fs/netfs/netfs.ko
+kernel/fs/9p/9p.ko: kernel/net/9p/9pnet.ko kernel/fs/netfs/netfs.ko
+kernel/net/core/failover.ko:
+kernel/drivers/net/net_failover.ko: kernel/net/core/failover.ko
+kernel/drivers/net/virtio_net.ko: kernel/drivers/net/net_failover.ko kernel/net/core/failover.ko

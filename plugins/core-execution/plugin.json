@@ -1,0 +1,34 @@
+{
+  "id": "core-execution",
+  "name": "Command execution",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "bundle": "self-forming-core",
+  "provides": [
+    {
+      "id": "execution",
+      "version": 1
+    },
+    {
+      "id": "workspace",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": [
+    {
+      "id": "git",
+      "version": 1
+    }
+  ],
+  "styles": [
+    {
+      "href": "execution.css"
+    }
+  ]
+}

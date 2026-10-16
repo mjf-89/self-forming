@@ -1,0 +1,46 @@
+name: Tests
+
+# Reusable: called by release.yml (so it runs on pushes and pull requests there); also runnable by hand.
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      SF_HEAVY_TESTS: '1'
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: node scripts/build.mjs
+      - name: Browser for the headless tests
+        run: pnpm exec playwright install --with-deps chromium
+      - name: Binary assets (pinned, checksummed)
+        run: sh scripts/fetch-assets.sh
+      - name: Type check
+        run: pnpm exec tsc --noEmit
+      - name: Run every test file in its own process
+        run: |
+          mkdir -p .test-build
+          fail=0
+          for f in tests/*.test.ts; do
+            [ -e "$f" ] || continue
+            out=".test-build/$(basename "${f%.ts}").mjs"
+            pnpm exec esbuild "$f" --bundle --platform=node --format=esm --packages=external --target=node24 --outfile="$out" --log-level=warning
+            echo "::group::$f"; node --test "$out" || { echo "::error::failed: $f"; fail=1; }; echo "::endgroup::"
+          done
+          for f in tests/*.test.mjs; do
+            echo "::group::$f"; node --test "$f" || { echo "::error::failed: $f"; fail=1; }; echo "::endgroup::"
+          done
+          exit $fail

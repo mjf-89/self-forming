@@ -1,0 +1,25 @@
+{
+  "id": "core-toolchain",
+  "name": "Android build tools",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "bundle": "self-forming-tools",
+  "provides": [
+    {
+      "id": "toolchain",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": [
+    {
+      "id": "agent.harness",
+      "version": 1
+    }
+  ]
+}

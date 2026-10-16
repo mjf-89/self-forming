@@ -1,0 +1,7 @@
+webtor-rs cba29fb44970f4be37ebe7ce85bd50690d66413d + build/patches/webtor-rs/browser-streams-security.patch
+rustc 1.94.0-nightly (e29fcf45e 2026-01-04)
+wasm-bindgen 0.2.106
+63410efa0367b3f26a25ca8d1697b09c7e57d0cf06310dad63e335f7ece851bd  build/patches/webtor-rs/browser-streams-security.patch
+7b5f5ff6582fbe83b934797993e929d575ddfb34b732e0712e4499fd9a5f23e1  webtor_wasm.js
+bddb5ce7a06f67b94675039266f03a339bd2f30c124a3dc7115927d689d16cbc  webtor_wasm_bg.wasm
+69b9c36914a278df5d8ec403e8edac7c58bcc9f2c65d4e8c46c3cb062fc849f0  snippets/webtor-62abf94f655e6e71/inline0.js

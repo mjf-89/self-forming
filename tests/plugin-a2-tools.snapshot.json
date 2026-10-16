@@ -1,0 +1,354 @@
+{
+ "offline/default": {
+  "tools": [
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "workspace_write",
+   "workspace_read"
+  ],
+  "final": "I saved your message to demo-note.txt and read it back:\n\nhello tools\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+ },
+ "offline/pluginExcluded": {
+  "tools": [
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "workspace_write",
+   "workspace_read"
+  ],
+  "final": "I saved your message to demo-note.txt and read it back:\n\nhello tools\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+ },
+ "offline/explicit": {
+  "tools": [],
+  "results": [
+   "workspace_write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool workspace_write is not available\n</harness>"
+ },
+ "offline/subagentLike": {
+  "tools": [
+   "workspace_read#a3ee35a6990b0955"
+  ],
+  "results": [
+   "workspace_write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool workspace_write is not available\n</harness>"
+ },
+ "offline/addWorkspace": {
+  "tools": [
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "workspace_write",
+   "workspace_read"
+  ],
+  "final": "I saved your message to demo-note.txt and read it back:\n\nhello tools\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+ },
+ "native/default": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4066552c46142c43",
+   "app_update#9cb89116fa75d14d",
+   "app_install_apk#6842c3fe32488462",
+   "plugins#0568fe7a9ae642f9",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "native/pluginExcluded": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4066552c46142c43",
+   "app_update#9cb89116fa75d14d",
+   "app_install_apk#6842c3fe32488462",
+   "plugins#0568fe7a9ae642f9",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "native/explicit": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4066552c46142c43",
+   "app_update#9cb89116fa75d14d",
+   "app_install_apk#6842c3fe32488462",
+   "plugins#0568fe7a9ae642f9"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "native/subagentLike": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "bash#4066552c46142c43",
+   "app_update#9cb89116fa75d14d",
+   "plugins#0568fe7a9ae642f9"
+  ],
+  "results": [
+   "write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool write is not available\n</harness>"
+ },
+ "native/addWorkspace": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4066552c46142c43",
+   "app_update#9cb89116fa75d14d",
+   "app_install_apk#6842c3fe32488462",
+   "plugins#0568fe7a9ae642f9",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f",
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "nativeMinimal/default": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4134bf05e3b43846",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "nativeMinimal/pluginExcluded": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4134bf05e3b43846",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "nativeMinimal/explicit": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4134bf05e3b43846"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "nativeMinimal/subagentLike": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "bash#4134bf05e3b43846"
+  ],
+  "results": [
+   "write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool write is not available\n</harness>"
+ },
+ "nativeMinimal/addWorkspace": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#4134bf05e3b43846",
+   "subagent#513da32f507d1b7e",
+   "manage_server#c8f999b10a8a595f",
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browser/default": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#d5e7ff6460a015ef",
+   "app_update#9cb89116fa75d14d",
+   "subagent#513da32f507d1b7e",
+   "manage_server#bb9117b15e55f7e1"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browser/pluginExcluded": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#d5e7ff6460a015ef",
+   "app_update#9cb89116fa75d14d",
+   "subagent#513da32f507d1b7e",
+   "manage_server#bb9117b15e55f7e1"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browser/explicit": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#d5e7ff6460a015ef",
+   "app_update#9cb89116fa75d14d"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browser/subagentLike": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "bash#d5e7ff6460a015ef",
+   "app_update#9cb89116fa75d14d"
+  ],
+  "results": [
+   "write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool write is not available\n</harness>"
+ },
+ "browser/addWorkspace": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "bash#d5e7ff6460a015ef",
+   "app_update#9cb89116fa75d14d",
+   "subagent#513da32f507d1b7e",
+   "manage_server#bb9117b15e55f7e1",
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browserNoLinux/default": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "javascript#c8c64fae11ad58c7",
+   "subagent#513da32f507d1b7e"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browserNoLinux/pluginExcluded": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "javascript#c8c64fae11ad58c7",
+   "subagent#513da32f507d1b7e"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browserNoLinux/explicit": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "javascript#c8c64fae11ad58c7"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ },
+ "browserNoLinux/subagentLike": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "javascript#c8c64fae11ad58c7"
+  ],
+  "results": [
+   "write!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] Tool write is not available\n</harness>"
+ },
+ "browserNoLinux/addWorkspace": {
+  "tools": [
+   "read#1796d0a07e879659",
+   "write#e81df4f434255dfc",
+   "edit#93f9f729b1859e8d",
+   "javascript#c8c64fae11ad58c7",
+   "subagent#513da32f507d1b7e",
+   "workspace_read#a3ee35a6990b0955",
+   "workspace_write#d1a92ba5a83eec1a",
+   "workspace_list#777595024f864135"
+  ],
+  "results": [
+   "write",
+   "read!"
+  ],
+  "final": "The offline demo could not complete its file check: <harness>\n[error] e.scanLines is not a function\n</harness>"
+ }
+}

@@ -1,0 +1,2 @@
+alias pci:v00001AF4d00001000sv*sd*bc*sc*i* virtio_net
+alias pci:v00001AF4d00001041sv*sd*bc*sc*i* virtio_net

@@ -1,0 +1,21 @@
+{
+  "id": "exec-linux",
+  "name": "Linux execution",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": false,
+  "bundle": "self-forming-core",
+  "provides": [
+    {
+      "id": "execution",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": []
+}

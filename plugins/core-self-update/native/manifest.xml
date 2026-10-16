@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- core-self-update, native half: merged into the APK manifest by apps/android/app/build.gradle.kts (docs/plugins.md §3a). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Self-update: install an APK of this same app that the agent built (Android asks the user to confirm). -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <application>
+        <receiver android:name="md.incept.selfforming.InstallResultReceiver" android:exported="false" />
+    </application>
+</manifest>

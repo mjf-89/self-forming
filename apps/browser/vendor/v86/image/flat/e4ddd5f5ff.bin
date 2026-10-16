@@ -1,0 +1,981 @@
+{
+  "format": 1,
+  "alpine": "3.24.2",
+  "architecture": "x86",
+  "repository": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86",
+  "index_sha256": "a2081215b7b7680f849c1e6b2d9115b915e20917e956be9d98568dbb98ee597c",
+  "requested": [
+    "bash",
+    "tmux",
+    "curl",
+    "ca-certificates-bundle",
+    "git",
+    "coreutils",
+    "findutils",
+    "grep",
+    "sed",
+    "gawk",
+    "procps-ng",
+    "flock",
+    "jq"
+  ],
+  "base_satisfies": [
+    "/bin/sh (pinned minirootfs busybox)"
+  ],
+  "packages": [
+    {
+      "name": "acl-libs",
+      "version": "2.3.2-r1",
+      "arch": "x86",
+      "sha256": "9dd329380b583bbabe5f685bf7d2623a0886aa45236ff9d88ba9046fecd2a065",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/acl-libs-2.3.2-r1.apk",
+      "license": "LGPL-2.1-or-later AND GPL-2.0-or-later",
+      "origin": "acl",
+      "aports_commit": "8bac74716d06c84627ab02d101fd9d2bafd0a34c",
+      "project": "https://savannah.nongnu.org/projects/acl",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libacl.so.1=1.1.2302"
+      ],
+      "installed_bytes": 34124
+    },
+    {
+      "name": "bash",
+      "version": "5.3.9-r1",
+      "arch": "x86",
+      "sha256": "f5f0956b8464729577b1021bb6301f23d9e7b010bf11aac3678409827484ee52",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/bash-5.3.9-r1.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "bash",
+      "aports_commit": "1522c3193610902d8493f9790a2755c11f21f26d",
+      "project": "https://www.gnu.org/software/bash/bash.html",
+      "depends": [
+        "/bin/sh",
+        "so:libc.musl-x86.so.1",
+        "so:libreadline.so.8"
+      ],
+      "provides": [
+        "cmd:bash=5.3.9-r1"
+      ],
+      "installed_bytes": 1381947
+    },
+    {
+      "name": "brotli-libs",
+      "version": "1.2.0-r1",
+      "arch": "x86",
+      "sha256": "ecb54296acafc3bb9a21dea29514c0d2214a005ada676677f8ef68e05a54d282",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/brotli-libs-1.2.0-r1.apk",
+      "license": "MIT",
+      "origin": "brotli",
+      "aports_commit": "1ee249c9da168084b1c6c9f7488bdffa2ac33c84",
+      "project": "https://github.com/google/brotli",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libbrotlicommon.so.1=1.2.0",
+        "so:libbrotlidec.so.1=1.2.0",
+        "so:libbrotlienc.so.1=1.2.0"
+      ],
+      "installed_bytes": 930032
+    },
+    {
+      "name": "c-ares",
+      "version": "1.34.8-r0",
+      "arch": "x86",
+      "sha256": "7569757070dc3130c9e97ab1fb3ccfd66301e816645942f02cb99e9d5b680bde",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/c-ares-1.34.8-r0.apk",
+      "license": "MIT",
+      "origin": "c-ares",
+      "aports_commit": "138a6bf9dea5974644e48fef4826b7c474f2f7d8",
+      "project": "https://c-ares.org/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libcares.so.2=2.19.7"
+      ],
+      "installed_bytes": 251168
+    },
+    {
+      "name": "ca-certificates-bundle",
+      "version": "20260909-r0",
+      "arch": "x86",
+      "sha256": "e5ca6f839e7ec5c54a27f3f5f4ae107ebb9a159add328e44cf2fe93a5afa0c22",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/ca-certificates-bundle-20260909-r0.apk",
+      "license": "MPL-2.0 AND MIT",
+      "origin": "ca-certificates",
+      "aports_commit": "eb7078df3a16d666e8f7723f94bb92e00d4b9236",
+      "project": "https://www.mozilla.org/en-US/about/governance/policies/security-group/certs/",
+      "depends": [],
+      "provides": [
+        "ca-certificates-cacert=20260909-r0"
+      ],
+      "installed_bytes": 181724
+    },
+    {
+      "name": "coreutils",
+      "version": "9.11-r0",
+      "arch": "x86",
+      "sha256": "b8043313c5649665e2b09676fc0c3804010bde5bfcd59e30bd94f32d55f0bc2b",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/coreutils-9.11-r0.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "coreutils",
+      "aports_commit": "8e261cdab4fd1bc77881cbff73b9ea962e9bd49f",
+      "project": "https://www.gnu.org/software/coreutils/",
+      "depends": [
+        "coreutils-env=9.11-r0",
+        "coreutils-fmt=9.11-r0",
+        "coreutils-sha512sum=9.11-r0",
+        "/bin/sh",
+        "so:libacl.so.1",
+        "so:libattr.so.1",
+        "so:libc.musl-x86.so.1",
+        "so:libcrypto.so.3",
+        "so:libutmps.so.0.1"
+      ],
+      "provides": [
+        "cmd:[=9.11-r0",
+        "cmd:b2sum=9.11-r0",
+        "cmd:base32=9.11-r0",
+        "cmd:base64=9.11-r0",
+        "cmd:basename=9.11-r0",
+        "cmd:basenc=9.11-r0",
+        "cmd:cat=9.11-r0",
+        "cmd:chgrp=9.11-r0",
+        "cmd:chmod=9.11-r0",
+        "cmd:chown=9.11-r0",
+        "cmd:chroot=9.11-r0",
+        "cmd:cksum=9.11-r0",
+        "cmd:comm=9.11-r0",
+        "cmd:coreutils=9.11-r0",
+        "cmd:cp=9.11-r0",
+        "cmd:csplit=9.11-r0",
+        "cmd:cut=9.11-r0",
+        "cmd:date=9.11-r0",
+        "cmd:dd=9.11-r0",
+        "cmd:df=9.11-r0",
+        "cmd:dir=9.11-r0",
+        "cmd:dircolors=9.11-r0",
+        "cmd:dirname=9.11-r0",
+        "cmd:du=9.11-r0",
+        "cmd:echo=9.11-r0",
+        "cmd:expand=9.11-r0",
+        "cmd:expr=9.11-r0",
+        "cmd:factor=9.11-r0",
+        "cmd:false=9.11-r0",
+        "cmd:fold=9.11-r0",
+        "cmd:head=9.11-r0",
+        "cmd:hostid=9.11-r0",
+        "cmd:id=9.11-r0",
+        "cmd:install=9.11-r0",
+        "cmd:join=9.11-r0",
+        "cmd:link=9.11-r0",
+        "cmd:ln=9.11-r0",
+        "cmd:logname=9.11-r0",
+        "cmd:ls=9.11-r0",
+        "cmd:md5sum=9.11-r0",
+        "cmd:mkdir=9.11-r0",
+        "cmd:mkfifo=9.11-r0",
+        "cmd:mknod=9.11-r0",
+        "cmd:mktemp=9.11-r0",
+        "cmd:mv=9.11-r0",
+        "cmd:nice=9.11-r0",
+        "cmd:nl=9.11-r0",
+        "cmd:nohup=9.11-r0",
+        "cmd:nproc=9.11-r0",
+        "cmd:numfmt=9.11-r0",
+        "cmd:od=9.11-r0",
+        "cmd:paste=9.11-r0",
+        "cmd:pathchk=9.11-r0",
+        "cmd:pinky=9.11-r0",
+        "cmd:pr=9.11-r0",
+        "cmd:printenv=9.11-r0",
+        "cmd:printf=9.11-r0",
+        "cmd:ptx=9.11-r0",
+        "cmd:pwd=9.11-r0",
+        "cmd:readlink=9.11-r0",
+        "cmd:realpath=9.11-r0",
+        "cmd:rm=9.11-r0",
+        "cmd:rmdir=9.11-r0",
+        "cmd:seq=9.11-r0",
+        "cmd:sha1sum=9.11-r0",
+        "cmd:sha224sum=9.11-r0",
+        "cmd:sha256sum=9.11-r0",
+        "cmd:sha384sum=9.11-r0",
+        "cmd:shred=9.11-r0",
+        "cmd:shuf=9.11-r0",
+        "cmd:sleep=9.11-r0",
+        "cmd:sort=9.11-r0",
+        "cmd:split=9.11-r0",
+        "cmd:stat=9.11-r0",
+        "cmd:stdbuf=9.11-r0",
+        "cmd:stty=9.11-r0",
+        "cmd:sum=9.11-r0",
+        "cmd:sync=9.11-r0",
+        "cmd:tac=9.11-r0",
+        "cmd:tail=9.11-r0",
+        "cmd:tee=9.11-r0",
+        "cmd:test=9.11-r0",
+        "cmd:timeout=9.11-r0",
+        "cmd:touch=9.11-r0",
+        "cmd:tr=9.11-r0",
+        "cmd:true=9.11-r0",
+        "cmd:truncate=9.11-r0",
+        "cmd:tsort=9.11-r0",
+        "cmd:tty=9.11-r0",
+        "cmd:uname=9.11-r0",
+        "cmd:unexpand=9.11-r0",
+        "cmd:uniq=9.11-r0",
+        "cmd:unlink=9.11-r0",
+        "cmd:users=9.11-r0",
+        "cmd:vdir=9.11-r0",
+        "cmd:wc=9.11-r0",
+        "cmd:who=9.11-r0",
+        "cmd:whoami=9.11-r0",
+        "cmd:yes=9.11-r0"
+      ],
+      "installed_bytes": 1149540
+    },
+    {
+      "name": "coreutils-env",
+      "version": "9.11-r0",
+      "arch": "x86",
+      "sha256": "c3b899dea89a67fb86a9d81fbf5b3427832b118a5b43761639459448ebe63aa7",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/coreutils-env-9.11-r0.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "coreutils",
+      "aports_commit": "8e261cdab4fd1bc77881cbff73b9ea962e9bd49f",
+      "project": "https://www.gnu.org/software/coreutils/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:env=9.11-r0"
+      ],
+      "installed_bytes": 34700
+    },
+    {
+      "name": "coreutils-fmt",
+      "version": "9.11-r0",
+      "arch": "x86",
+      "sha256": "672ae780a6acf8eecd00eaf9d8de318e806f2b92432264ed5a8b3d700feaea7e",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/coreutils-fmt-9.11-r0.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "coreutils",
+      "aports_commit": "8e261cdab4fd1bc77881cbff73b9ea962e9bd49f",
+      "project": "https://www.gnu.org/software/coreutils/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:fmt=9.11-r0"
+      ],
+      "installed_bytes": 30196
+    },
+    {
+      "name": "coreutils-sha512sum",
+      "version": "9.11-r0",
+      "arch": "x86",
+      "sha256": "70424777d41b8b652a3432ebdeca42c8f0decded674fe31f93e5f1391a1ad566",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/coreutils-sha512sum-9.11-r0.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "coreutils",
+      "aports_commit": "8e261cdab4fd1bc77881cbff73b9ea962e9bd49f",
+      "project": "https://www.gnu.org/software/coreutils/",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libcrypto.so.3"
+      ],
+      "provides": [
+        "cmd:sha512sum=9.11-r0"
+      ],
+      "installed_bytes": 30248
+    },
+    {
+      "name": "curl",
+      "version": "8.22.0-r0",
+      "arch": "x86",
+      "sha256": "99e070d85a7cd7e3c23f6cdc09e94ca7305024ca7348b82ed04d6635decb085d",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/curl-8.22.0-r0.apk",
+      "license": "curl",
+      "origin": "curl",
+      "aports_commit": "ab53c408436ac7199ed5b67bde204aaca73003bd",
+      "project": "https://curl.se/",
+      "depends": [
+        "libcurl=8.22.0-r0",
+        "so:libc.musl-x86.so.1",
+        "so:libcurl.so.4",
+        "so:libz.so.1"
+      ],
+      "provides": [
+        "wcurl=8.22.0-r0",
+        "cmd:curl=8.22.0-r0",
+        "cmd:wcurl=8.22.0-r0"
+      ],
+      "installed_bytes": 284423
+    },
+    {
+      "name": "findutils",
+      "version": "4.10.0-r1",
+      "arch": "x86",
+      "sha256": "8a3227f462cdcac121850e252122fe43c7e0e5523846242d9af732afd3f0fb81",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/findutils-4.10.0-r1.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "findutils",
+      "aports_commit": "1a4e2ce6309586205b7e4c500c7ae287be39ea31",
+      "project": "https://www.gnu.org/software/findutils/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:find=4.10.0-r1",
+        "cmd:xargs=4.10.0-r1"
+      ],
+      "installed_bytes": 265504
+    },
+    {
+      "name": "flock",
+      "version": "2.42.3-r1",
+      "arch": "x86",
+      "sha256": "775409360650327ecbfad5fdd0db1ed3674e59a18d1fdfe1afd84acbc97c5623",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/flock-2.42.3-r1.apk",
+      "license": "MIT",
+      "origin": "util-linux",
+      "aports_commit": "d98c55af59055e6ca60fbe36e171546918709965",
+      "project": "https://git.kernel.org/cgit/utils/util-linux/util-linux.git",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:flock=2.42.3-r1"
+      ],
+      "installed_bytes": 17856
+    },
+    {
+      "name": "gawk",
+      "version": "5.3.2-r2",
+      "arch": "x86",
+      "sha256": "2249f79104c3ac21d064a42b1ef44b0d4221f719bb82c359f282560af7d481ee",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/gawk-5.3.2-r2.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "gawk",
+      "aports_commit": "730f2f5bdc97be98b2beee33f55134c622e6189c",
+      "project": "https://www.gnu.org/software/gawk/gawk.html",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:awk=5.3.2-r2",
+        "cmd:gawk-5.3.2=5.3.2-r2",
+        "cmd:gawk=5.3.2-r2",
+        "cmd:gawkbug=5.3.2-r2"
+      ],
+      "installed_bytes": 714315
+    },
+    {
+      "name": "git",
+      "version": "2.54.0-r0",
+      "arch": "x86",
+      "sha256": "ea4728fd0c3598905aee5bb654e81122830f17a5e0c80a8b5abc18738b4ce062",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/git-2.54.0-r0.apk",
+      "license": "GPL-2.0-only",
+      "origin": "git",
+      "aports_commit": "b3ed5f8f4ce6b2ef13adeaf7494557add6546bda",
+      "project": "https://www.git-scm.com/",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libcurl.so.4",
+        "so:libexpat.so.1",
+        "so:libpcre2-8.so.0",
+        "so:libz.so.1"
+      ],
+      "provides": [
+        "cmd:git-receive-pack=2.54.0-r0",
+        "cmd:git-shell=2.54.0-r0",
+        "cmd:git-upload-archive=2.54.0-r0",
+        "cmd:git-upload-pack=2.54.0-r0",
+        "cmd:git=2.54.0-r0"
+      ],
+      "installed_bytes": 6982528
+    },
+    {
+      "name": "grep",
+      "version": "3.12-r0",
+      "arch": "x86",
+      "sha256": "f807583381e3b3f6f3647ce59fbd78c4b61a11b06ce3d8b343ee3e556359b294",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/grep-3.12-r0.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "grep",
+      "aports_commit": "4cbb86a7e5760f0f92903377ef35da450df3e1e6",
+      "project": "https://www.gnu.org/software/grep/grep.html",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libpcre2-8.so.0"
+      ],
+      "provides": [
+        "cmd:egrep=3.12-r0",
+        "cmd:fgrep=3.12-r0",
+        "cmd:grep=3.12-r0"
+      ],
+      "installed_bytes": 161452
+    },
+    {
+      "name": "jq",
+      "version": "1.8.2-r0",
+      "arch": "x86",
+      "sha256": "7645b49342fb5b3216b7a0d6849ff0d2b423bf50513ee5b3cbe6c08405c79817",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/jq-1.8.2-r0.apk",
+      "license": "MIT",
+      "origin": "jq",
+      "aports_commit": "2437351bfa2aecb328f0b859f4a4987476ae31c9",
+      "project": "https://jqlang.github.io/jq/",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libonig.so.5"
+      ],
+      "provides": [
+        "cmd:jq=1.8.2-r0",
+        "so:libjq.so.1=1.0.4"
+      ],
+      "installed_bytes": 383632
+    },
+    {
+      "name": "libattr",
+      "version": "2.5.2-r2",
+      "arch": "x86",
+      "sha256": "dd86a0dfe316100d30a6c6aeebda984f36ded395145d77765a16f3dd3ba670bc",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libattr-2.5.2-r2.apk",
+      "license": "LGPL-2.1-or-later",
+      "origin": "attr",
+      "aports_commit": "40760f1909b662e8b9065217452a1782bad3dab1",
+      "project": "https://savannah.nongnu.org/projects/attr",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libattr.so.1=1.1.2502"
+      ],
+      "installed_bytes": 17740
+    },
+    {
+      "name": "libcrypto3",
+      "version": "3.5.9-r0",
+      "arch": "x86",
+      "sha256": "fefdfbd558fb994eb32d1f20fdad9791efd9021312f5183163e29b8d9fc940b2",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libcrypto3-3.5.9-r0.apk",
+      "license": "Apache-2.0",
+      "origin": "openssl",
+      "aports_commit": "29b9ec24b1b5b39aeef51fa2a044210e2ec5258e",
+      "project": "https://www.openssl.org/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libcrypto.so.3=3"
+      ],
+      "installed_bytes": 3971706
+    },
+    {
+      "name": "libcurl",
+      "version": "8.22.0-r0",
+      "arch": "x86",
+      "sha256": "3900dc04661880c2882376f89264ea7eb9840dd15ba92127628f62ea3432a2a6",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libcurl-8.22.0-r0.apk",
+      "license": "curl",
+      "origin": "curl",
+      "aports_commit": "ab53c408436ac7199ed5b67bde204aaca73003bd",
+      "project": "https://curl.se/",
+      "depends": [
+        "ca-certificates-bundle",
+        "so:libbrotlidec.so.1",
+        "so:libc.musl-x86.so.1",
+        "so:libcares.so.2",
+        "so:libcrypto.so.3",
+        "so:libidn2.so.0",
+        "so:libnghttp2.so.14",
+        "so:libpsl.so.5",
+        "so:libssl.so.3",
+        "so:libz.so.1",
+        "so:libzstd.so.1"
+      ],
+      "provides": [
+        "so:libcurl.so.4=4.8.0"
+      ],
+      "installed_bytes": 753511
+    },
+    {
+      "name": "libevent",
+      "version": "2.1.13-r0",
+      "arch": "x86",
+      "sha256": "a38446a790c56cbf573d8d29ae4ac67e9c8e0a3dca4572f138f89c94de615ba8",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libevent-2.1.13-r0.apk",
+      "license": "BSD-3-Clause",
+      "origin": "libevent",
+      "aports_commit": "7c5a7049c5779d87b9b4fa1c7d416056f7e30298",
+      "project": "https://libevent.org/",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libcrypto.so.3",
+        "so:libssl.so.3"
+      ],
+      "provides": [
+        "so:libevent-2.1.so.7=7.0.2",
+        "so:libevent_core-2.1.so.7=7.0.2",
+        "so:libevent_extra-2.1.so.7=7.0.2",
+        "so:libevent_openssl-2.1.so.7=7.0.2",
+        "so:libevent_pthreads-2.1.so.7=7.0.2"
+      ],
+      "installed_bytes": 666480
+    },
+    {
+      "name": "libexpat",
+      "version": "2.8.5-r0",
+      "arch": "x86",
+      "sha256": "49fe8fcd2a8eba8fbebf005612950440bd0287c6ccf7c0b4128ff136ca001b34",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libexpat-2.8.5-r0.apk",
+      "license": "MIT",
+      "origin": "expat",
+      "aports_commit": "41a9605db84bb52cd65c6349e5e087c2c7fe9efb",
+      "project": "https://libexpat.github.io/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libexpat.so.1=1.12.5"
+      ],
+      "installed_bytes": 140564
+    },
+    {
+      "name": "libidn2",
+      "version": "2.3.8-r0",
+      "arch": "x86",
+      "sha256": "cae318b487162b91342504a6e85c3d6381b83988f5904a1099d212184d1a8afd",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libidn2-2.3.8-r0.apk",
+      "license": "GPL-2.0-or-later OR LGPL-3.0-or-later",
+      "origin": "libidn2",
+      "aports_commit": "8240e09aa2fdd8f9979b2016be082273965aff0c",
+      "project": "https://www.gnu.org/software/libidn#libidn2",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libunistring.so.5"
+      ],
+      "provides": [
+        "so:libidn2.so.0=0.4.0"
+      ],
+      "installed_bytes": 198124
+    },
+    {
+      "name": "libintl",
+      "version": "1.0-r0",
+      "arch": "x86",
+      "sha256": "30a0b7afca0cfbffe7d9a76de7cbd2f8a106c5eac5797893839d6648f3dbc294",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libintl-1.0-r0.apk",
+      "license": "LGPL-2.1-or-later",
+      "origin": "gettext",
+      "aports_commit": "a0b12dbf67fb047e79a1b76c6dfe6f2904d0d391",
+      "project": "https://www.gnu.org/software/gettext/gettext.html",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libintl.so.8=8.4.6"
+      ],
+      "installed_bytes": 136484
+    },
+    {
+      "name": "libncursesw",
+      "version": "6.6_p20260516-r0",
+      "arch": "x86",
+      "sha256": "49a048c29a93046b3fc5e72a21bb55ef537558d026f1064a42d25f42f19a90e9",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libncursesw-6.6_p20260516-r0.apk",
+      "license": "X11",
+      "origin": "ncurses",
+      "aports_commit": "2cee8a7328d061418336ad327b512d96bcd7bc5e",
+      "project": "https://invisible-island.net/ncurses/",
+      "depends": [
+        "ncurses-terminfo-base=6.6_p20260516-r0",
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libncursesw.so.6=6.6"
+      ],
+      "installed_bytes": 333768
+    },
+    {
+      "name": "libproc2",
+      "version": "4.0.6-r0",
+      "arch": "x86",
+      "sha256": "3cf48ceec07275f14a374e162859e235ce4ab5523e43cf683f57d543e79faa8a",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libproc2-4.0.6-r0.apk",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "origin": "procps-ng",
+      "aports_commit": "99d7511b57e55bc8c6def72765dc59cedbe7e9e5",
+      "project": "https://gitlab.com/procps-ng/procps",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libutmps.so.0.1"
+      ],
+      "provides": [
+        "so:libproc2.so.1=1.0.1"
+      ],
+      "installed_bytes": 150192
+    },
+    {
+      "name": "libpsl",
+      "version": "0.21.5-r3",
+      "arch": "x86",
+      "sha256": "b1877322d6a3e54c156e7f838e03dfaf723dae86859508b63fc8193961b9022d",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libpsl-0.21.5-r3.apk",
+      "license": "MIT",
+      "origin": "libpsl",
+      "aports_commit": "6bd45b53fb316dc01bda59f5feaf1e127eb64f22",
+      "project": "https://rockdaboot.github.io/libpsl",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libidn2.so.0",
+        "so:libunistring.so.5"
+      ],
+      "provides": [
+        "so:libpsl.so.5=5.3.5"
+      ],
+      "installed_bytes": 70988
+    },
+    {
+      "name": "libssl3",
+      "version": "3.5.9-r0",
+      "arch": "x86",
+      "sha256": "07371c13c19e5c7cdcc5b6e9476dab3f26d565ca8e3dc5d598b2ee3411e81d2f",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libssl3-3.5.9-r0.apk",
+      "license": "Apache-2.0",
+      "origin": "openssl",
+      "aports_commit": "29b9ec24b1b5b39aeef51fa2a044210e2ec5258e",
+      "project": "https://www.openssl.org/",
+      "depends": [
+        "libcrypto3=3.5.9-r0",
+        "so:libc.musl-x86.so.1",
+        "so:libcrypto.so.3"
+      ],
+      "provides": [
+        "so:libssl.so.3=3"
+      ],
+      "installed_bytes": 860736
+    },
+    {
+      "name": "libunistring",
+      "version": "1.4.2-r0",
+      "arch": "x86",
+      "sha256": "5d7e61eea90b783075bb995f3346165f25fd0fc2f1b5975e9d0ec70ade3c8c34",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/libunistring-1.4.2-r0.apk",
+      "license": "GPL-2.0-or-later OR LGPL-3.0-or-later",
+      "origin": "libunistring",
+      "aports_commit": "30d9f19340385b2cd16eaf1cc6a9a8b30c4afe1c",
+      "project": "https://www.gnu.org/software/libunistring/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libunistring.so.5=5.2.1"
+      ],
+      "installed_bytes": 1897844
+    },
+    {
+      "name": "musl",
+      "version": "1.2.6-r2",
+      "arch": "x86",
+      "sha256": "3af0584621a51826e6320ad294b09ebc42907186fd99c9571d9d7bbcf1589752",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/musl-1.2.6-r2.apk",
+      "license": "MIT",
+      "origin": "musl",
+      "aports_commit": "f5640d3a10f664c9119720c60515265d3d6f6d01",
+      "project": "https://musl.libc.org/",
+      "depends": [],
+      "provides": [
+        "so:libc.musl-x86.so.1=1"
+      ],
+      "installed_bytes": 673544
+    },
+    {
+      "name": "ncurses-terminfo-base",
+      "version": "6.6_p20260516-r0",
+      "arch": "x86",
+      "sha256": "dbb8268b7a8c9e98b109dc6bd1a989f846bd49b71a186308a2224f3195620501",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/ncurses-terminfo-base-6.6_p20260516-r0.apk",
+      "license": "X11",
+      "origin": "ncurses",
+      "aports_commit": "2cee8a7328d061418336ad327b512d96bcd7bc5e",
+      "project": "https://invisible-island.net/ncurses/",
+      "depends": [],
+      "provides": [],
+      "installed_bytes": 103017
+    },
+    {
+      "name": "nghttp2-libs",
+      "version": "1.70.0-r0",
+      "arch": "x86",
+      "sha256": "8765db08140efa8a6b86b3e2ca9db674e49c6dd88ec5b6dd73159b069095febc",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/nghttp2-libs-1.70.0-r0.apk",
+      "license": "MIT",
+      "origin": "nghttp2",
+      "aports_commit": "d5a34efc88bbe8d18737fda28125071c4aef8517",
+      "project": "https://nghttp2.org",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libnghttp2.so.14=14.29.5"
+      ],
+      "installed_bytes": 136504
+    },
+    {
+      "name": "oniguruma",
+      "version": "6.9.10-r0",
+      "arch": "x86",
+      "sha256": "740c64352948cfbfbac6724fead4b953b63a75974a199b259d737bf82b0022ab",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/oniguruma-6.9.10-r0.apk",
+      "license": "BSD-2-Clause",
+      "origin": "oniguruma",
+      "aports_commit": "31082e89063dfb6b02af0b38c46af803a118137a",
+      "project": "https://github.com/kkos/oniguruma",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libonig.so.5=5.5.0"
+      ],
+      "installed_bytes": 553320
+    },
+    {
+      "name": "pcre2",
+      "version": "10.49-r0",
+      "arch": "x86",
+      "sha256": "1b5ba9a5570d267b57ff81805887cc7eca915bda4a4be16acc597a5ea4183590",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/pcre2-10.49-r0.apk",
+      "license": "BSD-3-Clause",
+      "origin": "pcre2",
+      "aports_commit": "3d497cbb3217749c4fb85f90f3b6f7908b0c1f95",
+      "project": "https://pcre.org/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libpcre2-8.so.0=0.16.1",
+        "so:libpcre2-posix.so.3=3.0.9"
+      ],
+      "installed_bytes": 830180
+    },
+    {
+      "name": "procps-ng",
+      "version": "4.0.6-r0",
+      "arch": "x86",
+      "sha256": "4c02e556522b7cba5768bbd945e58e326523b8767d7e11820d2195ab7b99abb2",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/procps-ng-4.0.6-r0.apk",
+      "license": "GPL-2.0-or-later AND LGPL-2.1-or-later",
+      "origin": "procps-ng",
+      "aports_commit": "99d7511b57e55bc8c6def72765dc59cedbe7e9e5",
+      "project": "https://gitlab.com/procps-ng/procps",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libintl.so.8",
+        "so:libncursesw.so.6",
+        "so:libproc2.so.1",
+        "so:libutmps.so.0.1"
+      ],
+      "provides": [
+        "procps=4.0.6-r0",
+        "cmd:free=4.0.6-r0",
+        "cmd:hugetop=4.0.6-r0",
+        "cmd:pgrep=4.0.6-r0",
+        "cmd:pidof=4.0.6-r0",
+        "cmd:pidwait=4.0.6-r0",
+        "cmd:pkill=4.0.6-r0",
+        "cmd:pmap=4.0.6-r0",
+        "cmd:ps=4.0.6-r0",
+        "cmd:pwdx=4.0.6-r0",
+        "cmd:slabtop=4.0.6-r0",
+        "cmd:sysctl=4.0.6-r0",
+        "cmd:tload=4.0.6-r0",
+        "cmd:top=4.0.6-r0",
+        "cmd:uptime=4.0.6-r0",
+        "cmd:vmstat=4.0.6-r0",
+        "cmd:w=4.0.6-r0",
+        "cmd:watch=4.0.6-r0"
+      ],
+      "installed_bytes": 566668
+    },
+    {
+      "name": "readline",
+      "version": "8.3.3-r1",
+      "arch": "x86",
+      "sha256": "1d2a80bdfc66bfef11a9ed9715fa0189d646e562d2bddda6a1fec6ea815b9285",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/readline-8.3.3-r1.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "readline",
+      "aports_commit": "a854c03acdac188901fb012f7acbee70a36e8041",
+      "project": "https://tiswww.cwru.edu/php/chet/readline/rltop.html",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libncursesw.so.6"
+      ],
+      "provides": [
+        "so:libreadline.so.8=8.3"
+      ],
+      "installed_bytes": 263856
+    },
+    {
+      "name": "sed",
+      "version": "4.9-r2",
+      "arch": "x86",
+      "sha256": "fe4a1fb7c66b0508b36662dc4c5dd38f10451e6cae875ddf3318b3845cfeee47",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/sed-4.9-r2.apk",
+      "license": "GPL-3.0-or-later",
+      "origin": "sed",
+      "aports_commit": "84a227baf001b6e0208e3352b294e4d7a40e93de",
+      "project": "https://www.gnu.org/software/sed",
+      "depends": [
+        "/bin/sh",
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "cmd:sed=4.9-r2"
+      ],
+      "installed_bytes": 128580
+    },
+    {
+      "name": "skalibs-libs",
+      "version": "2.15.0.0-r0",
+      "arch": "x86",
+      "sha256": "fc48c928a0e1fc83447cde4e3d5afb2494a9f3cdb238bc21ef1f0cec1825af69",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/skalibs-libs-2.15.0.0-r0.apk",
+      "license": "ISC",
+      "origin": "skalibs",
+      "aports_commit": "f148233038fa9b35932a7996df29f110b32c2160",
+      "project": "https://skarnet.org/software/skalibs/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libskarnet.so.2.15=2.15.0.0"
+      ],
+      "installed_bytes": 207124
+    },
+    {
+      "name": "tmux",
+      "version": "3.7c-r0",
+      "arch": "x86",
+      "sha256": "2a5ee4cf163e8e2fa9cf891aaf8d07535cbd3632e492c38442e9af37bf86dbbc",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/tmux-3.7c-r0.apk",
+      "license": "ISC",
+      "origin": "tmux",
+      "aports_commit": "837717d6f763da6b2a19d37888ea455dbcb83062",
+      "project": "https://tmux.github.io",
+      "depends": [
+        "ncurses-terminfo-base",
+        "so:libc.musl-x86.so.1",
+        "so:libevent_core-2.1.so.7",
+        "so:libncursesw.so.6"
+      ],
+      "provides": [
+        "cmd:tmux=3.7c-r0"
+      ],
+      "installed_bytes": 854120
+    },
+    {
+      "name": "utmps-libs",
+      "version": "0.1.3.3-r0",
+      "arch": "x86",
+      "sha256": "8b75262151ebd102ecb1d89430e50ba93986fff4ecd61b57f14ba997f5816c76",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/utmps-libs-0.1.3.3-r0.apk",
+      "license": "ISC",
+      "origin": "utmps",
+      "aports_commit": "900a4ecef77ae677eab8243b99f2c40cbf8ea35b",
+      "project": "https://skarnet.org/software/utmps/",
+      "depends": [
+        "so:libc.musl-x86.so.1",
+        "so:libskarnet.so.2.15"
+      ],
+      "provides": [
+        "so:libutmps.so.0.1=0.1.3.3"
+      ],
+      "installed_bytes": 13580
+    },
+    {
+      "name": "zlib",
+      "version": "1.3.2-r1",
+      "arch": "x86",
+      "sha256": "39b98adc03ef82e3c895521a1329c0cb08357a6089dd1c212f7589501c3f63ec",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/zlib-1.3.2-r1.apk",
+      "license": "Zlib",
+      "origin": "zlib",
+      "aports_commit": "0afa2da0e8c8051c6f8f64a7a388e5a259904245",
+      "project": "https://zlib.net/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libz.so.1=1.3.2"
+      ],
+      "installed_bytes": 103808
+    },
+    {
+      "name": "zstd-libs",
+      "version": "1.5.7-r2",
+      "arch": "x86",
+      "sha256": "3808b97766907956179fe94ce61ead63220e957dc7789f81eb961a6e94dd8f61",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/zstd-libs-1.5.7-r2.apk",
+      "license": "BSD-3-Clause OR GPL-2.0-or-later",
+      "origin": "zstd",
+      "aports_commit": "3c6e2ee2b16f403d53eab39c4426eb61f003c322",
+      "project": "https://facebook.github.io/zstd/",
+      "depends": [
+        "so:libc.musl-x86.so.1"
+      ],
+      "provides": [
+        "so:libzstd.so.1=1.5.7"
+      ],
+      "installed_bytes": 734484
+    }
+  ],
+  "installation": "apk-tools-static --root ROOT --arch x86 --no-scripts --no-network; official keys from pinned base rootfs",
+  "host_tools": {
+    "aarch64": {
+      "name": "apk-tools-static",
+      "version": "3.0.8-r0",
+      "arch": "aarch64",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/aarch64/apk-tools-static-3.0.8-r0.apk",
+      "sha256": "7e86f8258f3a97ea1c279105950ebf6c9af960891eb499f731b7e5f0af26ff63",
+      "binary_sha256": "0eb67be74a8894867cc7985e07457ad6b255da16ed79ec51a39c18618b5b31f9",
+      "license": "GPL-2.0-only",
+      "origin": "apk-tools",
+      "aports_commit": "4588b452722bd4800efdc6cce4f6e980e02a997f",
+      "project": "https://gitlab.alpinelinux.org/alpine/apk-tools"
+    },
+    "x86_64": {
+      "name": "apk-tools-static",
+      "version": "3.0.8-r0",
+      "arch": "x86_64",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86_64/apk-tools-static-3.0.8-r0.apk",
+      "sha256": "c8e2c88c13ba12a12269b79a3543e1190ff8c0ab0beb32b58cadfd5881c619e3",
+      "binary_sha256": "5118a57ae7c07e13268a754f78aa9c7d39a0bed708bb11c101d78e2a884cee5d",
+      "license": "GPL-2.0-only",
+      "origin": "apk-tools",
+      "aports_commit": "4588b452722bd4800efdc6cce4f6e980e02a997f",
+      "project": "https://gitlab.alpinelinux.org/alpine/apk-tools"
+    }
+  },
+  "test_packages": [
+    {
+      "name": "tree",
+      "version": "2.3.2-r0",
+      "arch": "x86",
+      "url": "https://dl-cdn.alpinelinux.org/alpine/v3.24/main/x86/tree-2.3.2-r0.apk",
+      "sha256": "0259e3aa65fd275f0a681ceef37e212af1d34c59f877f8af6d6737d17901ea49",
+      "license": "GPL-2.0-or-later",
+      "origin": "tree",
+      "aports_commit": "429bf8299b274b32b6bb940fd5b1ba171e32872a",
+      "project": "https://oldmanprogrammer.net/source.php?dir=projects/tree"
+    }
+  ]
+}

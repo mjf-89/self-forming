@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- core-providers-chatgpt, native half: merged into the APK manifest by apps/android/app/build.gradle.kts (docs/plugins.md §3a).
+     Permissions shared with the host (AgentService) are repeated here so this plugin stays self-contained. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <application>
+        <service android:name="md.incept.selfforming.SignInService" android:exported="false"
+            android:stopWithTask="true" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="User-initiated ChatGPT OAuth loopback callback listener, active only during browser sign-in (maximum five minutes)." />
+        </service>
+    </application>
+</manifest>

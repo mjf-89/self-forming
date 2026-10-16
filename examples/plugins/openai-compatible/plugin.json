@@ -1,0 +1,11 @@
+{
+  "id": "openai-compatible",
+  "name": "OpenAI-compatible",
+  "version": "0.1.0",
+  "api": 1,
+  "web": { "entry": "web/index.js" },
+  "reload": "page",
+  "provides": [{ "id": "openai-compatible.endpoints", "version": 1 }],
+  "requires": [],
+  "uses": []
+}

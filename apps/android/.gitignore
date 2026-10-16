@@ -1,0 +1,6 @@
+.gradle/
+.kotlin/
+.cxx/
+**/.cxx/
+local.properties
+**/build/

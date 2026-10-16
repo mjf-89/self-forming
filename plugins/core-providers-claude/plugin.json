@@ -1,0 +1,16 @@
+{
+  "id": "core-providers-claude",
+  "name": "Claude",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": true,
+  "bundle": "self-forming-core",
+  "provides": [],
+  "requires": [],
+  "uses": []
+}

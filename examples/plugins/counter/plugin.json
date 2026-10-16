@@ -1,0 +1,12 @@
+{
+  "id": "counter",
+  "name": "Counter",
+  "version": "0.1.0",
+  "api": 1,
+  "web": { "entry": "web/index.js" },
+  "native": { "jar": "native/module.jar", "class": "plugins.counter.CounterModule" },
+  "reload": "restart",
+  "provides": [{ "id": "counter.value", "version": 1 }],
+  "requires": [],
+  "uses": []
+}

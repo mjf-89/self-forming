@@ -1,0 +1,6 @@
+Crate: amplify_num 0.5.3 (https://crates.io/crates/amplify_num/0.5.3)
+License (SPDX, as declared in the crate's Cargo.toml): Apache-2.0
+Authors (Cargo.toml): [
+
+The published crate ships no licence file; the licence text is the standard one for the declared SPDX
+identifier (MIT / Apache-2.0 / BSD-3-Clause), see ../../common/ and the authors above for the copyright holders.

@@ -1,0 +1,308 @@
+diff --git a/cmd/tsconnect/wasm/wasm_js.go b/cmd/tsconnect/wasm/wasm_js.go
+index 6258caa..72df244 100644
+--- a/cmd/tsconnect/wasm/wasm_js.go
++++ b/cmd/tsconnect/wasm/wasm_js.go
+@@ -12,19 +12,26 @@
+ import (
+ 	"bytes"
+ 	"context"
++	"crypto/tls"
+ 	"encoding/hex"
+ 	"encoding/json"
+ 	"fmt"
++	"io"
+ 	"log"
+ 	"math/rand/v2"
+ 	"net"
+ 	"net/http"
+ 	"net/netip"
+ 	"strings"
++	"sync"
+ 	"syscall/js"
+ 	"time"
+ 
+ 	"golang.org/x/crypto/ssh"
++	// Blank import registers a bundled set of CA roots via x509.SetFallbackRoots,
++	// so crypto/tls can verify public certificates in the wasm/js environment
++	// where no system cert store is available.
++	_ "golang.org/x/crypto/x509roots/fallback"
+ 	"tailscale.com/control/controlclient"
+ 	"tailscale.com/ipn"
+ 	"tailscale.com/ipn/ipnauth"
+@@ -34,6 +41,7 @@
+ 	"tailscale.com/logpolicy"
+ 	"tailscale.com/logtail"
+ 	"tailscale.com/net/netns"
++	"tailscale.com/net/tsaddr"
+ 	"tailscale.com/net/tsdial"
+ 	"tailscale.com/safesocket"
+ 	"tailscale.com/tailcfg"
+@@ -223,7 +231,268 @@ func newIPN(jsConfig js.Value) map[string]any {
+ 			url := args[0].String()
+ 			return jsIPN.fetch(url)
+ 		}),
++		// exitNodes() returns the peers in the current netmap that can be used
++		// as exit nodes (offered && approved), as an array of
++		// {id, name, ip, online}.
++		"exitNodes": js.FuncOf(func(this js.Value, args []js.Value) any {
++			return jsIPN.exitNodes()
++		}),
++		// setExitNode(idOrIP) selects an exit node by StableNodeID or by
++		// Tailscale IP. Returns a Promise.
++		"setExitNode": js.FuncOf(func(this js.Value, args []js.Value) any {
++			if len(args) != 1 {
++				return makePromise(func() (any, error) { return nil, fmt.Errorf("Usage: setExitNode(idOrIP)") })
++			}
++			return jsIPN.setExitNode(args[0].String())
++		}),
++		// clearExitNode() unsets any selected exit node. Returns a Promise.
++		"clearExitNode": js.FuncOf(func(this js.Value, args []js.Value) any {
++			return jsIPN.clearExitNode()
++		}),
++		// exitNodeDiag() returns diagnostics about exit-node availability in the
++		// current netmap: {peers, advertising, usable, advertisingNames}. This is
++		// a spike/debug aid distinguishing "no exit node exists" from "exists but
++		// not permitted/approved for this node".
++		"exitNodeDiag": js.FuncOf(func(this js.Value, args []js.Value) any {
++			return jsIPN.exitNodeDiag()
++		}),
++		// dial(host, port) opens a TCP stream through the netstack user dialer
++		// (routed via the selected exit node for non-tailnet destinations).
++		// Returns a Promise resolving to a stream {read, write, close}.
++		"dial": js.FuncOf(func(this js.Value, args []js.Value) any {
++			if len(args) < 2 {
++				return makePromise(func() (any, error) { return nil, fmt.Errorf("Usage: dial(host, port[, timeoutMs])") })
++			}
++			return jsIPN.dial(args[0].String(), args[1], argTimeout(args, 2))
++		}),
++		// dialTLS(host, port) is like dial but negotiates TLS (1.2+), verifying
++		// certificates against bundled roots, with ServerName=host and ALPN
++		// http/1.1.
++		"dialTLS": js.FuncOf(func(this js.Value, args []js.Value) any {
++			if len(args) < 2 {
++				return makePromise(func() (any, error) { return nil, fmt.Errorf("Usage: dialTLS(host, port[, timeoutMs])") })
++			}
++			return jsIPN.dialTLS(args[0].String(), args[1], argTimeout(args, 2))
++		}),
++	}
++}
++
++// argTimeout extracts an optional timeout (milliseconds) from args[idx],
++// defaulting to 30s when absent or non-positive.
++func argTimeout(args []js.Value, idx int) time.Duration {
++	if len(args) > idx && args[idx].Type() == js.TypeNumber {
++		if ms := args[idx].Float(); ms > 0 {
++			return time.Duration(ms) * time.Millisecond
++		}
++	}
++	return 30 * time.Second
++}
++
++// portOf parses a JS port argument that may be a number or a string.
++func portOf(v js.Value) (int, error) {
++	switch v.Type() {
++	case js.TypeNumber:
++		return v.Int(), nil
++	case js.TypeString:
++		n, err := netip.ParseAddrPort(net.JoinHostPort("0.0.0.0", v.String()))
++		if err != nil {
++			return 0, fmt.Errorf("invalid port %q", v.String())
++		}
++		return int(n.Port()), nil
++	default:
++		return 0, fmt.Errorf("invalid port")
++	}
++}
++
++// exitNodes returns exit-node-capable peers from the current status.
++func (i *jsIPN) exitNodes() any {
++	st := i.lb.Status()
++	out := make([]any, 0)
++	if st == nil {
++		return out
+ 	}
++	for _, p := range st.Peer {
++		if p == nil || !p.ExitNodeOption {
++			continue
++		}
++		ip := ""
++		if len(p.TailscaleIPs) > 0 {
++			ip = p.TailscaleIPs[0].String()
++		}
++		name := strings.TrimSuffix(p.DNSName, ".")
++		if name == "" {
++			name = p.HostName
++		}
++		out = append(out, map[string]any{
++			"id":     string(p.ID),
++			"name":   name,
++			"ip":     ip,
++			"online": p.Online,
++		})
++	}
++	return out
++}
++
++// exitNodeDiag reports exit-node availability from the current netmap.
++func (i *jsIPN) exitNodeDiag() any {
++	nm := i.lb.NetMapWithPeers()
++	res := map[string]any{"peers": 0, "advertising": 0, "usable": 0, "advertisingNames": []any{}}
++	if nm == nil {
++		return res
++	}
++	advertising := 0
++	usable := 0
++	names := make([]any, 0)
++	for _, p := range nm.Peers {
++		if tsaddr.ContainsExitRoutes(p.AllowedIPs()) {
++			usable++
++		}
++		if hi := p.Hostinfo(); hi.Valid() && tsaddr.ContainsExitRoutes(hi.RoutableIPs()) {
++			advertising++
++			name := strings.TrimSuffix(p.Name(), ".")
++			if name == "" {
++				name = hi.Hostname()
++			}
++			names = append(names, name)
++		}
++	}
++	res["peers"] = len(nm.Peers)
++	res["advertising"] = advertising
++	res["usable"] = usable
++	res["advertisingNames"] = names
++	return res
++}
++
++// setExitNode selects an exit node by StableNodeID or Tailscale IP.
++func (i *jsIPN) setExitNode(idOrIP string) js.Value {
++	return makePromise(func() (any, error) {
++		mp := &ipn.MaskedPrefs{}
++		if ip, err := netip.ParseAddr(idOrIP); err == nil {
++			// Clear any prior ID so EditPrefs accepts the IP form.
++			mp.Prefs.ExitNodeID = ""
++			mp.ExitNodeIDSet = true
++			mp.Prefs.ExitNodeIP = ip
++			mp.ExitNodeIPSet = true
++		} else {
++			mp.Prefs.ExitNodeID = tailcfg.StableNodeID(idOrIP)
++			mp.ExitNodeIDSet = true
++			mp.Prefs.ExitNodeIP = netip.Addr{}
++			mp.ExitNodeIPSet = true
++		}
++		if _, err := i.lb.EditPrefs(mp); err != nil {
++			return nil, err
++		}
++		return nil, nil
++	})
++}
++
++// clearExitNode unsets any selected exit node.
++func (i *jsIPN) clearExitNode() js.Value {
++	return makePromise(func() (any, error) {
++		mp := &ipn.MaskedPrefs{ExitNodeIDSet: true, ExitNodeIPSet: true}
++		mp.Prefs.ExitNodeID = ""
++		mp.Prefs.ExitNodeIP = netip.Addr{}
++		if _, err := i.lb.EditPrefs(mp); err != nil {
++			return nil, err
++		}
++		return nil, nil
++	})
++}
++
++// dial opens a plain TCP stream through the netstack user dialer.
++func (i *jsIPN) dial(host string, portVal js.Value, timeout time.Duration) js.Value {
++	return makePromise(func() (any, error) {
++		port, err := portOf(portVal)
++		if err != nil {
++			return nil, err
++		}
++		ctx, cancel := context.WithTimeout(context.Background(), timeout)
++		defer cancel()
++		conn, err := i.dialer.UserDial(ctx, "tcp", net.JoinHostPort(host, fmt.Sprint(port)))
++		if err != nil {
++			return nil, err
++		}
++		return newJSStream(conn), nil
++	})
++}
++
++// dialTLS opens a TLS (1.2+) stream through the netstack user dialer. It
++// verifies the server certificate against bundled roots, uses ServerName=host
++// and advertises ALPN http/1.1.
++func (i *jsIPN) dialTLS(host string, portVal js.Value, timeout time.Duration) js.Value {
++	return makePromise(func() (any, error) {
++		port, err := portOf(portVal)
++		if err != nil {
++			return nil, err
++		}
++		ctx, cancel := context.WithTimeout(context.Background(), timeout)
++		defer cancel()
++		conn, err := i.dialer.UserDial(ctx, "tcp", net.JoinHostPort(host, fmt.Sprint(port)))
++		if err != nil {
++			return nil, err
++		}
++		tlsConn := tls.Client(conn, &tls.Config{
++			ServerName: host,
++			MinVersion: tls.VersionTLS12,
++			NextProtos: []string{"http/1.1"},
++		})
++		if err := tlsConn.HandshakeContext(ctx); err != nil {
++			conn.Close()
++			return nil, err
++		}
++		return newJSStream(tlsConn), nil
++	})
++}
++
++// newJSStream wraps a net.Conn as a JS object exposing read/write/close with
++// Promise-returning methods, matching the transport stream API used by the
++// browser app. read resolves a Uint8Array (<=64 KiB) or undefined at EOF;
++// write accepts a Uint8Array; concurrent read+write are allowed; close is
++// idempotent.
++func newJSStream(conn net.Conn) map[string]any {
++	var closeOnce sync.Once
++	return map[string]any{
++		"read": js.FuncOf(func(this js.Value, args []js.Value) any {
++			return makePromise(func() (any, error) {
++				buf := make([]byte, 64*1024)
++				n, err := conn.Read(buf)
++				if n > 0 {
++					arr := js.Global().Get("Uint8Array").New(n)
++					js.CopyBytesToJS(arr, buf[:n])
++					return arr, nil
++				}
++				if err == nil || err == io.EOF || errIsClosed(err) {
++					return js.Undefined(), nil
++				}
++				return nil, err
++			})
++		}),
++		"write": js.FuncOf(func(this js.Value, args []js.Value) any {
++			if len(args) != 1 {
++				return makePromise(func() (any, error) { return nil, fmt.Errorf("Usage: write(Uint8Array)") })
++			}
++			n := args[0].Get("length").Int()
++			b := make([]byte, n)
++			js.CopyBytesToGo(b, args[0])
++			return makePromise(func() (any, error) {
++				if _, err := conn.Write(b); err != nil {
++					return nil, err
++				}
++				return nil, nil
++			})
++		}),
++		"close": js.FuncOf(func(this js.Value, args []js.Value) any {
++			return makePromise(func() (any, error) {
++				closeOnce.Do(func() { conn.Close() })
++				return nil, nil
++			})
++		}),
++	}
++}
++
++// errIsClosed reports whether err indicates a closed connection/stream.
++func errIsClosed(err error) bool {
++	return err == net.ErrClosed || (err != nil && strings.Contains(err.Error(), "use of closed"))
+ }
+ 
+ type jsIPN struct {

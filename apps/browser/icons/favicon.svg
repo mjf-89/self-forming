@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" width="512" height="512">
+  <title>Self Forming</title>
+  <rect width="108" height="108" fill="#f6f6f3" rx="22"/>
+  <g fill="none" stroke="#282826" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25.5,31.5 L46.5,52.5 L25.5,73.5"/>
+    <path d="M55.5,76.5 L82.5,76.5"/>
+  </g>
+</svg>

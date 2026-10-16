@@ -1,0 +1,22 @@
+/* look-public: the original light look (paper #f6f6f3, ink #282826, Courier New stack, small radii, round Send / jump-to-latest) as an ordinary
+   built-in plugin that only contributes styles. These are the tokens every component rule reads. A look with a higher order (loaded later) overrides them. */
+
+:root {
+  color-scheme: light;
+  --paper: #f6f6f3;
+  --light: #fbfbf9;
+  --ink: #282826;
+  --brand: #4a4a45;
+  --muted: #676761;
+  --accent: #30302e;
+  --border: #bdbdb6;
+  --surface: #fbfbf9;
+  --error: #9e3b2c;
+  --hover: #28282610;
+  --serif: "Courier New", "Liberation Mono", "Droid Sans Mono", monospace;
+  --garamond: "Courier New", "Liberation Mono", "Droid Sans Mono", monospace;
+  --radius-sm: 4px; --radius-box: 5px; --radius-thumb: 6px; --radius-item: 8px; --radius-card: 10px; --radius-menu: 12px; --radius-bubble: 18px 18px 6px 18px; --radius-round: 50%;
+  --selection: #8975533a; --placeholder: #898983; --rule: #b4b4ae; --credit: #777771; --credit-rule: #b9b9b3; --credit-link: #9a9a94;
+  --plus: #5f5f59; --send-bg: #30302e; --send-ink: #fafaf8; --status-dot: #74746e; --field-shadow: inset 0 1px 2px #fffdfa;
+  --band-input: #e4e4de; --band-action: #f1f1ed; --band-thought: #f3f3f0;
+}

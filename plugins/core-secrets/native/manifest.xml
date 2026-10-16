@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- core-secrets, native half: merged into the APK manifest by apps/android/app/build.gradle.kts (docs/plugins.md §3a). -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Secrets: unlock protected values with the fingerprint or screen lock. -->
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+</manifest>

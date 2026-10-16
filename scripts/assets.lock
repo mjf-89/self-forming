@@ -1,0 +1,16 @@
+# Pinned, checksummed binaries that are kept out of Git (see scripts/fetch-assets.sh).
+# Fields (tab separated): sha256  bytes  destination (repo-relative)  source
+#   source = release:<asset name>  -> asset of the GitHub release $ASSETS_TAG in $ASSETS_REPO (v86 + Linux image)
+#   source = cors-rot:<tar path>   -> member of cors-rot v0.1.2's cors-rot-vendor.tar.gz (sha256 pinned below)
+# The release is built by CI (.github/workflows/browser-assets.yml, workflow_dispatch with assets_tag); then run scripts/update-assets-lock.sh <tag>.
+@release	mjf-89/self-forming	assets-v0.7.0
+@cors-rot	https://github.com/mjf-89/cors-rot/releases/download/v0.1.2/cors-rot-vendor.tar.gz	51abfa7dd40b174d403d4da708f34ba936bdfb1c8dd5eee6443fc8988fe6e147
+2fc5609ae837fcbc77147155de6f1014677ecab5369f5584ebc670e9d56e6510	2007347	apps/browser/vendor/v86/v86.wasm	release:v86.wasm
+8374b9d1c37e8fd908ea2b797b44016dcc2825dddf70a0a640e11959d3c3d933	20845490	apps/browser/vendor/v86/image/alpine-state.bin.gz	release:alpine-state.bin.gz
+10ddb81416f29cf310b0f2dff665e5b033056aeb799ed0a6fd99ca82227fce73	8090112	apps/browser/vendor/v86/image/flat/10ddb81416.bin	release:flat-10ddb81416.bin
+569d5e3f54426c7083fbf070cb1c58e37b8c3899151bc5f306a5185ff7daf710	1136004	apps/browser/vendor/v86/image/flat/569d5e3f54.bin	release:flat-569d5e3f54.bin
+db47ebc175ab659afc704addbac73eb9552e36af66c4903932db4ed28c3e31f2	1897844	apps/browser/vendor/v86/image/flat/db47ebc175.bin	release:flat-db47ebc175.bin
+c1e32e426c6667d3f32af48d96ab5e8b386c5bea7dc3984e1406a0504e8edc6b	3124088	apps/browser/vendor/v86/image/flat/c1e32e426c.bin	release:flat-c1e32e426c.bin
+5feb2be2adf5aaa1ebcc32041e7fb04deb3b5c45cde739838cf740894acc1065	3766848	apps/browser/vendor/v86/image/flat/5feb2be2ad.bin	release:flat-5feb2be2ad.bin
+22ead51b9110902e74f1198ea80ef3927bfe7eee995f87e751965ec7b6f3e21e	37203881	libs/cors-rot/vendor/tailscale/tailscale.wasm	cors-rot:src/vendor/tailscale/tailscale.wasm
+bddb5ce7a06f67b94675039266f03a339bd2f30c124a3dc7115927d689d16cbc	5627029	libs/cors-rot/vendor/webtor/webtor_wasm_bg.wasm	cors-rot:src/vendor/webtor/webtor_wasm_bg.wasm

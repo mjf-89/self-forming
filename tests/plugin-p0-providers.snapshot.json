@@ -1,0 +1,3192 @@
+{
+ "static": {
+  "exports": [
+   "CLAUDE_MODELS",
+   "DEFAULT_CLAUDE_MODEL",
+   "DEFAULT_OPENAI_MODEL",
+   "getThinkingEfforts",
+   "openAppSession"
+  ],
+  "DEFAULT_OPENAI_MODEL": "gpt-4.1-mini",
+  "DEFAULT_CLAUDE_MODEL": "claude-sonnet-4-6",
+  "CLAUDE_MODELS": [
+   {
+    "id": "claude-fable-5",
+    "name": "Claude Fable 5"
+   },
+   {
+    "id": "claude-fable-5-1",
+    "name": "Claude Fable 5.1"
+   },
+   {
+    "id": "claude-haiku-4-5",
+    "name": "Claude Haiku 4.5 (latest)"
+   },
+   {
+    "id": "claude-haiku-4-5-20251001",
+    "name": "Claude Haiku 4.5"
+   },
+   {
+    "id": "claude-haiku-5-5",
+    "name": "Claude Haiku 5.5"
+   },
+   {
+    "id": "claude-opus-4-5",
+    "name": "Claude Opus 4.5 (latest)"
+   },
+   {
+    "id": "claude-opus-4-5-20251101",
+    "name": "Claude Opus 4.5"
+   },
+   {
+    "id": "claude-opus-4-6",
+    "name": "Claude Opus 4.6"
+   },
+   {
+    "id": "claude-opus-4-7",
+    "name": "Claude Opus 4.7"
+   },
+   {
+    "id": "claude-opus-4-8",
+    "name": "Claude Opus 4.8"
+   },
+   {
+    "id": "claude-opus-5",
+    "name": "Claude Opus 5"
+   },
+   {
+    "id": "claude-opus-5-5",
+    "name": "Claude Opus 5.5"
+   },
+   {
+    "id": "claude-sonnet-4-5",
+    "name": "Claude Sonnet 4.5 (latest)"
+   },
+   {
+    "id": "claude-sonnet-4-5-20250929",
+    "name": "Claude Sonnet 4.5"
+   },
+   {
+    "id": "claude-sonnet-4-6",
+    "name": "Claude Sonnet 4.6"
+   },
+   {
+    "id": "claude-sonnet-5",
+    "name": "Claude Sonnet 5"
+   },
+   {
+    "id": "claude-sonnet-5-5",
+    "name": "Claude Sonnet 5.5"
+   }
+  ],
+  "openaiCatalog": [
+   "gpt-4|openai-responses|openai|-",
+   "gpt-4-turbo|openai-responses|openai|-",
+   "gpt-4.1|openai-responses|openai|-",
+   "gpt-4.1-mini|openai-responses|openai|-",
+   "gpt-4.1-nano|openai-responses|openai|-",
+   "gpt-4o|openai-responses|openai|-",
+   "gpt-4o-2024-05-13|openai-responses|openai|-",
+   "gpt-4o-2024-08-06|openai-responses|openai|-",
+   "gpt-4o-2024-11-20|openai-responses|openai|-",
+   "gpt-4o-mini|openai-responses|openai|-",
+   "gpt-5|openai-responses|openai|reasoning",
+   "gpt-5-chat-latest|openai-responses|openai|-",
+   "gpt-5-mini|openai-responses|openai|reasoning",
+   "gpt-5-nano|openai-responses|openai|reasoning",
+   "gpt-5-pro|openai-responses|openai|reasoning",
+   "gpt-5.1|openai-responses|openai|reasoning",
+   "gpt-5.2|openai-responses|openai|reasoning",
+   "gpt-5.2-chat-latest|openai-responses|openai|reasoning",
+   "gpt-5.2-pro|openai-responses|openai|reasoning",
+   "gpt-5.3-chat-latest|openai-responses|openai|-",
+   "gpt-5.3-codex|openai-responses|openai|reasoning",
+   "gpt-5.3-codex-spark|openai-responses|openai|reasoning",
+   "gpt-5.4|openai-responses|openai|reasoning",
+   "gpt-5.4-mini|openai-responses|openai|reasoning",
+   "gpt-5.4-nano|openai-responses|openai|reasoning",
+   "gpt-5.4-pro|openai-responses|openai|reasoning",
+   "gpt-5.5|openai-responses|openai|reasoning",
+   "gpt-5.5-pro|openai-responses|openai|reasoning",
+   "gpt-5.6-luna|openai-responses|openai|reasoning",
+   "gpt-5.6-sol|openai-responses|openai|reasoning",
+   "gpt-5.6-terra|openai-responses|openai|reasoning",
+   "gpt-6-astra|openai-responses|openai|reasoning",
+   "gpt-6-luna|openai-responses|openai|reasoning",
+   "gpt-6-sol|openai-responses|openai|reasoning",
+   "gpt-6.1-sol|openai-responses|openai|reasoning",
+   "gpt-daybreak-blue-latest|openai-responses|openai|reasoning",
+   "gpt-daybreak-red-latest|openai-responses|openai|reasoning",
+   "gpt-realtime-2.1|openai-responses|openai|reasoning",
+   "o1|openai-responses|openai|reasoning",
+   "o1-pro|openai-responses|openai|reasoning",
+   "o3|openai-responses|openai|reasoning",
+   "o3-mini|openai-responses|openai|reasoning",
+   "o3-pro|openai-responses|openai|reasoning",
+   "o4-mini|openai-responses|openai|reasoning"
+  ],
+  "claudeCatalog": [
+   "claude-fable-5|anthropic-messages|anthropic|reasoning",
+   "claude-fable-5-1|anthropic-messages|anthropic|reasoning",
+   "claude-haiku-4-5|anthropic-messages|anthropic|reasoning",
+   "claude-haiku-4-5-20251001|anthropic-messages|anthropic|reasoning",
+   "claude-haiku-5-5|anthropic-messages|anthropic|reasoning",
+   "claude-opus-4-5|anthropic-messages|anthropic|reasoning",
+   "claude-opus-4-5-20251101|anthropic-messages|anthropic|reasoning",
+   "claude-opus-4-6|anthropic-messages|anthropic|reasoning",
+   "claude-opus-4-7|anthropic-messages|anthropic|reasoning",
+   "claude-opus-4-8|anthropic-messages|anthropic|reasoning",
+   "claude-opus-5|anthropic-messages|anthropic|reasoning",
+   "claude-opus-5-5|anthropic-messages|anthropic|reasoning",
+   "claude-sonnet-4-5|anthropic-messages|anthropic|reasoning",
+   "claude-sonnet-4-5-20250929|anthropic-messages|anthropic|reasoning",
+   "claude-sonnet-4-6|anthropic-messages|anthropic|reasoning",
+   "claude-sonnet-5|anthropic-messages|anthropic|reasoning",
+   "claude-sonnet-5-5|anthropic-messages|anthropic|reasoning"
+  ],
+  "thinkingEfforts": {
+   "offline": {
+    "(empty)": "-",
+    "faux-1": "-",
+    "gpt-5": "-"
+   },
+   "openai": {
+    "(empty)": "-",
+    "gpt-4": "-",
+    "gpt-4-turbo": "-",
+    "gpt-4.1": "-",
+    "gpt-4.1-mini": "-",
+    "gpt-4.1-nano": "-",
+    "gpt-4o": "-",
+    "gpt-4o-2024-05-13": "-",
+    "gpt-4o-2024-08-06": "-",
+    "gpt-4o-2024-11-20": "-",
+    "gpt-4o-mini": "-",
+    "gpt-5": "minimal,low,medium,high",
+    "gpt-5-chat-latest": "-",
+    "gpt-5-mini": "minimal,low,medium,high",
+    "gpt-5-nano": "minimal,low,medium,high",
+    "gpt-5-pro": "high",
+    "gpt-5.1": "off,low,medium,high",
+    "gpt-5.2": "off,low,medium,high,xhigh",
+    "gpt-5.2-chat-latest": "medium,xhigh",
+    "gpt-5.2-pro": "medium,high,xhigh",
+    "gpt-5.3-chat-latest": "-",
+    "gpt-5.3-codex": "off,low,medium,high,xhigh",
+    "gpt-5.3-codex-spark": "low,medium,high,xhigh",
+    "gpt-5.4": "off,low,medium,high,xhigh",
+    "gpt-5.4-mini": "off,low,medium,high,xhigh",
+    "gpt-5.4-nano": "off,low,medium,high,xhigh",
+    "gpt-5.4-pro": "medium,high,xhigh",
+    "gpt-5.5": "off,low,medium,high,xhigh",
+    "gpt-5.5-pro": "medium,high,xhigh",
+    "gpt-5.6-luna": "off,low,medium,high,xhigh,max",
+    "gpt-5.6-sol": "off,low,medium,high,xhigh,max",
+    "gpt-5.6-terra": "off,low,medium,high,xhigh,max",
+    "gpt-6-astra": "low,medium,high,xhigh,max",
+    "gpt-6-luna": "off,low,medium,high,xhigh,max",
+    "gpt-6-sol": "off,low,medium,high,xhigh,max",
+    "gpt-6.1-sol": "low,medium,high,xhigh,max",
+    "gpt-daybreak-blue-latest": "off,low,medium,high,xhigh,max",
+    "gpt-daybreak-red-latest": "off,low,medium,high,xhigh,max",
+    "gpt-realtime-2.1": "minimal,low,medium,high,xhigh",
+    "o1": "low,medium,high",
+    "o1-pro": "low,medium,high",
+    "o3": "low,medium,high",
+    "o3-mini": "low,medium,high",
+    "o3-pro": "low,medium,high",
+    "o4-mini": "low,medium,high",
+    "unknown-model": "-",
+    " gpt-5 ": "-"
+   },
+   "chatgpt": {
+    "(empty)": "-",
+    "gpt-4": "-",
+    "gpt-4-turbo": "-",
+    "gpt-4.1": "-",
+    "gpt-4.1-mini": "-",
+    "gpt-4.1-nano": "-",
+    "gpt-4o": "-",
+    "gpt-4o-2024-05-13": "-",
+    "gpt-4o-2024-08-06": "-",
+    "gpt-4o-2024-11-20": "-",
+    "gpt-4o-mini": "-",
+    "gpt-5": "minimal,low,medium,high",
+    "gpt-5-chat-latest": "-",
+    "gpt-5-mini": "minimal,low,medium,high",
+    "gpt-5-nano": "minimal,low,medium,high",
+    "gpt-5-pro": "high",
+    "gpt-5.1": "off,low,medium,high",
+    "gpt-5.2": "off,low,medium,high,xhigh",
+    "gpt-5.2-chat-latest": "medium,xhigh",
+    "gpt-5.2-pro": "medium,high,xhigh",
+    "gpt-5.3-chat-latest": "-",
+    "gpt-5.3-codex": "off,low,medium,high,xhigh",
+    "gpt-5.3-codex-spark": "low,medium,high,xhigh",
+    "gpt-5.4": "off,low,medium,high,xhigh",
+    "gpt-5.4-mini": "off,low,medium,high,xhigh",
+    "gpt-5.4-nano": "off,low,medium,high,xhigh",
+    "gpt-5.4-pro": "medium,high,xhigh",
+    "gpt-5.5": "off,low,medium,high,xhigh",
+    "gpt-5.5-pro": "medium,high,xhigh",
+    "gpt-5.6-luna": "off,low,medium,high,xhigh,max",
+    "gpt-5.6-sol": "off,low,medium,high,xhigh,max",
+    "gpt-5.6-terra": "off,low,medium,high,xhigh,max",
+    "gpt-6-astra": "low,medium,high,xhigh,max",
+    "gpt-6-luna": "off,low,medium,high,xhigh,max",
+    "gpt-6-sol": "off,low,medium,high,xhigh,max",
+    "gpt-6.1-sol": "low,medium,high,xhigh,max",
+    "gpt-daybreak-blue-latest": "off,low,medium,high,xhigh,max",
+    "gpt-daybreak-red-latest": "off,low,medium,high,xhigh,max",
+    "gpt-realtime-2.1": "minimal,low,medium,high,xhigh",
+    "o1": "low,medium,high",
+    "o1-pro": "low,medium,high",
+    "o3": "low,medium,high",
+    "o3-mini": "low,medium,high",
+    "o3-pro": "low,medium,high",
+    "o4-mini": "low,medium,high",
+    "gpt-account-only": "-"
+   },
+   "claude": {
+    "(empty)": "off,minimal,low,medium,high,max",
+    "claude-fable-5": "minimal,low,medium,high,xhigh,max",
+    "claude-fable-5-1": "minimal,low,medium,high,xhigh,max",
+    "claude-haiku-4-5": "off,minimal,low,medium,high",
+    "claude-haiku-4-5-20251001": "off,minimal,low,medium,high",
+    "claude-haiku-5-5": "off,low,medium,high,xhigh,max",
+    "claude-opus-4-5": "off,minimal,low,medium,high",
+    "claude-opus-4-5-20251101": "off,minimal,low,medium,high",
+    "claude-opus-4-6": "off,minimal,low,medium,high,max",
+    "claude-opus-4-7": "off,minimal,low,medium,high,xhigh,max",
+    "claude-opus-4-8": "off,minimal,low,medium,high,xhigh,max",
+    "claude-opus-5": "off,minimal,low,medium,high,xhigh,max",
+    "claude-opus-5-5": "low,medium,high,xhigh,max",
+    "claude-sonnet-4-5": "off,minimal,low,medium,high",
+    "claude-sonnet-4-5-20250929": "off,minimal,low,medium,high",
+    "claude-sonnet-4-6": "off,minimal,low,medium,high,max",
+    "claude-sonnet-5": "off,minimal,low,medium,high,xhigh,max",
+    "claude-sonnet-5-5": "low,medium,high,xhigh,max",
+    "unknown-model": "-"
+   },
+   "llama-local": {
+    "(empty)": "-",
+    "gpt-5": "-",
+    "claude-sonnet-4-6": "-"
+   },
+   "undefined": {
+    "(empty)": "-",
+    "gpt-5": "-"
+   }
+  }
+ },
+ "modelSettings": {
+  "initial": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "off",
+   "modelSettings": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "paused": false,
+   "recoveryProviders": []
+  },
+  "offlineWithExtras": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "openaiDefault": {
+   "mode": "openai",
+   "modelId": "",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "openaiReasoning": {
+   "mode": "openai",
+   "modelId": "gpt-5",
+   "thinkingEffort": "high",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "openaiTrimmed": {
+   "mode": "openai",
+   "modelId": "gpt-5",
+   "thinkingEffort": "minimal",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "openaiBadEffort": {
+   "mode": "openai",
+   "modelId": "gpt-4.1-mini",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "openaiUnknownModel": {
+   "mode": "openai",
+   "modelId": "not-a-model",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "chatgptDefault": {
+   "mode": "chatgpt",
+   "modelId": "",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "chatgptReasoning": {
+   "mode": "chatgpt",
+   "modelId": "gpt-5",
+   "thinkingEffort": "low",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "chatgptAccountOnly": {
+   "mode": "chatgpt",
+   "modelId": "gpt-account-only",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "claudeDefault": {
+   "mode": "claude",
+   "modelId": "",
+   "thinkingEffort": "high",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "claudeHaiku": {
+   "mode": "claude",
+   "modelId": "claude-haiku-4-5",
+   "thinkingEffort": "medium",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "claudeBogusEffort": {
+   "mode": "claude",
+   "modelId": "claude-sonnet-4-6",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "unknownMode": {
+   "mode": "claude",
+   "modelId": "claude-sonnet-4-6",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline",
+   "refused": "llama-local is not available. Enable its plugin or choose another model."
+  },
+  "missingMode": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "nonStringModel": {
+   "mode": "openai",
+   "modelId": "",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "longModelId": {
+   "mode": "chatgpt",
+   "modelId": "xyyyyyyy…(300)",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "extraFields": {
+   "mode": "openai",
+   "modelId": "gpt-5",
+   "thinkingEffort": "high",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "empty": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "",
+   "sameWhilePending": true,
+   "snapshotMode": "offline"
+  },
+  "stored": {
+   "1": {
+    "mode": "claude",
+    "modelId": "claude-haiku-4-5",
+    "thinkingEffort": "medium"
+   }
+  },
+  "reopened": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "off",
+   "modelSettings": {
+    "mode": "claude",
+    "modelId": "claude-haiku-4-5",
+    "thinkingEffort": "medium"
+   },
+   "paused": false,
+   "recoveryProviders": []
+  },
+  "leaked": false
+ },
+ "migration": {
+  "faux": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "off",
+   "modelSettings": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {
+    "1": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    }
+   }
+  },
+  "openai": {
+   "mode": "openai",
+   "modelId": "gpt-5",
+   "thinkingEffort": "high",
+   "modelSettings": {
+    "mode": "openai",
+    "modelId": "gpt-5",
+    "thinkingEffort": "high"
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {
+    "1": {
+     "mode": "openai",
+     "modelId": "gpt-5",
+     "thinkingEffort": "high"
+    }
+   }
+  },
+  "openaiUnknownEffort": {
+   "mode": "openai",
+   "modelId": "gpt-4.1-mini",
+   "thinkingEffort": "high",
+   "modelSettings": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": ""
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {
+    "1": {
+     "mode": "openai",
+     "modelId": "gpt-4.1-mini",
+     "thinkingEffort": ""
+    }
+   }
+  },
+  "chatgpt": {
+   "mode": "chatgpt",
+   "modelId": "gpt-account-only",
+   "thinkingEffort": "off",
+   "modelSettings": {
+    "mode": "chatgpt",
+    "modelId": "gpt-account-only",
+    "thinkingEffort": ""
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {
+    "1": {
+     "mode": "chatgpt",
+     "modelId": "gpt-account-only",
+     "thinkingEffort": ""
+    }
+   }
+  },
+  "claude": {
+   "mode": "claude",
+   "modelId": "claude-sonnet-4-6",
+   "thinkingEffort": "medium",
+   "modelSettings": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "medium"
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {
+    "1": {
+     "mode": "claude",
+     "modelId": "claude-sonnet-4-6",
+     "thinkingEffort": "medium"
+    }
+   }
+  },
+  "unknownProvider": {
+   "mode": "provider:llama-local",
+   "modelId": "llama-3",
+   "thinkingEffort": "high",
+   "modelSettings": {
+    "mode": "provider:llama-local",
+    "modelId": "llama-3",
+    "thinkingEffort": "high",
+    "available": false,
+    "label": "llama-local"
+   },
+   "paused": false,
+   "recoveryProviders": [],
+   "storedThreads": {}
+  }
+ },
+ "send": {
+  "offline": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "tool:workspace_write: Saved demo-note.txt",
+    "tool:workspace_read: hello providers",
+    "assistant: I saved your message to demo-note.txt and read it back:\n\nhello providers\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+   ],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [],
+   "assistant": [
+    "faux/self-forming-offline/faux-1",
+    "faux/self-forming-offline/faux-1",
+    "faux/self-forming-offline/faux-1"
+   ],
+   "leaked": false
+  },
+  "openaiDefault": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "openai",
+    "modelId": "",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai",
+     "modelId": "gpt-4.1-mini"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <openai-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "input": [
+       "system:text",
+       "user:input_text"
+      ],
+      "max_output_tokens": 32768,
+      "model": "gpt-4.1-mini",
+      "prompt_cache_key": "<string>",
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-4.1-mini"
+   ],
+   "leaked": false
+  },
+  "openaiReasoning": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "openai",
+    "modelId": "gpt-5",
+    "thinkingEffort": "high",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-5",
+     "thinkingEffort": "high"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "openai",
+    "modelId": "gpt-5",
+    "thinkingEffort": "high"
+   },
+   "agent": {
+    "model": {
+     "provider": "openai",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "high"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <openai-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "max_output_tokens": 128000,
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "high",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ],
+   "leaked": false
+  },
+  "openaiReasoningNoEffort": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "openai",
+    "modelId": "gpt-5",
+    "thinkingEffort": "minimal",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-5",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "openai",
+    "modelId": "gpt-5",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "minimal"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <openai-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "max_output_tokens": 128000,
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "minimal",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ],
+   "leaked": false
+  },
+  "openaiNoKey": {
+   "outcome": "refused",
+   "error": "Enter your OpenAI API key to start.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "openaiUnknownModel": {
+   "outcome": "refused",
+   "error": "This model is not in the bundled OpenAI catalog. Choose gpt-4.1-mini or another supported model.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "openaiBadEffort": {
+   "outcome": "refused",
+   "error": "Choose a thinking effort supported by this model.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "chatgptDefault": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "minimal",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "chatgpt",
+    "modelId": "",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "minimal"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <chatgpt-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "minimal",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ],
+   "leaked": false
+  },
+  "chatgptReasoning": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "high",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": "high"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "high"
+   },
+   "agent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "high"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <chatgpt-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "high",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ],
+   "leaked": false
+  },
+  "chatgptAccountOnly": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "chatgpt",
+    "modelId": "gpt-account-only",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-account-only",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "chatgpt",
+    "modelId": "gpt-account-only",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-account-only"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <chatgpt-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "input": [
+       "system:text",
+       "user:input_text"
+      ],
+      "model": "gpt-account-only",
+      "prompt_cache_key": "<string>",
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-account-only"
+   ],
+   "leaked": false
+  },
+  "chatgptAccountOnlyEffort": {
+   "outcome": "refused",
+   "error": "Choose a thinking effort supported by this model.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "chatgptNotInAccount": {
+   "outcome": "refused",
+   "error": "Choose a model available in your ChatGPT account.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "chatgptNoController": {
+   "outcome": "refused",
+   "error": "Sign in to ChatGPT before sending a message.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "chatgptSignedOut": {
+   "outcome": "refused",
+   "error": "Sign in to ChatGPT again to continue.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "chatgptSignedOutEmpty": {
+   "outcome": "refused",
+   "error": "Sign in to ChatGPT again to continue.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "claudeDefault": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "claude",
+    "modelId": "",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "anthropic",
+     "modelId": "claude-sonnet-4-6"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "anthropic-beta",
+      "anthropic-dangerous-direct-browser-access",
+      "anthropic-version",
+      "authorization",
+      "content-type",
+      "user-agent",
+      "x-app",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version",
+      "x-stainless-timeout"
+     ],
+     "values": {
+      "accept": "application/json",
+      "anthropic-beta": "claude-code-20250219,oauth-2025-04-20",
+      "anthropic-dangerous-direct-browser-access": "true",
+      "anthropic-version": "2023-06-01",
+      "authorization": "Bearer <claude-token>",
+      "content-type": "application/json",
+      "x-app": "cli"
+     },
+     "body": {
+      "max_tokens": 128000,
+      "messages": [
+       "user:text"
+      ],
+      "model": "claude-sonnet-4-6",
+      "stream": true,
+      "system": [
+       "You are Claude Code, Anthropic's official CLI for Claude.",
+       "<prompt cached>"
+      ],
+      "thinking": {
+       "type": "disabled"
+      },
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "anthropic/anthropic-messages/claude-sonnet-4-6"
+   ],
+   "leaked": false
+  },
+  "claudeThinking": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "high",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "claude-sonnet-4-6",
+     "thinkingEffort": "high"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "high"
+   },
+   "agent": {
+    "model": {
+     "provider": "anthropic",
+     "modelId": "claude-sonnet-4-6"
+    },
+    "thinkingLevel": "high"
+   },
+   "requests": [
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "anthropic-beta",
+      "anthropic-dangerous-direct-browser-access",
+      "anthropic-version",
+      "authorization",
+      "content-type",
+      "user-agent",
+      "x-app",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version",
+      "x-stainless-timeout"
+     ],
+     "values": {
+      "accept": "application/json",
+      "anthropic-beta": "claude-code-20250219,oauth-2025-04-20",
+      "anthropic-dangerous-direct-browser-access": "true",
+      "anthropic-version": "2023-06-01",
+      "authorization": "Bearer <claude-token>",
+      "content-type": "application/json",
+      "x-app": "cli"
+     },
+     "body": {
+      "max_tokens": 128000,
+      "messages": [
+       "user:text"
+      ],
+      "model": "claude-sonnet-4-6",
+      "output_config": {
+       "effort": "high"
+      },
+      "stream": true,
+      "system": [
+       "You are Claude Code, Anthropic's official CLI for Claude.",
+       "<prompt cached>"
+      ],
+      "thinking": {
+       "type": "adaptive",
+       "display": "summarized"
+      },
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "anthropic/anthropic-messages/claude-sonnet-4-6"
+   ],
+   "leaked": false
+  },
+  "claudeHaiku": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "claude",
+    "modelId": "claude-haiku-4-5",
+    "thinkingEffort": "low",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "claude-haiku-4-5",
+     "thinkingEffort": "low"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "claude",
+    "modelId": "claude-haiku-4-5",
+    "thinkingEffort": "low"
+   },
+   "agent": {
+    "model": {
+     "provider": "anthropic",
+     "modelId": "claude-haiku-4-5"
+    },
+    "thinkingLevel": "low"
+   },
+   "requests": [
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "anthropic-beta",
+      "anthropic-dangerous-direct-browser-access",
+      "anthropic-version",
+      "authorization",
+      "content-type",
+      "user-agent",
+      "x-app",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version",
+      "x-stainless-timeout"
+     ],
+     "values": {
+      "accept": "application/json",
+      "anthropic-beta": "claude-code-20250219,oauth-2025-04-20,interleaved-thinking-2025-05-14",
+      "anthropic-dangerous-direct-browser-access": "true",
+      "anthropic-version": "2023-06-01",
+      "authorization": "Bearer <claude-token>",
+      "content-type": "application/json",
+      "x-app": "cli"
+     },
+     "body": {
+      "max_tokens": 64000,
+      "messages": [
+       "user:text"
+      ],
+      "model": "claude-haiku-4-5",
+      "stream": true,
+      "system": [
+       "You are Claude Code, Anthropic's official CLI for Claude.",
+       "<prompt cached>"
+      ],
+      "thinking": {
+       "type": "enabled",
+       "budget_tokens": 2048,
+       "display": "summarized"
+      },
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "anthropic/anthropic-messages/claude-haiku-4-5"
+   ],
+   "leaked": false
+  },
+  "claudeUnknownModel": {
+   "outcome": "refused",
+   "error": "Choose a Claude model from the bundled catalog.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "claudeNoController": {
+   "outcome": "refused",
+   "error": "Sign in to Claude again to continue.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "claudeSignedOut": {
+   "outcome": "refused",
+   "error": "Sign in to Claude again to continue.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "claudeSignedOutEmpty": {
+   "outcome": "refused",
+   "error": "Sign in to Claude again to continue.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "unknownMode": {
+   "outcome": "refused",
+   "error": "llama-local is not available. Enable its plugin or choose another model.",
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [],
+   "threads": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "faux",
+     "modelId": "faux-1"
+    }
+   },
+   "requests": [],
+   "assistant": [],
+   "leaked": false
+  },
+  "storedSettingsOnly": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "medium",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": "medium"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant: reply 1"
+   ],
+   "threads": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "medium"
+   },
+   "agent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "medium"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <chatgpt-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "medium",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ],
+   "leaked": false
+  },
+  "openaiUnauthorized": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-4.1-mini",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant!: OpenAI request failed (401). Incorrect API key provided: [redacted]. Header was [redacted]. (invalid_request_error; invalid_api_key)"
+   ],
+   "threads": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai",
+     "modelId": "gpt-4.1-mini"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <openai-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "input": [
+       "system:text",
+       "user:input_text"
+      ],
+      "max_output_tokens": 32768,
+      "model": "gpt-4.1-mini",
+      "prompt_cache_key": "<string>",
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-4.1-mini!"
+   ],
+   "leaked": false
+  },
+  "chatgptUnauthorized": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "minimal",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant!: ChatGPT request failed (401). Incorrect API key provided: [redacted]. Header was [redacted]. (invalid_request_error; invalid_api_key)"
+   ],
+   "threads": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "minimal"
+   },
+   "requests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "authorization",
+      "content-type",
+      "session_id",
+      "user-agent",
+      "x-client-request-id",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version"
+     ],
+     "values": {
+      "accept": "application/json",
+      "authorization": "Bearer <chatgpt-token>",
+      "content-type": "application/json"
+     },
+     "body": {
+      "include": [
+       "reasoning.encrypted_content"
+      ],
+      "input": [
+       "developer:text",
+       "user:input_text"
+      ],
+      "model": "gpt-5",
+      "prompt_cache_key": "<string>",
+      "reasoning": {
+       "effort": "minimal",
+       "summary": "auto"
+      },
+      "store": false,
+      "stream": true,
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "openai/openai-responses/gpt-5!"
+   ],
+   "leaked": false
+  },
+  "claudeUnauthorized": {
+   "outcome": "sent",
+   "snapshot": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello providers",
+    "assistant!: Claude request failed (401). Incorrect API key provided: [redacted]. Header was [redacted]. (invalid_request_error; invalid_api_key)"
+   ],
+   "threads": {
+    "mode": "claude",
+    "modelId": "",
+    "thinkingEffort": ""
+   },
+   "agent": {
+    "model": {
+     "provider": "anthropic",
+     "modelId": "claude-sonnet-4-6"
+    },
+    "thinkingLevel": "off"
+   },
+   "requests": [
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "method": "POST",
+     "headers": [
+      "accept",
+      "anthropic-beta",
+      "anthropic-dangerous-direct-browser-access",
+      "anthropic-version",
+      "authorization",
+      "content-type",
+      "user-agent",
+      "x-app",
+      "x-stainless-arch",
+      "x-stainless-lang",
+      "x-stainless-os",
+      "x-stainless-package-version",
+      "x-stainless-retry-count",
+      "x-stainless-runtime",
+      "x-stainless-runtime-version",
+      "x-stainless-timeout"
+     ],
+     "values": {
+      "accept": "application/json",
+      "anthropic-beta": "claude-code-20250219,oauth-2025-04-20",
+      "anthropic-dangerous-direct-browser-access": "true",
+      "anthropic-version": "2023-06-01",
+      "authorization": "Bearer <claude-token>",
+      "content-type": "application/json",
+      "x-app": "cli"
+     },
+     "body": {
+      "max_tokens": 128000,
+      "messages": [
+       "user:text"
+      ],
+      "model": "claude-sonnet-4-6",
+      "stream": true,
+      "system": [
+       "You are Claude Code, Anthropic's official CLI for Claude.",
+       "<prompt cached>"
+      ],
+      "thinking": {
+       "type": "disabled"
+      },
+      "tools": [
+       "workspace_read",
+       "workspace_write",
+       "workspace_list"
+      ]
+     }
+    }
+   ],
+   "assistant": [
+    "anthropic/anthropic-messages/claude-sonnet-4-6!"
+   ],
+   "leaked": false
+  }
+ },
+ "idleResume": {
+  "default": "resolved (not paused: no-op)",
+  "openai": "resolved (not paused: no-op)",
+  "chatgpt": "resolved (not paused: no-op)",
+  "llama-local": "resolved (not paused: no-op)",
+  "requests": 0,
+  "snapshot": {
+   "mode": "offline",
+   "modelId": "faux-1",
+   "thinkingEffort": "off",
+   "modelSettings": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": ""
+   },
+   "paused": false,
+   "recoveryProviders": []
+  }
+ },
+ "subagents": {
+  "chatgpt": {
+   "toolResults": [
+    "ok: same: your model (openai-chatgpt/gpt-5)\nfast: a smaller, cheaper model of your provider\nanthropic/claude-fable-5 (Claude Fable 5)\nanthropic/claude-fable-5-1 (Claude Fable 5.1)\nanthropic/claude-haiku-4-5 (Claude Haiku 4.5 (latest))\nanthropic/claude-haiku-4-5-20251001 (Claude Haiku 4.5)\nanthropic/claude-haiku-5-5 (Claude Haiku 5.5)\nanthropic/claude-opus-4-5 (Claude Opus 4.5 (latest))\nanthropic/claude-opus-4-5-20251101 (Claude Opus 4.5)\nanthropic/claude-opus-4-6 (Claude Opus 4.6)\nanthropic/claude-opus-4-7 (Claude Opus 4.7)\nanthropic/claude-opus-4-8 (Claude Opus 4.8)\nanthropic/claude-opus-5 (Claude Opus 5)\nanthropic/claude-opus-5-5 (Claude Opus 5.5)\nanthropic/claude-sonnet-4-5 (Claude Sonnet 4.5 (latest))\nanthropic/claude-sonnet-4-5-20250929 (Claude Sonnet 4.5)\nanthropic/claude-sonnet-4-6 (Claude Sonnet 4.6)\nanthropic/claude-sonnet-5 (Claude Sonnet 5)\nanthropic/claude-sonnet-5-5 (Claude Sonnet 5.5)\nopenai-chatgpt/gpt-5 (Main model)\nopenai-chatgpt/gpt-4.1-mini (Helper model)\nopenai-chatgpt/gpt-account-only (Account only)",
+    "ok: child done\n\n[subagent model: openai-chatgpt/gpt-4.1-mini]",
+    "ok: child done\n\n[subagent model: same as main (openai-chatgpt/gpt-5)]",
+    "ok: child done\n\n[subagent model: same as main (openai-chatgpt/gpt-5)]",
+    "ok: child done\n\n[subagent model: anthropic/claude-haiku-4-5]",
+    "ok: child done\n\n[subagent model: openai-chatgpt/gpt-4.1-mini]",
+    "error: <harness>\n[error] Unknown model \"mistral/large\". Use the models action to list the available ones.\n</harness>",
+    "error: <harness>\n[error] Unknown model \"gpt-5\". Use the models action to list the available ones.\n</harness>",
+    "error: <harness>\n[error] openai-chatgpt/gpt-unknown is not available. Use the models action to list the available ones.\n</harness>",
+    "error: <harness>\n[error] OpenAI API-key models are only available while a reply that uses the key is running.\n</harness>",
+    "ok: I saved your message to demo-note.txt and read it back:\n\noffline helper\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real.\n\n[subagent model: faux/faux-1]"
+   ],
+   "final": "parent done",
+   "parentAgent": {
+    "model": {
+     "provider": "openai-chatgpt",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "low"
+   },
+   "children": [
+    {
+     "model": {
+      "provider": "openai-chatgpt",
+      "modelId": "gpt-4.1-mini"
+     },
+     "thinkingLevel": "off"
+    },
+    {
+     "model": {
+      "provider": "openai-chatgpt",
+      "modelId": "gpt-5"
+     },
+     "thinkingLevel": "high"
+    },
+    {
+     "model": {
+      "provider": "openai-chatgpt",
+      "modelId": "gpt-5"
+     },
+     "thinkingLevel": "low"
+    },
+    {
+     "model": {
+      "provider": "anthropic",
+      "modelId": "claude-haiku-4-5"
+     },
+     "thinkingLevel": "high"
+    },
+    {
+     "model": {
+      "provider": "openai-chatgpt",
+      "modelId": "gpt-4.1-mini"
+     },
+     "thinkingLevel": "off"
+    },
+    {
+     "model": {
+      "provider": "faux",
+      "modelId": "faux-1"
+     },
+     "thinkingLevel": "high"
+    }
+   ],
+   "childRequests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-4.1-mini",
+     "auth": "Bearer <chatgpt-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5",
+     "reasoning": {
+      "effort": "high",
+      "summary": "auto"
+     },
+     "auth": "Bearer <chatgpt-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5",
+     "reasoning": {
+      "effort": "low",
+      "summary": "auto"
+     },
+     "auth": "Bearer <chatgpt-token>"
+    },
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "model": "claude-haiku-4-5",
+     "thinking": {
+      "type": "enabled",
+      "budget_tokens": 16384,
+      "display": "summarized"
+     },
+     "auth": "Bearer <claude-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-4.1-mini",
+     "auth": "Bearer <chatgpt-token>"
+    }
+   ],
+   "leaked": false
+  },
+  "claude": {
+   "toolResults": [
+    "ok: same: your model (anthropic/claude-sonnet-4-6)\nfast: a smaller, cheaper model of your provider\nanthropic/claude-fable-5 (Claude Fable 5)\nanthropic/claude-fable-5-1 (Claude Fable 5.1)\nanthropic/claude-haiku-4-5 (Claude Haiku 4.5 (latest))\nanthropic/claude-haiku-4-5-20251001 (Claude Haiku 4.5)\nanthropic/claude-haiku-5-5 (Claude Haiku 5.5)\nanthropic/claude-opus-4-5 (Claude Opus 4.5 (latest))\nanthropic/claude-opus-4-5-20251101 (Claude Opus 4.5)\nanthropic/claude-opus-4-6 (Claude Opus 4.6)\nanthropic/claude-opus-4-7 (Claude Opus 4.7)\nanthropic/claude-opus-4-8 (Claude Opus 4.8)\nanthropic/claude-opus-5 (Claude Opus 5)\nanthropic/claude-opus-5-5 (Claude Opus 5.5)\nanthropic/claude-sonnet-4-5 (Claude Sonnet 4.5 (latest))\nanthropic/claude-sonnet-4-5-20250929 (Claude Sonnet 4.5)\nanthropic/claude-sonnet-4-6 (Claude Sonnet 4.6)\nanthropic/claude-sonnet-5 (Claude Sonnet 5)\nanthropic/claude-sonnet-5-5 (Claude Sonnet 5.5)",
+    "ok: child done\n\n[subagent model: anthropic/claude-haiku-4-5]",
+    "ok: child done\n\n[subagent model: same as main (anthropic/claude-sonnet-4-6)]",
+    "ok: child done\n\n[subagent model: anthropic/claude-opus-5-5]",
+    "error: <harness>\n[error] Sign in to ChatGPT in Settings to use ChatGPT models.\n</harness>",
+    "error: <harness>\n[error] OpenAI API-key models are only available while a reply that uses the key is running.\n</harness>"
+   ],
+   "final": "parent done",
+   "parentAgent": {
+    "model": {
+     "provider": "anthropic",
+     "modelId": "claude-sonnet-4-6"
+    },
+    "thinkingLevel": "off"
+   },
+   "children": [
+    {
+     "model": {
+      "provider": "anthropic",
+      "modelId": "claude-haiku-4-5"
+     },
+     "thinkingLevel": "medium"
+    },
+    {
+     "model": {
+      "provider": "anthropic",
+      "modelId": "claude-sonnet-4-6"
+     },
+     "thinkingLevel": "high"
+    },
+    {
+     "model": {
+      "provider": "anthropic",
+      "modelId": "claude-opus-5-5"
+     },
+     "thinkingLevel": "low"
+    }
+   ],
+   "childRequests": [
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "model": "claude-haiku-4-5",
+     "thinking": {
+      "type": "enabled",
+      "budget_tokens": 8192,
+      "display": "summarized"
+     },
+     "auth": "Bearer <claude-token>"
+    },
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "model": "claude-sonnet-4-6",
+     "thinking": {
+      "type": "adaptive",
+      "display": "summarized"
+     },
+     "auth": "Bearer <claude-token>"
+    },
+    {
+     "url": "https://api.anthropic.com/v1/messages?beta=true",
+     "model": "claude-opus-5-5",
+     "thinking": {
+      "type": "adaptive",
+      "display": "summarized",
+      "block_binding": {
+       "prefix_mismatch_behavior": "drop_block"
+      }
+     },
+     "auth": "Bearer <claude-token>"
+    }
+   ],
+   "leaked": false
+  },
+  "openai": {
+   "toolResults": [
+    "ok: same: your model (openai/gpt-5)\nfast: a smaller, cheaper model of your provider\nopenai/gpt-4 (GPT-4)\nopenai/gpt-4-turbo (GPT-4 Turbo)\nopenai/gpt-4.1 (GPT-4.1)\nopenai/gpt-4.1-mini (GPT-4.1 mini)\nopenai/gpt-4.1-nano (GPT-4.1 nano)\nopenai/gpt-4o (GPT-4o)\nopenai/gpt-4o-2024-05-13 (GPT-4o (2024-05-13))\nopenai/gpt-4o-2024-08-06 (GPT-4o (2024-08-06))\nopenai/gpt-4o-2024-11-20 (GPT-4o (2024-11-20))\nopenai/gpt-4o-mini (GPT-4o mini)\nopenai/gpt-5 (GPT-5)\nopenai/gpt-5-chat-latest (GPT-5 Chat Latest)\nopenai/gpt-5-mini (GPT-5 Mini)\nopenai/gpt-5-nano (GPT-5 Nano)\nopenai/gpt-5-pro (GPT-5 Pro)\nopenai/gpt-5.1 (GPT-5.1)\nopenai/gpt-5.2 (GPT-5.2)\nopenai/gpt-5.2-chat-latest (GPT-5.2 Chat)\nopenai/gpt-5.2-pro (GPT-5.2 Pro)\nopenai/gpt-5.3-chat-latest (GPT-5.3 Chat (latest))\nopenai/gpt-5.3-codex (GPT-5.3 Codex)\nopenai/gpt-5.3-codex-spark (GPT-5.3 Codex Spark)\nopenai/gpt-5.4 (GPT-5.4)\nopenai/gpt-5.4-mini (GPT-5.4 mini)\nopenai/gpt-5.4-nano (GPT-5.4 nano)\nopenai/gpt-5.4-pro (GPT-5.4 Pro)\nopenai/gpt-5.5 (GPT-5.5)\nopenai/gpt-5.5-pro (GPT-5.5 Pro)\nopenai/gpt-5.6-luna (GPT-5.6 Luna)\nopenai/gpt-5.6-sol (GPT-5.6 Sol)\nopenai/gpt-5.6-terra (GPT-5.6 Terra)\nopenai/gpt-6-astra (GPT-6 Astra)\nopenai/gpt-6-luna (GPT-6 Luna)\nopenai/gpt-6-sol (GPT-6 Sol)\nopenai/gpt-6.1-sol (GPT-6.1 Sol)\nopenai/gpt-daybreak-blue-latest (Daybreak Blue)\nopenai/gpt-daybreak-red-latest (Daybreak Red)\nopenai/gpt-realtime-2.1 (GPT-Realtime-2.1)\nopenai/o1\nopenai/o1-pro\nopenai/o3\nopenai/o3-mini\nopenai/o3-pro\nopenai/o4-mini",
+    "ok: child done\n\n[subagent model: openai/gpt-4.1-mini]",
+    "ok: child done\n\n[subagent model: same as main (openai/gpt-5)]",
+    "ok: child done\n\n[subagent model: openai/gpt-5]",
+    "ok: child done\n\n[subagent model: openai/gpt-5-pro]",
+    "ok: child done\n\n[subagent model: same as main (openai/gpt-5)]",
+    "error: <harness>\n[error] Sign in to Claude in Settings to use Claude models.\n</harness>"
+   ],
+   "final": "parent done",
+   "parentAgent": {
+    "model": {
+     "provider": "openai",
+     "modelId": "gpt-5"
+    },
+    "thinkingLevel": "medium"
+   },
+   "children": [
+    {
+     "model": {
+      "provider": "openai",
+      "modelId": "gpt-4.1-mini"
+     },
+     "thinkingLevel": "off"
+    },
+    {
+     "model": {
+      "provider": "openai",
+      "modelId": "gpt-5"
+     },
+     "thinkingLevel": "low"
+    },
+    {
+     "model": {
+      "provider": "openai",
+      "modelId": "gpt-5"
+     },
+     "thinkingLevel": "minimal"
+    },
+    {
+     "model": {
+      "provider": "openai",
+      "modelId": "gpt-5-pro"
+     },
+     "thinkingLevel": "high"
+    },
+    {
+     "model": {
+      "provider": "openai",
+      "modelId": "gpt-5"
+     },
+     "thinkingLevel": "minimal"
+    }
+   ],
+   "childRequests": [
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-4.1-mini",
+     "auth": "Bearer <openai-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5",
+     "reasoning": {
+      "effort": "low",
+      "summary": "auto"
+     },
+     "auth": "Bearer <openai-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5",
+     "reasoning": {
+      "effort": "minimal",
+      "summary": "auto"
+     },
+     "auth": "Bearer <openai-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5-pro",
+     "reasoning": {
+      "effort": "high",
+      "summary": "auto"
+     },
+     "auth": "Bearer <openai-token>"
+    },
+    {
+     "url": "https://api.openai.com/v1/responses",
+     "model": "gpt-5",
+     "reasoning": {
+      "effort": "minimal",
+      "summary": "auto"
+     },
+     "auth": "Bearer <openai-token>"
+    }
+   ],
+   "leaked": false
+  }
+ },
+ "recovery": {
+  "chatgpt": {
+   "reopened": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "low",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": "low"
+    },
+    "paused": true,
+    "recoveryProviders": [
+     "chatgpt"
+    ],
+    "requests": 0
+   },
+   "released": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "low",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": "low"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.openai.com/v1/responses",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "authorization",
+     "content-type",
+     "session_id",
+     "user-agent",
+     "x-client-request-id",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version"
+    ],
+    "values": {
+     "accept": "application/json",
+     "authorization": "Bearer <chatgpt-token>",
+     "content-type": "application/json"
+    },
+    "body": {
+     "include": [
+      "reasoning.encrypted_content"
+     ],
+     "input": [
+      "developer:text",
+      "user:input_text"
+     ],
+     "model": "gpt-5",
+     "prompt_cache_key": "<string>",
+     "reasoning": {
+      "effort": "low",
+      "summary": "auto"
+     },
+     "store": false,
+     "stream": true,
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ]
+  },
+  "claude": {
+   "reopened": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": true,
+    "recoveryProviders": [
+     "claude"
+    ],
+    "requests": 0
+   },
+   "released": {
+    "mode": "claude",
+    "modelId": "claude-sonnet-4-6",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.anthropic.com/v1/messages?beta=true",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "anthropic-beta",
+     "anthropic-dangerous-direct-browser-access",
+     "anthropic-version",
+     "authorization",
+     "content-type",
+     "user-agent",
+     "x-app",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version",
+     "x-stainless-timeout"
+    ],
+    "values": {
+     "accept": "application/json",
+     "anthropic-beta": "claude-code-20250219,oauth-2025-04-20",
+     "anthropic-dangerous-direct-browser-access": "true",
+     "anthropic-version": "2023-06-01",
+     "authorization": "Bearer <claude-token>",
+     "content-type": "application/json",
+     "x-app": "cli"
+    },
+    "body": {
+     "max_tokens": 128000,
+     "messages": [
+      "user:text"
+     ],
+     "model": "claude-sonnet-4-6",
+     "stream": true,
+     "system": [
+      "You are Claude Code, Anthropic's official CLI for Claude.",
+      "<prompt cached>"
+     ],
+     "thinking": {
+      "type": "disabled"
+     },
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "anthropic/anthropic-messages/claude-sonnet-4-6"
+   ]
+  },
+  "openai": {
+   "reopened": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-4.1-mini",
+     "thinkingEffort": ""
+    },
+    "paused": true,
+    "recoveryProviders": [
+     "openai"
+    ],
+    "requests": 0
+   },
+   "resumeOffline": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-4.1-mini",
+     "thinkingEffort": ""
+    },
+    "paused": true,
+    "recoveryProviders": [
+     "openai"
+    ],
+    "requests": 0
+   },
+   "resumeWithoutKey": "Enter your OpenAI API key to start.",
+   "released": {
+    "mode": "openai",
+    "modelId": "gpt-4.1-mini",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "openai",
+     "modelId": "gpt-4.1-mini",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.openai.com/v1/responses",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "authorization",
+     "content-type",
+     "session_id",
+     "user-agent",
+     "x-client-request-id",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version"
+    ],
+    "values": {
+     "accept": "application/json",
+     "authorization": "Bearer <openai-token>",
+     "content-type": "application/json"
+    },
+    "body": {
+     "input": [
+      "system:text",
+      "user:input_text"
+     ],
+     "max_output_tokens": 32768,
+     "model": "gpt-4.1-mini",
+     "prompt_cache_key": "<string>",
+     "store": false,
+     "stream": true,
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "openai/openai-responses/gpt-4.1-mini"
+   ]
+  },
+  "chatgptAccountModel": {
+   "reopened": {
+    "mode": "chatgpt",
+    "modelId": "gpt-account-only",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-account-only",
+     "thinkingEffort": ""
+    },
+    "paused": true,
+    "recoveryProviders": [
+     "chatgpt"
+    ],
+    "requests": 0
+   },
+   "released": {
+    "mode": "chatgpt",
+    "modelId": "gpt-account-only",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-account-only",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.openai.com/v1/responses",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "authorization",
+     "content-type",
+     "session_id",
+     "user-agent",
+     "x-client-request-id",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version"
+    ],
+    "values": {
+     "accept": "application/json",
+     "authorization": "Bearer <chatgpt-token>",
+     "content-type": "application/json"
+    },
+    "body": {
+     "input": [
+      "system:text",
+      "user:input_text"
+     ],
+     "model": "gpt-account-only",
+     "prompt_cache_key": "<string>",
+     "store": false,
+     "stream": true,
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "openai/openai-responses/gpt-account-only"
+   ]
+  },
+  "chatgptSignedIn": {
+   "reopened": {
+    "mode": "chatgpt",
+    "modelId": "gpt-5",
+    "thinkingEffort": "minimal",
+    "modelSettings": {
+     "mode": "chatgpt",
+     "modelId": "gpt-5",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.openai.com/v1/responses",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "authorization",
+     "content-type",
+     "session_id",
+     "user-agent",
+     "x-client-request-id",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version"
+    ],
+    "values": {
+     "accept": "application/json",
+     "authorization": "Bearer <chatgpt-token>",
+     "content-type": "application/json"
+    },
+    "body": {
+     "include": [
+      "reasoning.encrypted_content"
+     ],
+     "input": [
+      "developer:text",
+      "user:input_text"
+     ],
+     "model": "gpt-5",
+     "prompt_cache_key": "<string>",
+     "reasoning": {
+      "effort": "minimal",
+      "summary": "auto"
+     },
+     "store": false,
+     "stream": true,
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "openai/openai-responses/gpt-5"
+   ]
+  },
+  "claudeSignedIn": {
+   "reopened": {
+    "mode": "claude",
+    "modelId": "claude-haiku-4-5",
+    "thinkingEffort": "low",
+    "modelSettings": {
+     "mode": "claude",
+     "modelId": "claude-haiku-4-5",
+     "thinkingEffort": "low"
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: Interrupted reply.",
+    "assistant: Recovered reply."
+   ],
+   "request": {
+    "url": "https://api.anthropic.com/v1/messages?beta=true",
+    "method": "POST",
+    "headers": [
+     "accept",
+     "anthropic-beta",
+     "anthropic-dangerous-direct-browser-access",
+     "anthropic-version",
+     "authorization",
+     "content-type",
+     "user-agent",
+     "x-app",
+     "x-stainless-arch",
+     "x-stainless-lang",
+     "x-stainless-os",
+     "x-stainless-package-version",
+     "x-stainless-retry-count",
+     "x-stainless-runtime",
+     "x-stainless-runtime-version",
+     "x-stainless-timeout"
+    ],
+    "values": {
+     "accept": "application/json",
+     "anthropic-beta": "claude-code-20250219,oauth-2025-04-20,interleaved-thinking-2025-05-14",
+     "anthropic-dangerous-direct-browser-access": "true",
+     "anthropic-version": "2023-06-01",
+     "authorization": "Bearer <claude-token>",
+     "content-type": "application/json",
+     "x-app": "cli"
+    },
+    "body": {
+     "max_tokens": 64000,
+     "messages": [
+      "user:text"
+     ],
+     "model": "claude-haiku-4-5",
+     "stream": true,
+     "system": [
+      "You are Claude Code, Anthropic's official CLI for Claude.",
+      "<prompt cached>"
+     ],
+     "thinking": {
+      "type": "enabled",
+      "budget_tokens": 2048,
+      "display": "summarized"
+     },
+     "tools": [
+      "workspace_read",
+      "workspace_write",
+      "workspace_list"
+     ]
+    }
+   },
+   "assistant": [
+    "anthropic/anthropic-messages/claude-haiku-4-5"
+   ]
+  }
+ },
+ "offlineDemo": {
+  "offline": {
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello demo",
+    "tool:workspace_write: Saved demo-note.txt",
+    "tool:workspace_read: hello demo",
+    "assistant: I saved your message to demo-note.txt and read it back:\n\nhello demo\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+   ]
+  },
+  "native": {
+   "snapshot": {
+    "mode": "offline",
+    "modelId": "faux-1",
+    "thinkingEffort": "off",
+    "modelSettings": {
+     "mode": "offline",
+     "modelId": "faux-1",
+     "thinkingEffort": ""
+    },
+    "paused": false,
+    "recoveryProviders": []
+   },
+   "messages": [
+    "user: hello demo",
+    "tool:write: Successfully wrote to demo-note.txt",
+    "tool:read: hello demo",
+    "assistant: I saved your message to demo-note.txt and read it back:\n\nhello demo\n\nThis is a scripted offline demo. The agent loop, file tools and conversation storage are real."
+   ]
+  }
+ },
+ "modelError": {
+  "ok": {
+   "status": 200,
+   "passthrough": true,
+   "contentType": "text/plain",
+   "leaked": false
+  },
+  "openai401": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (401). Incorrect API key provided: [redacted]. (invalid_request_error; invalid_api_key)",
+     "type": "invalid_request_error",
+     "code": "invalid_api_key"
+    }
+   },
+   "leaked": false
+  },
+  "chatgpt429": {
+   "status": 429,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "ChatGPT request failed (429). You exceeded your current quota. (insufficient_quota)",
+     "type": "insufficient_quota"
+    }
+   },
+   "leaked": false
+  },
+  "claude400": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Claude request failed (400). max_tokens: too large (invalid_request_error)",
+     "type": "invalid_request_error"
+    }
+   },
+   "leaked": false
+  },
+  "claudeApiKeyHeader": {
+   "status": 403,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Claude request failed (403). key [redacted] is not allowed (permission_error)",
+     "type": "permission_error"
+    }
+   },
+   "leaked": false
+  },
+  "unknownLabel": {
+   "status": 500,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Model request failed (500). Server exploded. (server_error)",
+     "code": "server_error"
+    }
+   },
+   "leaked": false
+  },
+  "noLabel": {
+   "status": 502,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Model request failed (502). Bad gateway."
+    }
+   },
+   "leaked": false
+  },
+  "nonJson": {
+   "status": 503,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (503). Check your API key, model access and account limits."
+    }
+   },
+   "leaked": false
+  },
+  "noContentType": {
+   "status": 500,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "ChatGPT request failed (500). Check your sign-in, model access and account limits."
+    }
+   },
+   "leaked": false
+  },
+  "invalidJson": {
+   "status": 500,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Claude request failed (500). Check your sign-in, model access and account limits."
+    }
+   },
+   "leaked": false
+  },
+  "errorNotObject": {
+   "status": 500,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (500). Check your API key, model access and account limits."
+    }
+   },
+   "leaked": false
+  },
+  "tooLarge": {
+   "status": 500,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (500). Check your API key, model access and account limits."
+    }
+   },
+   "leaked": false
+  },
+  "longMessage": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (400). Long word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word word …"
+    }
+   },
+   "leaked": false
+  },
+  "overLimitMessage": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "type": "t",
+     "message": "OpenAI request failed (400). (t)"
+    }
+   },
+   "leaked": false
+  },
+  "skPattern": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (401). Bad key [redacted] and [redacted]."
+    }
+   },
+   "leaked": false
+  },
+  "jwtPattern": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "ChatGPT request failed (401). Token [redacted] expired."
+    }
+   },
+   "leaked": false
+  },
+  "bearerPattern": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Claude request failed (401). Header Authorization: Bearer [redacted] rejected."
+    }
+   },
+   "leaked": false
+  },
+  "escapedSecret": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (401). Escaped [redacted] and [redacted]."
+    }
+   },
+   "leaked": false
+  },
+  "maskedSecret": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (401). Key [redacted] and [redacted] were rejected."
+    }
+   },
+   "leaked": false
+  },
+  "fragment": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (401). Part [redacted] leaked."
+    }
+   },
+   "leaked": false
+  },
+  "requestInput": {
+   "status": 401,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "Claude request failed (401). Bad [redacted]"
+    }
+   },
+   "leaked": false
+  },
+  "controlChars": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (400). Line one linetwo tabs (badcode)",
+     "code": "badcode"
+    }
+   },
+   "leaked": false
+  },
+  "notModified": {
+   "status": 304,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": null,
+   "leaked": false
+  },
+  "typeTooLong": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (400). Fine. (same)",
+     "code": "same"
+    }
+   },
+   "leaked": false
+  },
+  "typeEqualsCode": {
+   "status": 400,
+   "passthrough": false,
+   "contentType": "application/json",
+   "body": {
+    "error": {
+     "message": "OpenAI request failed (400). Dup. (same)",
+     "type": "same",
+     "code": "same"
+    }
+   },
+   "leaked": false
+  }
+ }
+}

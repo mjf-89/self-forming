@@ -1,0 +1,6 @@
+70f7e968a8fe1e5b4c30b8df1f140f6123f23e91572a06833bce5527791c3613  self-forming/third-party/webtor-rs/fixtures/consensus.txt.br
+c7a87d953c8af1623a07dba30cbd5c0ed800ff077d386be80e0415d7ca9441e2  self-forming/third-party/webtor-rs/fixtures/selection-consensus.txt.br
+0d1f364adfef42819c565ddf0963a2cd39e2cd79b92e3a856db0abbecef7610c  self-forming/third-party/webtor-rs/fixtures/selection-manifest.json
+ccf61cac783ac24cd03f7a4e43d9d1dd759bcaf6f81fc35497f2a239ae611bd8  self-forming/third-party/webtor-rs/fixtures/selection-microdescriptors.txt.br
+7d5442a5624f5be7a2553bfc762a3528ede4ef6e6b24b2d85c1bbd0e9e6d061d  self-forming/third-party/webtor-rs/fixtures/snapshot-manifest.json
+9c2b1e843735b129fada4f213b276c178cac2c09ddfa05c086003dfd45e3f641  self-forming/third-party/webtor-rs/fixtures/unpinned-authcert.txt

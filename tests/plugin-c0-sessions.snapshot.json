@@ -1,0 +1,951 @@
+{
+  "contract": "agent.sessions@1",
+  "steps": [
+    {
+      "action": "open",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Main",
+          "isMain": true,
+          "draft": ""
+        }
+      ]
+    },
+    {
+      "action": "setDraft",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Main",
+        "isMain": true,
+        "draft": "a draft",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Main",
+          "isMain": true,
+          "draft": "a draft"
+        }
+      ]
+    },
+    {
+      "action": "addAttachments",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Main",
+        "isMain": true,
+        "draft": "a draft",
+        "attachments": [
+          {
+            "keys": [
+              "id",
+              "kind",
+              "mimeType",
+              "name",
+              "path",
+              "size"
+            ],
+            "name": "note.txt",
+            "mimeType": "text/plain"
+          }
+        ]
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Main",
+          "isMain": true,
+          "draft": "a draft"
+        }
+      ]
+    },
+    {
+      "action": "removeAttachment",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Main",
+        "isMain": true,
+        "draft": "a draft",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Main",
+          "isMain": true,
+          "draft": "a draft"
+        }
+      ]
+    },
+    {
+      "action": "send",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Main",
+          "isMain": true,
+          "draft": ""
+        }
+      ]
+    },
+    {
+      "action": "renameConversation",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Renamed main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Renamed main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        }
+      ]
+    },
+    {
+      "action": "forkThread",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "fork",
+      "title": "Thread 1",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c1",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "parentId",
+          "title"
+        ],
+        "title": "Thread 1",
+        "isMain": false,
+        "draft": "",
+        "parentId": "c0",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        },
+        {
+          "id": "c1",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "parentId",
+            "title"
+          ],
+          "title": "Thread 1",
+          "isMain": false,
+          "draft": "",
+          "parentId": "c0"
+        }
+      ]
+    },
+    {
+      "action": "newThread",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "thread",
+      "title": "Conversation 3",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [],
+      "conversation": {
+        "id": "c2",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Conversation 3",
+        "isMain": false,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        },
+        {
+          "id": "c1",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "parentId",
+            "title"
+          ],
+          "title": "Thread 1",
+          "isMain": false,
+          "draft": "",
+          "parentId": "c0"
+        },
+        {
+          "id": "c2",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Conversation 3",
+          "isMain": false,
+          "draft": ""
+        }
+      ]
+    },
+    {
+      "action": "archiveConversation",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Renamed main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Renamed main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        },
+        {
+          "id": "c1",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "parentId",
+            "title"
+          ],
+          "title": "Thread 1",
+          "isMain": false,
+          "draft": "",
+          "parentId": "c0"
+        },
+        {
+          "id": "c2",
+          "keys": [
+            "archived",
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Conversation 3",
+          "isMain": false,
+          "draft": "",
+          "archived": true
+        }
+      ]
+    },
+    {
+      "action": "unarchiveConversation",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Renamed main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Renamed main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        },
+        {
+          "id": "c1",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "parentId",
+            "title"
+          ],
+          "title": "Thread 1",
+          "isMain": false,
+          "draft": "",
+          "parentId": "c0"
+        },
+        {
+          "id": "c2",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Conversation 3",
+          "isMain": false,
+          "draft": ""
+        }
+      ]
+    },
+    {
+      "action": "switchConversation",
+      "keys": [
+        "anyBusy",
+        "busy",
+        "conversation",
+        "kind",
+        "loadingHistory",
+        "messages",
+        "mode",
+        "modelId",
+        "modelSettings",
+        "owned",
+        "paused",
+        "persistence",
+        "recoveryProviders",
+        "thinkingEffort",
+        "threads",
+        "title",
+        "truncated"
+      ],
+      "busy": false,
+      "paused": false,
+      "owned": false,
+      "kind": "main",
+      "title": "Renamed main",
+      "persistence": "memory",
+      "mode": "offline",
+      "modelId": "faux-1",
+      "thinkingEffort": "off",
+      "modelSettings": {
+        "mode": "offline",
+        "modelId": "faux-1",
+        "thinkingEffort": ""
+      },
+      "roles": [
+        "user",
+        "tool",
+        "tool",
+        "assistant"
+      ],
+      "conversation": {
+        "id": "c0",
+        "keys": [
+          "attachments",
+          "draft",
+          "id",
+          "isMain",
+          "title"
+        ],
+        "title": "Renamed main",
+        "isMain": true,
+        "draft": "",
+        "attachments": []
+      },
+      "threads": [
+        {
+          "id": "c0",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Renamed main",
+          "isMain": true,
+          "draft": ""
+        },
+        {
+          "id": "c1",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "parentId",
+            "title"
+          ],
+          "title": "Thread 1",
+          "isMain": false,
+          "draft": "",
+          "parentId": "c0"
+        },
+        {
+          "id": "c2",
+          "keys": [
+            "draft",
+            "id",
+            "isMain",
+            "title"
+          ],
+          "title": "Conversation 3",
+          "isMain": false,
+          "draft": ""
+        }
+      ]
+    }
+  ],
+  "tree": [
+    {
+      "keys": [
+        "archived",
+        "busy",
+        "empty",
+        "id",
+        "kind",
+        "model",
+        "parentId",
+        "selected",
+        "title"
+      ],
+      "id": "c0",
+      "kind": "main",
+      "title": "Renamed main",
+      "busy": false,
+      "selected": true,
+      "archived": false,
+      "empty": false,
+      "model": "faux/faux-1"
+    },
+    {
+      "keys": [
+        "archived",
+        "busy",
+        "empty",
+        "id",
+        "kind",
+        "model",
+        "parentId",
+        "selected",
+        "title"
+      ],
+      "id": "c1",
+      "parentId": "c0",
+      "kind": "fork",
+      "title": "Thread 1",
+      "busy": false,
+      "selected": false,
+      "archived": false,
+      "empty": false,
+      "model": "faux/faux-1"
+    },
+    {
+      "keys": [
+        "archived",
+        "busy",
+        "empty",
+        "id",
+        "kind",
+        "model",
+        "parentId",
+        "selected",
+        "title"
+      ],
+      "id": "c2",
+      "kind": "thread",
+      "title": "Conversation 3",
+      "busy": false,
+      "selected": false,
+      "archived": false,
+      "empty": true,
+      "model": "faux/faux-1"
+    }
+  ]
+}

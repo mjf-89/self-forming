@@ -1,0 +1,7 @@
+/* core-providers-chatgpt: the ChatGPT account panel in Settings.
+   Moved verbatim from the former single app.css (T2); loaded after app.css (builtin-styles.css, bundled; also the plugin's `styles` contribution). */
+
+#chatgpt-settings { grid-template-columns: minmax(0, 1fr) auto; align-items: end; }
+@media (max-width: 380px) {
+  #chatgpt-settings { grid-template-columns: minmax(0, 1fr); }
+}

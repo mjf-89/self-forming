@@ -1,0 +1,13 @@
+{
+  "id": "core-git",
+  "name": "Browser Git",
+  "version": "1.0.0",
+  "api": 1,
+  "web": { "entry": "web/index.js" },
+  "reload": "page",
+  "builtin": true,
+  "bundle": "self-forming-core",
+  "provides": [{ "id": "git", "version": 1, "default": true }],
+  "requires": [],
+  "uses": [{ "id": "net.fetch", "version": 1 }]
+}

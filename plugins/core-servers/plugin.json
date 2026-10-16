@@ -1,0 +1,25 @@
+{
+  "id": "core-servers",
+  "name": "Background servers",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": true,
+  "bundle": "self-forming-tools",
+  "provides": [
+    {
+      "id": "servers",
+      "version": 1
+    },
+    {
+      "id": "servers.engine",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": []
+}

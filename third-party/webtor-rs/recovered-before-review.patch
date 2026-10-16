@@ -1,0 +1,774 @@
+diff --git a/Cargo.lock b/Cargo.lock
+index 245c98e..17694f1 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -2852,6 +2852,7 @@ version = "1.13.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "708c0f9d5f54ba0272468c1d306a52c495b31fa155e91bc25371e6df7996908c"
+ dependencies = [
++ "web-time",
+  "zeroize",
+ ]
+ 
+@@ -4771,10 +4772,14 @@ dependencies = [
+  "anyhow",
+  "console_error_panic_hook",
+  "futures",
++ "futures-rustls",
+  "getrandom 0.2.16",
+  "gloo-console",
+  "http",
+  "js-sys",
++ "ring",
++ "rustls",
++ "rustls-pki-types",
+  "serde",
+  "serde-wasm-bindgen",
+  "serde_json",
+@@ -4786,6 +4791,7 @@ dependencies = [
+  "wasm-bindgen-futures",
+  "wasm-bindgen-test",
+  "web-sys",
++ "webpki-roots 1.0.4",
+  "webtor",
+ ]
+ 
+diff --git a/webtor-wasm/Cargo.toml b/webtor-wasm/Cargo.toml
+index ecffae0..4872f74 100644
+--- a/webtor-wasm/Cargo.toml
++++ b/webtor-wasm/Cargo.toml
+@@ -43,6 +43,16 @@ getrandom = { workspace = true }
+ serde = { workspace = true }
+ serde_json = "1.0"
+ 
++# TLS for TorStream (connectTls): rustls + webpki path validation + Mozilla roots,
++# ring crypto (compiled for wasm32 with clang).
++rustls = { version = "0.23", default-features = false, features = ["ring", "std"] }
++futures-rustls = { version = "0.26", default-features = false, features = ["ring"] }
++webpki-roots = "1"
++# ring needs this feature to get randomness from crypto.getRandomValues on wasm32-unknown-unknown
++ring = { version = "0.17", features = ["wasm32_unknown_unknown_js"] }
++# rustls (std) calls UnixTime::now(); the "web" feature implements it with Date.now()
++rustls-pki-types = { version = "1", features = ["web"] }
++
+ [dev-dependencies]
+ wasm-bindgen-test = { workspace = true }
+ 
+diff --git a/webtor-wasm/src/lib.rs b/webtor-wasm/src/lib.rs
+index db7be19..dc0a38d 100644
+--- a/webtor-wasm/src/lib.rs
++++ b/webtor-wasm/src/lib.rs
+@@ -1,12 +1,17 @@
+ //! WebAssembly bindings for webtor
+ 
++use futures::future::{AbortHandle, Abortable};
++use futures::io::{AsyncReadExt, AsyncWriteExt};
+ use gloo_console::{error as console_error, log as console_log, warn as console_warn};
+-use std::cell::RefCell;
++use std::cell::{Cell, RefCell};
++use std::rc::Rc;
+ use std::sync::Arc;
+ use std::time::Duration;
+ use wasm_bindgen::prelude::*;
+ use wasm_bindgen_futures::future_to_promise;
+-use webtor::{TorClient as NativeTorClient, TorClientOptions as NativeTorClientOptions, TorError};
++use webtor::{
++    DataStream, TorClient as NativeTorClient, TorClientOptions as NativeTorClientOptions, TorError,
++};
+ 
+ /// Structured error for JavaScript consumption
+ /// Provides machine-readable error classification for UX and retry decisions
+@@ -210,6 +215,14 @@ impl TorClientOptions {
+         self.inner = self.inner.with_bridge_fingerprint(fingerprint);
+         self
+     }
++
++    /// Base URL serving consensus.txt.br and microdescriptors.txt.br.
++    /// Relative URLs are resolved by fetch() against the page URL.
++    #[wasm_bindgen(js_name = withConsensusBaseUrl)]
++    pub fn with_consensus_base_url(mut self, url: String) -> Self {
++        self.inner = self.inner.with_consensus_base_url(url);
++        self
++    }
+ }
+ 
+ /// JavaScript-friendly TorClient
+@@ -423,6 +436,52 @@ impl TorClient {
+         })
+     }
+ 
++    /// Open a raw TCP stream to `host:port` through a Tor exit.
++    /// `timeout_ms` defaults to the circuit timeout.
++    #[wasm_bindgen(js_name = connect, unchecked_return_type = "Promise<TorStream>")]
++    pub fn connect(&self, host: String, port: u16, timeout_ms: Option<u32>) -> js_sys::Promise {
++        let client = self.inner.clone();
++        future_to_promise(async move {
++            let client = client.ok_or_else(|| JsTorError::not_initialized().into_js_value())?;
++            let timeout = timeout_ms.map(|ms| Duration::from_millis(ms as u64));
++            let stream = client
++                .connect_stream(&host, port, timeout)
++                .await
++                .map_err(tor_error_to_js)?;
++            Ok(JsValue::from(TorStream::new(stream)))
++        })
++    }
++
++    /// Like `connect`, then TLS 1.3 with SNI = `host` and full certificate
++    /// validation (rustls/webpki, Mozilla roots). Rejects on any TLS failure;
++    /// there is no fallback to older TLS versions.
++    #[wasm_bindgen(js_name = connectTls, unchecked_return_type = "Promise<TorStream>")]
++    pub fn connect_tls(&self, host: String, port: u16, timeout_ms: Option<u32>) -> js_sys::Promise {
++        let client = self.inner.clone();
++        future_to_promise(async move {
++            let client = client.ok_or_else(|| JsTorError::not_initialized().into_js_value())?;
++            let tls_error =
++                |msg: String| JsTorError::from_str("TLS", "tls", &msg, false).into_js_value();
++            let server_name = rustls::pki_types::ServerName::try_from(host.clone())
++                .map_err(|e| tls_error(format!("invalid server name {:?}: {}", host, e)))?;
++            let connector = tls_connector().map_err(|e| tls_error(e.to_string()))?;
++            let timeout = timeout_ms.map(|ms| Duration::from_millis(ms as u64));
++            let stream = client
++                .connect_stream(&host, port, timeout)
++                .await
++                .map_err(tor_error_to_js)?;
++            let handshake = connector.connect(server_name, stream);
++            let tls = webtor::with_timeout(
++                timeout.unwrap_or(Duration::from_secs(60)),
++                "tls_handshake",
++                async { handshake.await.map_err(|e| TorError::tls(e.to_string())) },
++            )
++            .await
++            .map_err(|e| tls_error(format!("TLS handshake with {} failed: {}", host, e)))?;
++            Ok(JsValue::from(TorStream::new(tls)))
++        })
++    }
++
+     /// Make a one-time fetch request (static method)
+     #[wasm_bindgen(js_name = fetchOneTime)]
+     pub fn fetch_one_time(
+@@ -979,3 +1038,147 @@ pub fn get_version_info() -> JsValue {
+     });
+     serde_wasm_bindgen::to_value(&info).unwrap_or(JsValue::NULL)
+ }
++
++// --- Raw streams -----------------------------------------------------------
++
++/// Maximum number of bytes returned by one `TorStream.read()`.
++const READ_CHUNK: usize = 64 * 1024;
++
++type Reader = Box<dyn futures::io::AsyncRead + Unpin>;
++type Writer = Box<dyn futures::io::AsyncWrite + Unpin>;
++
++/// rustls needs a clock; `SystemTime::now()` panics on wasm32-unknown-unknown.
++#[derive(Debug)]
++struct JsClock;
++
++impl rustls::time_provider::TimeProvider for JsClock {
++    fn current_time(&self) -> Option<rustls::pki_types::UnixTime> {
++        let ms = js_sys::Date::now();
++        (ms > 0.0).then(|| {
++            rustls::pki_types::UnixTime::since_unix_epoch(Duration::from_millis(ms as u64))
++        })
++    }
++}
++
++/// TLS 1.3 only (no version fallback), webpki certificate path validation
++/// against the Mozilla root set (webpki-roots), ALPN http/1.1.
++fn tls_connector() -> std::result::Result<futures_rustls::TlsConnector, rustls::Error> {
++    let provider = Arc::new(rustls::crypto::ring::default_provider());
++    let roots = rustls::RootCertStore {
++        roots: webpki_roots::TLS_SERVER_ROOTS.to_vec(),
++    };
++    let mut config = rustls::ClientConfig::builder_with_details(provider, Arc::new(JsClock))
++        .with_protocol_versions(&[&rustls::version::TLS13])?
++        .with_root_certificates(roots)
++        .with_no_client_auth();
++    config.alpn_protocols = vec![b"http/1.1".to_vec()];
++    Ok(futures_rustls::TlsConnector::from(Arc::new(config)))
++}
++
++fn stream_error(message: String) -> JsValue {
++    JsTorError::from_str("STREAM", "network", &message, false).into_js_value()
++}
++
++/// A bidirectional byte stream through a Tor exit.
++///
++/// The read and write halves are locked independently, so a pending `read()`
++/// never blocks `write()`. Call `close()` when done (idempotent).
++#[wasm_bindgen]
++pub struct TorStream {
++    reader: Rc<futures::lock::Mutex<Option<Reader>>>,
++    writer: Rc<futures::lock::Mutex<Option<Writer>>>,
++    /// Cancels the read in progress (used by `close()`).
++    pending_read: Rc<RefCell<Option<AbortHandle>>>,
++    closed: Rc<Cell<bool>>,
++}
++
++impl TorStream {
++    fn new<S>(stream: S) -> Self
++    where
++        S: futures::io::AsyncRead + futures::io::AsyncWrite + Unpin + 'static,
++    {
++        let (reader, writer) = futures::io::AsyncReadExt::split(stream);
++        TorStream {
++            reader: Rc::new(futures::lock::Mutex::new(Some(Box::new(reader) as Reader))),
++            writer: Rc::new(futures::lock::Mutex::new(Some(Box::new(writer) as Writer))),
++            pending_read: Rc::new(RefCell::new(None)),
++            closed: Rc::new(Cell::new(false)),
++        }
++    }
++}
++
++#[wasm_bindgen]
++impl TorStream {
++    /// Write all of `data` and flush it to the circuit.
++    #[wasm_bindgen(unchecked_return_type = "Promise<void>")]
++    pub fn write(&self, data: Vec<u8>) -> js_sys::Promise {
++        let writer = self.writer.clone();
++        future_to_promise(async move {
++            let mut guard = writer.lock().await;
++            let w = guard
++                .as_mut()
++                .ok_or_else(|| stream_error("stream is closed".into()))?;
++            w.write_all(&data)
++                .await
++                .map_err(|e| stream_error(format!("write failed: {}", e)))?;
++            w.flush()
++                .await
++                .map_err(|e| stream_error(format!("flush failed: {}", e)))?;
++            Ok(JsValue::UNDEFINED)
++        })
++    }
++
++    /// Next available chunk (at most 64 KiB), or `undefined` at EOF / after close.
++    #[wasm_bindgen(unchecked_return_type = "Promise<Uint8Array | undefined>")]
++    pub fn read(&self) -> js_sys::Promise {
++        let reader = self.reader.clone();
++        let pending_read = self.pending_read.clone();
++        let closed = self.closed.clone();
++        future_to_promise(async move {
++            let mut guard = reader.lock().await;
++            let Some(r) = guard.as_mut() else {
++                return Ok(JsValue::UNDEFINED);
++            };
++            if closed.get() {
++                *guard = None;
++                return Ok(JsValue::UNDEFINED);
++            }
++            let (abort, registration) = AbortHandle::new_pair();
++            *pending_read.borrow_mut() = Some(abort);
++            let mut buf = vec![0u8; READ_CHUNK];
++            let result = Abortable::new(r.read(&mut buf), registration).await;
++            pending_read.borrow_mut().take();
++            match result {
++                Ok(Ok(n)) if n > 0 => Ok(js_sys::Uint8Array::from(&buf[..n]).into()),
++                Ok(Ok(_)) | Err(_) => {
++                    // EOF, or aborted by close()
++                    *guard = None;
++                    Ok(JsValue::UNDEFINED)
++                }
++                Ok(Err(e)) => Err(stream_error(format!("read failed: {}", e))),
++            }
++        })
++    }
++
++    /// Close the stream (idempotent). A pending `read()` resolves `undefined`.
++    #[wasm_bindgen(unchecked_return_type = "Promise<void>")]
++    pub fn close(&self) -> js_sys::Promise {
++        let reader = self.reader.clone();
++        let writer = self.writer.clone();
++        let pending_read = self.pending_read.clone();
++        let closed = self.closed.clone();
++        future_to_promise(async move {
++            if closed.replace(true) {
++                return Ok(JsValue::UNDEFINED);
++            }
++            if let Some(abort) = pending_read.borrow_mut().take() {
++                abort.abort();
++            }
++            // Dropping both halves drops the DataStream, which ends the Tor stream.
++            let writer = writer.lock().await.take();
++            drop(writer);
++            reader.lock().await.take();
++            Ok(JsValue::UNDEFINED)
++        })
++    }
++}
+diff --git a/webtor/src/client.rs b/webtor/src/client.rs
+index 0781cb1..c8ca0be 100644
+--- a/webtor/src/client.rs
++++ b/webtor/src/client.rs
+@@ -1,12 +1,16 @@
+ //! Main Tor client implementation
+ 
+-use crate::circuit::{CircuitManager, CircuitStatusInfo};
+-use crate::config::{BridgeType, LogType, TorClientOptions, SNOWFLAKE_FINGERPRINT_PRIMARY};
++use crate::circuit::{CircuitManager, CircuitStatus, CircuitStatusInfo};
++use crate::config::{
++    BridgeType, LogType, TorClientOptions, CIRCUIT_PREBUILD_AGE_THRESHOLD_MS, MAX_CIRCUITS,
++    SNOWFLAKE_FINGERPRINT_PRIMARY,
++};
+ use crate::directory::DirectoryManager;
+ use crate::error::{Result, TorError};
+ use crate::http::{HttpRequest, HttpResponse, TorHttpClient};
++use crate::isolation::IsolationKey;
+ use crate::relay::RelayManager;
+-use crate::retry::{with_timeout_and_cancellation, CancellationToken};
++use crate::retry::{with_timeout, with_timeout_and_cancellation, CancellationToken};
+ #[cfg(target_arch = "wasm32")]
+ use crate::snowflake::{SnowflakeBridge, SnowflakeConfig};
+ #[cfg(target_arch = "wasm32")]
+@@ -23,6 +27,7 @@ use tor_linkspec::OwnedChanTargetBuilder;
+ use tor_llcrypto::pk::rsa::RsaIdentity;
+ use tor_memquota::MemoryQuotaTracker;
+ use tor_proto::channel::ChannelBuilder;
++use tor_proto::client::stream::DataStream;
+ use tor_proto::memquota::{ChannelAccount, SpecificAccount};
+ use tracing::{debug, error, info, warn};
+ use url::Url;
+@@ -61,7 +66,10 @@ impl TorClient {
+         // Load cached consensus to populate relay manager
+         // This is essential for WASM where we need relays before we can fetch fresh consensus
+         info!("Loading cached consensus...");
+-        if let Err(e) = directory_manager.load_cached_consensus().await {
++        if let Err(e) = directory_manager
++            .load_cached_consensus(options.consensus_base_url.as_deref())
++            .await
++        {
+             error!("Failed to load cached consensus: {}", e);
+             return Err(e);
+         }
+@@ -210,6 +218,63 @@ impl TorClient {
+         self.http_client.request(request).await
+     }
+ 
++    /// Open a raw TCP stream to `host:port` through a Tor exit (RELAY_BEGIN).
++    ///
++    /// The circuit is chosen like for HTTP requests: by the client's stream
++    /// isolation policy, keyed on `host`. No webtor lock is held once this
++    /// returns, so many streams can be open and idle at the same time.
++    /// `timeout` defaults to the configured circuit timeout.
++    pub async fn connect_stream(
++        &self,
++        host: &str,
++        port: u16,
++        timeout: Option<Duration>,
++    ) -> Result<DataStream> {
++        let timeout = timeout.unwrap_or_else(|| self.options.circuit_timeout_duration());
++        with_timeout_and_cancellation(timeout, "connect_stream", &self.shutdown_token, async {
++            // Isolation key derived as for an http URL to the same host and port.
++            let key_url = if host.contains(':') && !host.starts_with('[') {
++                Url::parse(&format!("http://[{}]:{}/", host, port))?
++            } else {
++                Url::parse(&format!("http://{}:{}/", host, port))?
++            };
++            let isolation_key = IsolationKey::from_url(&key_url, self.options.stream_isolation);
++
++            let circuit_manager = self.circuit_manager.read().await;
++            // A bad exit (unreachable, DNS failure) would otherwise stay bound to
++            // this isolation key: on failure mark the circuit failed and retry
++            // once on a fresh circuit. Each attempt gets half of the budget.
++            let mut attempt = 0;
++            let stream = loop {
++                attempt += 1;
++                let circuit = circuit_manager
++                    .get_circuit_for_isolation_key(isolation_key.clone())
++                    .await?;
++                let result = with_timeout(timeout / 2, "begin_stream", async {
++                    circuit.read().await.begin_stream(host, port).await
++                })
++                .await;
++                match result {
++                    Ok(stream) => break stream,
++                    Err(e) if attempt < 2 && !matches!(e, TorError::Cancelled) => {
++                        warn!("connect {}:{} failed ({}), retrying on a new circuit", host, port, e);
++                        circuit.write().await.status = CircuitStatus::Failed;
++                    }
++                    Err(e) => return Err(e),
++                }
++            };
++
++            circuit_manager
++                .maybe_prebuild_circuit(
++                    MAX_CIRCUITS,
++                    Duration::from_millis(CIRCUIT_PREBUILD_AGE_THRESHOLD_MS),
++                )
++                .await;
++            Ok(stream)
++        })
++        .await
++    }
++
+     /// Update the circuit by creating a new one
+     /// The deadline parameter specifies the maximum time to wait for circuit creation
+     pub async fn update_circuit(&self, deadline: Duration) -> Result<()> {
+diff --git a/webtor/src/config.rs b/webtor/src/config.rs
+index 76aac1f..8678b96 100644
+--- a/webtor/src/config.rs
++++ b/webtor/src/config.rs
+@@ -91,6 +91,11 @@ pub struct TorClientOptions {
+     #[serde(default)]
+     pub stream_isolation: StreamIsolationPolicy,
+ 
++    /// Base URL serving `consensus.txt.br` and `microdescriptors.txt.br`
++    /// (WASM bootstrap). `None` uses the built-in default.
++    #[serde(default)]
++    pub consensus_base_url: Option<String>,
++
+     /// Optional logging callback function (for WASM bindings)
+     #[serde(skip)]
+     pub on_log: Option<LogCallback>,
+@@ -125,6 +130,7 @@ impl Default for TorClientOptions {
+             circuit_update_advance: default_circuit_update_advance(),
+             bridge_fingerprint: None,
+             stream_isolation: StreamIsolationPolicy::default(),
++            consensus_base_url: None,
+             on_log: None,
+         }
+     }
+@@ -263,6 +269,11 @@ impl TorClientOptions {
+         self
+     }
+ 
++    pub fn with_consensus_base_url(mut self, url: String) -> Self {
++        self.consensus_base_url = Some(url);
++        self
++    }
++
+     pub fn with_on_log<F>(mut self, on_log: F) -> Self
+     where
+         F: Fn(&str, LogType) + Send + Sync + 'static,
+diff --git a/webtor/src/directory.rs b/webtor/src/directory.rs
+index c062e92..3d3c319 100644
+--- a/webtor/src/directory.rs
++++ b/webtor/src/directory.rs
+@@ -32,12 +32,15 @@ impl DirectoryManager {
+ 
+     /// Load relays from cached consensus data fetched from static URL.
+     /// This is used for WASM builds where we can't fetch consensus before establishing a circuit.
++    /// `base_url` overrides the default snapshot location; it may be relative
++    /// (resolved by the browser's fetch against the page URL).
+     #[cfg(target_arch = "wasm32")]
+-    pub async fn load_cached_consensus(&self) -> Result<()> {
+-        info!("Fetching cached consensus from static URL...");
++    pub async fn load_cached_consensus(&self, base_url: Option<&str>) -> Result<()> {
++        let base_url = base_url.unwrap_or(CACHED_CONSENSUS_BASE_URL).trim_end_matches('/');
++        info!("Fetching cached consensus from {}...", base_url);
+ 
+         // Fetch brotli-compressed consensus
+-        let consensus_url = format!("{}/consensus.txt.br", CACHED_CONSENSUS_BASE_URL);
++        let consensus_url = format!("{}/consensus.txt.br", base_url);
+         let consensus_bytes = fetch_url(&consensus_url)
+             .await
+             .map_err(|e| TorError::Internal(format!("Failed to fetch cached consensus: {}", e)))?;
+@@ -51,7 +54,7 @@ impl DirectoryManager {
+         info!("Decompressed consensus: {} bytes", consensus_body.len());
+ 
+         // Fetch brotli-compressed microdescriptors
+-        let microdescs_url = format!("{}/microdescriptors.txt.br", CACHED_CONSENSUS_BASE_URL);
++        let microdescs_url = format!("{}/microdescriptors.txt.br", base_url);
+         let microdescs_bytes = fetch_url(&microdescs_url).await.map_err(|e| {
+             TorError::Internal(format!("Failed to fetch cached microdescriptors: {}", e))
+         })?;
+@@ -75,7 +78,7 @@ impl DirectoryManager {
+ 
+     /// Load relays from cached consensus - native version (not implemented, use fetch_and_process_consensus)
+     #[cfg(not(target_arch = "wasm32"))]
+-    pub async fn load_cached_consensus(&self) -> Result<()> {
++    pub async fn load_cached_consensus(&self, _base_url: Option<&str>) -> Result<()> {
+         // For native builds, we don't pre-load cached consensus
+         // The circuit will be created after fetching fresh consensus via the Tor network
+         info!("Native build: skipping cached consensus (will fetch fresh via Tor)");
+diff --git a/webtor/src/http.rs b/webtor/src/http.rs
+index a55ee6e..4306738 100644
+--- a/webtor/src/http.rs
++++ b/webtor/src/http.rs
+@@ -196,64 +196,14 @@ impl TorHttpClient {
+             }
+             #[cfg(target_arch = "wasm32")]
+             {
+-                // Use subtle-tls for WASM (SubtleCrypto-based TLS)
+-                use subtle_tls::{TlsConfig, TlsConnector, TlsVersion};
+-
+-                let config = TlsConfig {
+-                    skip_verification: false,
+-                    alpn_protocols: vec!["http/1.1".to_string()],
+-                    version: TlsVersion::Tls13,
+-                };
+-                let connector = TlsConnector::with_config(config);
+-
+-                // Try TLS 1.3 first
+-                match connector.connect(stream, &host).await {
+-                    Ok(mut tls_stream) => {
+-                        info!(
+-                            "TLS 1.3 connection established with {} (WASM/SubtleCrypto)",
+-                            host
+-                        );
+-                        execute_http_request_wasm(&mut tls_stream, &request_bytes).await?
+-                    }
+-                    Err(tls13_err) => {
+-                        warn!(
+-                            "TLS 1.3 handshake failed with {}: {}, trying TLS 1.2...",
+-                            host, tls13_err
+-                        );
+-
+-                        // Get a new stream for TLS 1.2 retry
+-                        let stream_tls12 = {
+-                            let mut circuit_write = circuit.write().await;
+-                            circuit_write.begin_stream(&host, port).await?
+-                        };
+-
+-                        // Try TLS 1.2
+-                        let config_tls12 = TlsConfig {
+-                            skip_verification: false,
+-                            alpn_protocols: vec!["http/1.1".to_string()],
+-                            version: TlsVersion::Tls12,
+-                        };
+-                        let connector_tls12 = TlsConnector::with_config(config_tls12);
+-
+-                        match connector_tls12.connect_tls12(stream_tls12, &host).await {
+-                            Ok(mut tls_stream) => {
+-                                info!(
+-                                    "TLS 1.2 connection established with {} (WASM/SubtleCrypto)",
+-                                    host
+-                                );
+-                                execute_http_request_wasm_tls12(&mut tls_stream, &request_bytes)
+-                                    .await?
+-                            }
+-                            Err(tls12_err) => {
+-                                warn!("TLS 1.2 handshake also failed with {}: {}", host, tls12_err);
+-                                return Err(TorError::tls(format!(
+-                                    "TLS handshake failed - TLS 1.3: {}, TLS 1.2: {}",
+-                                    tls13_err, tls12_err
+-                                )));
+-                            }
+-                        }
+-                    }
+-                }
++                // The subtle-tls certificate validation is not trustworthy
++                // (accepts chains without a trusted root, no TLS 1.2
++                // ServerKeyExchange signature check, downgrade on any 1.3
++                // failure). Fail closed instead of sending data over it.
++                drop(stream);
++                return Err(TorError::tls(
++                    "HTTPS is disabled in this build: built-in TLS certificate validation is not trustworthy",
++                ));
+             }
+         } else {
+             execute_http_request(stream, &request_bytes).await?
+@@ -288,107 +238,6 @@ impl TorHttpClient {
+     }
+ }
+ 
+-/// Trait for TLS streams that support async read/write operations
+-#[cfg(target_arch = "wasm32")]
+-#[async_trait::async_trait(?Send)]
+-trait WasmTlsStream {
+-    async fn tls_write(&mut self, buf: &[u8]) -> std::io::Result<usize>;
+-    async fn tls_flush(&mut self) -> std::io::Result<()>;
+-    async fn tls_read(&mut self, buf: &mut [u8]) -> std::io::Result<usize>;
+-}
+-
+-#[cfg(target_arch = "wasm32")]
+-#[async_trait::async_trait(?Send)]
+-impl<S> WasmTlsStream for subtle_tls::TlsStream<S>
+-where
+-    S: futures::io::AsyncRead + futures::io::AsyncWrite + Unpin,
+-{
+-    async fn tls_write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+-        self.write(buf).await
+-    }
+-    async fn tls_flush(&mut self) -> std::io::Result<()> {
+-        self.flush().await
+-    }
+-    async fn tls_read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+-        self.read(buf).await
+-    }
+-}
+-
+-#[cfg(target_arch = "wasm32")]
+-#[async_trait::async_trait(?Send)]
+-impl<S> WasmTlsStream for subtle_tls::TlsStream12<S>
+-where
+-    S: futures::io::AsyncRead + futures::io::AsyncWrite + Unpin,
+-{
+-    async fn tls_write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+-        self.write(buf).await
+-    }
+-    async fn tls_flush(&mut self) -> std::io::Result<()> {
+-        self.flush().await
+-    }
+-    async fn tls_read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+-        self.read(buf).await
+-    }
+-}
+-
+-/// Execute an HTTP request over a TLS stream in WASM using async methods
+-#[cfg(target_arch = "wasm32")]
+-async fn execute_http_request_wasm<T: WasmTlsStream>(
+-    tls_stream: &mut T,
+-    request_bytes: &[u8],
+-) -> Result<Vec<u8>> {
+-    tls_stream
+-        .tls_write(request_bytes)
+-        .await
+-        .map_err(|e| TorError::http_request(format!("Failed to write request: {}", e)))?;
+-    tls_stream
+-        .tls_flush()
+-        .await
+-        .map_err(|e| TorError::http_request(format!("Failed to flush request: {}", e)))?;
+-
+-    let mut response_bytes = Vec::new();
+-    let mut buf = [0u8; 8192];
+-
+-    loop {
+-        match tls_stream.tls_read(&mut buf).await {
+-            Ok(0) => break,
+-            Ok(n) => {
+-                response_bytes.extend_from_slice(&buf[..n]);
+-                debug!("Read {} bytes (total: {})", n, response_bytes.len());
+-
+-                if response_bytes.len() > 1024 * 1024 {
+-                    warn!("Response exceeds 1MB limit, truncating");
+-                    break;
+-                }
+-            }
+-            Err(e) => {
+-                if response_bytes.is_empty() {
+-                    return Err(TorError::http_request(format!(
+-                        "Failed to read response: {}",
+-                        e
+-                    )));
+-                }
+-                debug!("Read ended with error (may be normal close): {}", e);
+-                break;
+-            }
+-        }
+-    }
+-
+-    Ok(response_bytes)
+-}
+-
+-/// Wrapper for TLS 1.2 streams to use with execute_http_request_wasm
+-#[cfg(target_arch = "wasm32")]
+-async fn execute_http_request_wasm_tls12<S>(
+-    tls_stream: &mut subtle_tls::TlsStream12<S>,
+-    request_bytes: &[u8],
+-) -> Result<Vec<u8>>
+-where
+-    S: futures::io::AsyncRead + futures::io::AsyncWrite + Unpin,
+-{
+-    execute_http_request_wasm(tls_stream, request_bytes).await
+-}
+-
+ /// Execute an HTTP request over a stream and return the response bytes
+ async fn execute_http_request<S>(mut stream: S, request_bytes: &[u8]) -> Result<Vec<u8>>
+ where
+diff --git a/webtor/src/smux.rs b/webtor/src/smux.rs
+index 74e4825..dc3a0e9 100644
+--- a/webtor/src/smux.rs
++++ b/webtor/src/smux.rs
+@@ -230,6 +230,8 @@ pub struct SmuxStream<S> {
+     state: SmuxState,
+     read_buffer: Vec<u8>,
+     data_buffer: Vec<u8>,
++    /// Encoded control frames (window updates) waiting to be written
++    pending_ctrl: Vec<u8>,
+ }
+ 
+ impl<S> SmuxStream<S> {
+@@ -243,6 +245,7 @@ impl<S> SmuxStream<S> {
+             state: SmuxState::new(stream_id),
+             read_buffer: Vec::with_capacity(4096),
+             data_buffer: Vec::new(),
++            pending_ctrl: Vec::new(),
+         }
+     }
+ }
+@@ -472,12 +475,40 @@ impl<S: AsyncRead + AsyncWrite + Unpin> SmuxStream<S> {
+     }
+ }
+ 
+-impl<S: AsyncRead + Unpin> AsyncRead for SmuxStream<S> {
++impl<S: AsyncWrite + Unpin> SmuxStream<S> {
++    /// Write queued control frames (UPD). Data frames are written whole, so
++    /// control frames never interleave with a partially written data frame.
++    fn poll_write_ctrl(&mut self, cx: &mut Context<'_>) -> Poll<io::Result<()>> {
++        while !self.pending_ctrl.is_empty() {
++            match Pin::new(&mut self.inner).poll_write(cx, &self.pending_ctrl) {
++                Poll::Ready(Ok(0)) => {
++                    return Poll::Ready(Err(io::Error::new(
++                        io::ErrorKind::WriteZero,
++                        "SMUX control write returned 0",
++                    )))
++                }
++                Poll::Ready(Ok(n)) => {
++                    self.pending_ctrl.drain(..n);
++                }
++                Poll::Ready(Err(e)) => return Poll::Ready(Err(e)),
++                Poll::Pending => return Poll::Pending,
++            }
++        }
++        Poll::Ready(Ok(()))
++    }
++}
++
++impl<S: AsyncRead + AsyncWrite + Unpin> AsyncRead for SmuxStream<S> {
+     fn poll_read(
+         mut self: Pin<&mut Self>,
+         cx: &mut Context<'_>,
+         buf: &mut [u8],
+     ) -> Poll<io::Result<usize>> {
++        // Send any queued window update first (best effort; retried on next poll).
++        if let Poll::Ready(Err(e)) = self.poll_write_ctrl(cx) {
++            return Poll::Ready(Err(e));
++        }
++
+         trace!(
+             "SMUX poll_read: buf size {}, data_buffer size {}, read_buffer size {}",
+             buf.len(),
+@@ -526,6 +557,21 @@ impl<S: AsyncRead + Unpin> AsyncRead for SmuxStream<S> {
+                                 .self_increment
+                                 .wrapping_add(segment.data.len() as u32);
+ 
++                            // Grant the peer more window, as smux v2 requires;
++                            // without this the bridge stops sending after ~64 KiB.
++                            if self.state.should_send_update() {
++                                let upd = SmuxSegment::upd(
++                                    self.state.stream_id,
++                                    self.state.self_read,
++                                    self.state.self_window,
++                                );
++                                self.pending_ctrl.extend_from_slice(&upd.encode());
++                                self.state.self_increment = 0;
++                                if let Poll::Ready(Ok(())) = self.poll_write_ctrl(cx) {
++                                    let _ = Pin::new(&mut self.inner).poll_flush(cx);
++                                }
++                            }
++
+                             let len = std::cmp::min(buf.len(), segment.data.len());
+                             buf[..len].copy_from_slice(&segment.data[..len]);
+ 
+@@ -605,6 +651,11 @@ impl<S: AsyncWrite + Unpin> AsyncWrite for SmuxStream<S> {
+         cx: &mut Context<'_>,
+         buf: &[u8],
+     ) -> Poll<io::Result<usize>> {
++        match self.poll_write_ctrl(cx) {
++            Poll::Ready(Ok(())) => {}
++            Poll::Ready(Err(e)) => return Poll::Ready(Err(e)),
++            Poll::Pending => return Poll::Pending,
++        }
+         // Check flow control
+         if !self.state.can_send(buf.len()) {
+             // For now, just try anyway - proper impl would wait
+@@ -645,6 +696,10 @@ impl<S: AsyncWrite + Unpin> AsyncWrite for SmuxStream<S> {
+     }
+ 
+     fn poll_flush(mut self: Pin<&mut Self>, cx: &mut Context<'_>) -> Poll<io::Result<()>> {
++        match self.poll_write_ctrl(cx) {
++            Poll::Ready(Ok(())) => {}
++            other => return other,
++        }
+         Pin::new(&mut self.inner).poll_flush(cx)
+     }
+ 

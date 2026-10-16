@@ -1,0 +1,37 @@
+/* core-conversations: the conversations drawer and its header button.
+   Moved verbatim from the former single app.css (T2); loaded after app.css (builtin-styles.css, bundled; also the plugin's `styles` contribution). */
+
+#chat-tree svg { width: 27px; height: 27px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+/* ---------- Chats drawer ---------- */
+#tree-scrim { display: none !important; }
+#tree-screen {
+  position: fixed; z-index: 41; top: 0; bottom: 0; left: 0; display: flex; flex-direction: column; min-height: 0; min-width: 0;
+  right: 0; width: 100%; color: var(--ink); font: 400 15px/1.45 var(--garamond);
+}
+/* Full-screen view, shown instantly (no slide animation). */
+.conv-header { display: flex; align-items: center; gap: 8px; min-height: 56px; padding: 12px 12px 4px 18px; flex: none; }
+.conv-header h2 { flex: 1; min-width: 0; margin: 0; font: 400 24px/1.2 var(--serif); letter-spacing: -.02em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#tree-back { display: grid; }
+.conv-scroll { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.conv-list { display: flex; flex-direction: column; }
+.conv-row { display: flex; align-items: center; min-height: 48px; border-bottom: 1px solid var(--border); }
+.conv-row:active { background: var(--hover); }
+.conv-main { flex: 1; min-width: 0; min-height: 48px; display: flex; align-items: center; gap: 10px; padding: 0 8px 0 18px; border: 0; border-radius: 0; background: none; color: var(--ink); font: inherit; text-align: left; }
+.conv-main[aria-current="true"] .conv-title { font-weight: 700; }
+.conv-title { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 18px; }
+.conv-dot { width: 8px; height: 8px; flex: none; border-radius: var(--radius-round); background: var(--muted); opacity: .6; }
+.conv-dot.busy { background: var(--accent); opacity: 1; animation: pulse 1.2s ease-in-out infinite; }
+.conv-kind, .conv-meta { flex: none; color: var(--muted); font-size: 14px; }
+.conv-model { display: none; }
+.conv-empty { padding: 18px; margin: 0; color: var(--muted); }
+.conv-empty-label { font-style: italic; }
+.conv-error { margin: 0; padding: 8px 18px; color: var(--error); border-bottom: 1px solid var(--border); font-size: 15px; }
+.conv-icon-action { flex: none; width: 40px; height: 44px; display: grid; place-items: center; border: 0; border-radius: var(--radius-item); background: none; color: var(--muted); }
+.conv-icon-action:active, .conv-icon-action:hover { background: var(--hover); }
+.conv-icon-action svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.conv-toggles { display: flex; flex-direction: column; align-items: flex-start; padding: 8px 12px; }
+.conv-toggle { min-height: 36px; border-color: transparent; color: var(--muted); font-size: 15px; }
+.conv-action { min-height: 44px; margin-right: 4px; }
+body.conv-active #app-footer { display: flex; }
+.conv-rename { flex: 1; min-width: 0; min-height: 40px; margin: 4px 8px 4px 12px; padding: 0 8px; border: 1px solid var(--border); border-radius: var(--radius-box); background: var(--surface); color: var(--ink); font: inherit; font-size: 18px; }
+.conv-main { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }

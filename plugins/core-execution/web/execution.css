@@ -1,0 +1,4 @@
+/* core-execution: Settings → Background work is not shown (recovery lives in Android Settings).
+   Moved verbatim from the former single app.css (T2); loaded after app.css (builtin-styles.css, bundled; also the plugin's `styles` contribution). */
+
+#execution-settings { display: none !important; }

@@ -1,0 +1,12 @@
+export class JsCircuitStatus
+export class JsHttpResponse
+export class TorClient
+export class TorClientOptions
+export class TorStream
+export function getVersionInfo
+export function init
+export function setDebugEnabled
+export function setLogCallback
+export function test_wasm
+export function validateDirectory
+export { initSync }

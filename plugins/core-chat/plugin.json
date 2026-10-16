@@ -1,0 +1,26 @@
+{
+  "id": "core-chat",
+  "name": "Chat",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": true,
+  "bundle": "self-forming-core",
+  "provides": [],
+  "requires": [
+    {
+      "id": "agent.sessions",
+      "version": 1
+    }
+  ],
+  "uses": [],
+  "styles": [
+    {
+      "href": "chat.css"
+    }
+  ]
+}

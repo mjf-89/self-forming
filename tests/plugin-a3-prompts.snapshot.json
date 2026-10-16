@@ -1,0 +1,557 @@
+{
+ "offline": {
+  "main": [
+   [
+    "device",
+    "df27611a90286603",
+    955
+   ]
+  ],
+  "subagentSections": [
+   [
+    "device",
+    "f235c9d614ab7fb2",
+    831
+   ],
+   [
+    "instructions",
+    "6a11d4d8685618eb",
+    239
+   ]
+  ],
+  "subagentTranscript": [
+   [
+    "device",
+    "df27611a90286603",
+    955
+   ],
+   [
+    "transcript",
+    "387d828bc0d624ec",
+    160
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "subagentDefault": [
+   [
+    "device",
+    "df27611a90286603",
+    955
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "oldHelper": [
+   [
+    "instructions",
+    "8f6f84a5e0bdab52",
+    80
+   ]
+  ]
+ },
+ "native": {
+  "main": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "app",
+    "185e354545124801",
+    1367
+   ],
+   [
+    "self-rebuild",
+    "0f8b3c42807e2bed",
+    914
+   ],
+   [
+    "subagents",
+    "b62d22ddd3e29623",
+    759
+   ],
+   [
+    "servers",
+    "b503eda3357f204b",
+    215
+   ],
+   [
+    "agents-guide",
+    "d9b0c267f8725921",
+    106
+   ],
+   [
+    "skills",
+    "00a5c82522399827",
+    595
+   ],
+   [
+    "plugins",
+    "6ed46a743ea7ddfb",
+    1078
+   ]
+  ],
+  "subagentSections": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "app",
+    "e48b014882a5221f",
+    1019
+   ],
+   [
+    "self-rebuild",
+    "9ff539808faf35c9",
+    985
+   ],
+   [
+    "servers",
+    "b503eda3357f204b",
+    215
+   ],
+   [
+    "agents-guide",
+    "d7858440812f6cac",
+    430
+   ],
+   [
+    "skills",
+    "00a5c82522399827",
+    595
+   ],
+   [
+    "instructions",
+    "6a11d4d8685618eb",
+    239
+   ]
+  ],
+  "subagentTranscript": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "transcript",
+    "387d828bc0d624ec",
+    160
+   ],
+   [
+    "skills",
+    "00a5c82522399827",
+    595
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "subagentDefault": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "skills",
+    "00a5c82522399827",
+    595
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "oldHelper": [
+   [
+    "instructions",
+    "8f6f84a5e0bdab52",
+    80
+   ]
+  ]
+ },
+ "nativeMinimal": {
+  "main": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "self-rebuild",
+    "9ff539808faf35c9",
+    985
+   ],
+   [
+    "subagents",
+    "b62d22ddd3e29623",
+    759
+   ],
+   [
+    "servers",
+    "b503eda3357f204b",
+    215
+   ]
+  ],
+  "subagentSections": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "self-rebuild",
+    "9ff539808faf35c9",
+    985
+   ],
+   [
+    "servers",
+    "b503eda3357f204b",
+    215
+   ],
+   [
+    "instructions",
+    "6a11d4d8685618eb",
+    239
+   ]
+  ],
+  "subagentTranscript": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "transcript",
+    "387d828bc0d624ec",
+    160
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "subagentDefault": [
+   [
+    "device",
+    "c212413568605c66",
+    1871
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "oldHelper": [
+   [
+    "instructions",
+    "8f6f84a5e0bdab52",
+    80
+   ]
+  ]
+ },
+ "browser": {
+  "main": [
+   [
+    "device",
+    "a247553c16b834b9",
+    1358
+   ],
+   [
+    "app",
+    "282b4b38755f4d8d",
+    1241
+   ],
+   [
+    "self-rebuild",
+    "61da707ae7a228fe",
+    959
+   ],
+   [
+    "subagents",
+    "b62d22ddd3e29623",
+    759
+   ],
+   [
+    "servers",
+    "b9ca42bb0d35ba98",
+    430
+   ],
+   [
+    "agents-guide",
+    "d65b2460b28cf4e2",
+    408
+   ],
+   [
+    "skills",
+    "38c602fbb629729f",
+    454
+   ]
+  ],
+  "subagentSections": [
+   [
+    "device",
+    "a247553c16b834b9",
+    1358
+   ],
+   [
+    "app",
+    "23fd6422e401a6a5",
+    903
+   ],
+   [
+    "self-rebuild",
+    "9ff539808faf35c9",
+    985
+   ],
+   [
+    "servers",
+    "b9ca42bb0d35ba98",
+    430
+   ],
+   [
+    "agents-guide",
+    "d7858440812f6cac",
+    430
+   ],
+   [
+    "skills",
+    "38c602fbb629729f",
+    454
+   ],
+   [
+    "instructions",
+    "6a11d4d8685618eb",
+    239
+   ]
+  ],
+  "subagentTranscript": [
+   [
+    "device",
+    "a247553c16b834b9",
+    1358
+   ],
+   [
+    "transcript",
+    "387d828bc0d624ec",
+    160
+   ],
+   [
+    "skills",
+    "38c602fbb629729f",
+    454
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "subagentDefault": [
+   [
+    "device",
+    "a247553c16b834b9",
+    1358
+   ],
+   [
+    "skills",
+    "38c602fbb629729f",
+    454
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "oldHelper": [
+   [
+    "instructions",
+    "8f6f84a5e0bdab52",
+    80
+   ]
+  ]
+ },
+ "browserNoLinux": {
+  "main": [
+   [
+    "device",
+    "8dbf9fa3052d240d",
+    2119
+   ],
+   [
+    "subagents",
+    "b62d22ddd3e29623",
+    759
+   ]
+  ],
+  "subagentSections": [
+   [
+    "device",
+    "6aa95957fa08893c",
+    709
+   ],
+   [
+    "instructions",
+    "6a11d4d8685618eb",
+    239
+   ]
+  ],
+  "subagentTranscript": [
+   [
+    "device",
+    "8dbf9fa3052d240d",
+    2119
+   ],
+   [
+    "transcript",
+    "387d828bc0d624ec",
+    160
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "subagentDefault": [
+   [
+    "device",
+    "8dbf9fa3052d240d",
+    2119
+   ],
+   [
+    "instructions",
+    "0bf4c0e4fcbbf725",
+    221
+   ]
+  ],
+  "oldHelper": [
+   [
+    "instructions",
+    "8f6f84a5e0bdab52",
+    80
+   ]
+  ]
+ },
+ "native/subagentRun:device+transcript": {
+  "parent": {
+   "tags": [
+    "device",
+    "app",
+    "self-rebuild",
+    "subagents",
+    "servers",
+    "agents-guide",
+    "skills",
+    "plugins"
+   ],
+   "hash": "1849944bbd736e78",
+   "length": 6919
+  },
+  "child": {
+   "tags": [
+    "device",
+    "transcript",
+    "skills",
+    "instructions"
+   ],
+   "hash": "7e057a2ca07afcf3",
+   "length": 2814
+  }
+ },
+ "native/subagentRun:device+app+agentsGuide": {
+  "parent": {
+   "tags": [
+    "device",
+    "app",
+    "self-rebuild",
+    "subagents",
+    "servers",
+    "agents-guide",
+    "skills",
+    "plugins"
+   ],
+   "hash": "1849944bbd736e78",
+   "length": 6919
+  },
+  "child": {
+   "tags": [
+    "device",
+    "app",
+    "agents-guide",
+    "skills",
+    "instructions"
+   ],
+   "hash": "1d8de9a58eb5f0f5",
+   "length": 4202
+  }
+ },
+ "native/subagentRun:default": {
+  "parent": {
+   "tags": [
+    "device",
+    "app",
+    "self-rebuild",
+    "subagents",
+    "servers",
+    "agents-guide",
+    "skills",
+    "plugins"
+   ],
+   "hash": "1849944bbd736e78",
+   "length": 6919
+  },
+  "child": {
+   "tags": [
+    "device",
+    "skills",
+    "instructions"
+   ],
+   "hash": "50303bfcddc0e40b",
+   "length": 2691
+  }
+ },
+ "browser/subagentRun:device+app+agentsGuide+transcript": {
+  "parent": {
+   "tags": [
+    "device",
+    "app",
+    "self-rebuild",
+    "subagents",
+    "servers",
+    "agents-guide",
+    "skills"
+   ],
+   "hash": "ca33039c9d931a6d",
+   "length": 5621
+  },
+  "child": {
+   "tags": [
+    "device",
+    "app",
+    "agents-guide",
+    "transcript",
+    "skills",
+    "instructions"
+   ],
+   "hash": "4e50799a9b624fec",
+   "length": 3497
+  }
+ }
+}

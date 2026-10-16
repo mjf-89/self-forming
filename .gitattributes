@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.png binary
+# pinned upstream copy, verified byte for byte against libs/cors-rot/UPSTREAM.lock
+libs/cors-rot/** -text

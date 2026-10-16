@@ -1,0 +1,21 @@
+{
+  "id": "core-storage",
+  "name": "Conversation storage",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": true,
+  "bundle": "self-forming-core",
+  "provides": [
+    {
+      "id": "storage",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": []
+}

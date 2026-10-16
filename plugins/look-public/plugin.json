@@ -1,0 +1,27 @@
+{
+  "id": "look-public",
+  "name": "Look: public",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": false,
+  "provides": [
+    {
+      "id": "look",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": [],
+  "styles": [
+    {
+      "href": "look.css",
+      "order": 100
+    }
+  ],
+  "bundle": "self-forming-look"
+}

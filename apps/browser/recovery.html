@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <title>Self Forming — Recovery</title>
+    <!-- Fixed recovery page: deployed with the host, never replaced by an app revision or a
+         plugin, and it loads no app module (only browser-recovery.js and its fixed imports).
+         No external assets. -->
+    <style>
+      /* Neutral high-contrast colours, not the app's look: recovery is shared by every edition. */
+      :root { --paper: #111111; --surface: #1c1c1c; --ink: #f2f2f2; --accent: #ffffff; --muted: #b8b8b8; --border: #5a5a5a; --error: #ff8f86;
+        --mono: "Courier New", "Liberation Mono", "Droid Sans Mono", monospace; color-scheme: dark; }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--mono); }
+      main { max-width: 44rem; margin: 0 auto; padding: 24px 16px calc(24px + env(safe-area-inset-bottom, 0px)); }
+      h1 { font-size: 24px; font-weight: 400; margin: 0 0 8px; color: var(--accent); }
+      h2 { font-size: 17px; font-weight: 700; margin: 24px 0 8px; }
+      p { margin: 8px 0; }
+      .muted, .meta { color: var(--muted); }
+      .warn { font-weight: 700; text-decoration: underline; }
+      a, button { font: inherit; }
+      a { color: var(--accent); }
+      .actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+      .actions a, button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border: 1px solid var(--border);
+        border-radius: 4px; background: transparent; color: var(--ink); text-decoration: none; cursor: pointer; }
+      .actions a.primary { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+      button[disabled] { opacity: .5; cursor: default; }
+      a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+      ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--border); }
+      li { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; min-height: 44px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+      li .name { flex: 1 1 14em; overflow-wrap: anywhere; }
+      li .meta { flex: 0 1 auto; font-size: 14px; }
+      #status { min-height: 1.5em; font-weight: 700; }
+      [hidden] { display: none !important; }
+      @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Recovery</h1>
+      <p>Use this page if the app doesn't start, looks broken or stops responding after a change. Nothing here deletes your conversations, files, sign-ins or saved versions.</p>
+      <p class="muted">This page and safe mode run only the app's fixed, deployed code — never an edited app version or an installed plugin — so they work even when those are broken.</p>
+      <p id="reason" class="warn" role="alert" hidden></p>
+      <p id="locked" class="warn" role="alert" hidden>The app is open in another tab. Close it there to make changes here (this page waits for it), or take over: that tab then stops.</p>
+      <p><button type="button" id="take-over" hidden>Use recovery in this tab</button></p>
+      <p id="status" role="status" aria-live="polite"></p>
+      <div class="actions">
+        <a class="primary" href="./">Open the app</a>
+        <a href="./?safe">Open in safe mode</a>
+      </div>
+
+      <h2>App versions</h2>
+      <p id="current" class="muted">Reading saved versions…</p>
+      <p id="notice" class="muted" hidden></p>
+      <ul id="versions" aria-label="Saved app versions, newest first"></ul>
+
+      <h2>Installed plugins</h2>
+      <p id="plugins-empty" class="muted">Reading installed plugins…</p>
+      <ul id="plugins" aria-label="Installed plugins"></ul>
+      <div class="actions"><button id="disable-all" type="button" disabled>Disable all</button></div>
+
+      <h2>If pages still don't load</h2>
+      <p class="muted">Resetting the page loader (service worker) removes no data; the app sets it up again when it opens.</p>
+      <div class="actions"><button id="reset-loader" type="button">Reset the page loader</button></div>
+      <p id="heartbeat" class="muted"></p>
+      <noscript><p class="warn">This page needs JavaScript. You can still open the app in safe mode with the link above.</p></noscript>
+    </main>
+    <script type="module">
+      import { mountRecoveryPage } from "./browser-recovery.js";
+      mountRecoveryPage({ document }).catch((error) => {
+        const status = document.getElementById("status");
+        if (status) status.textContent = `The recovery page could not read the app's storage: ${error?.message ?? error}`;
+      });
+    </script>
+  </body>
+</html>

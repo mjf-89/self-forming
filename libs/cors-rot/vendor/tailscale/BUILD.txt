@@ -1,0 +1,5 @@
+tailscale f61c86852783a963d96cd0a4c913f886472478d1 + build/patches/tailscale/wasm_js.go.patch
+go version go1.27.2 linux/amd64
+c725a0d3fba6ba5056f7720474a5b1198d63c275620721a35c454acf8105bae1  build/patches/tailscale/wasm_js.go.patch
+22ead51b9110902e74f1198ea80ef3927bfe7eee995f87e751965ec7b6f3e21e  tailscale.wasm
+0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14  wasm_exec.js

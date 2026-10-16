@@ -1,0 +1,23 @@
+{
+  "fetchedAt": "2026-10-13T08:05:25Z",
+  "validAfter": "2026-10-13T08:00:00Z",
+  "freshUntil": "2026-10-13T09:00:00Z",
+  "validUntil": "2026-10-13T11:00:00Z",
+  "microdescriptorCount": 9094,
+  "signatureVerified": false,
+  "warning": "Downloads are NOT signature verification. Timestamps and hashes do not prove authenticity; the client must authenticate authority certificates and consensus with pinned Tor authorities.",
+  "files": {
+    "consensus.txt.br": {
+      "sha256": "c7a87d953c8af1623a07dba30cbd5c0ed800ff077d386be80e0415d7ca9441e2",
+      "bytes": 697799
+    },
+    "microdescriptors.txt.br": {
+      "sha256": "ccf61cac783ac24cd03f7a4e43d9d1dd759bcaf6f81fc35497f2a239ae611bd8",
+      "bytes": 2067739
+    },
+    "authority-certificates.txt": {
+      "sha256": "6ac2ac67ff3ef1f29ef60f59eb467e58ff0ecdcd0e594c54f629656fdf803007",
+      "bytes": 33835
+    }
+  }
+}

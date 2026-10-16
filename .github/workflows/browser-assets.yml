@@ -1,0 +1,121 @@
+name: Browser assets (v86 + Alpine image)
+
+# Builds the binary assets of the browser edition in CI (nothing is uploaded by hand):
+#   downloaded + sha256-verified : v86.wasm (upstream copy/v86 release built from commit 94faf3d6…)
+#   built here                   : trimmed Alpine 9p image (alpine-fs.json, image/flat/*) from pinned Alpine
+#                                  packages (scripts/build-v86-image.sh, alpine-toolset.lock.json) and the
+#                                  post-boot snapshot alpine-state.bin.gz (scripts/v86-snapshot.mjs, headless Node)
+# Run by hand on main with a new `assets_tag` (same immutable-release pattern as runtime.yml): the files + SHA256SUMS + MANIFEST become a GitHub release. Then run
+# scripts/update-assets-lock.sh <tag> and commit scripts/assets.lock (pages.yml fetches from that release).
+on:
+  workflow_dispatch:
+    inputs:
+      assets_tag:
+        description: New immutable release tag for the assets (e.g. assets-v0.7.0); leave blank to only build and keep the artifact
+        required: false
+        type: string
+  pull_request:
+    paths:
+      - scripts/build-v86-image.sh
+      - scripts/v86-snapshot.mjs
+      - scripts/mkcpio.mjs
+      - scripts/alpine-toolset.*
+      - scripts/fetch-v86-wasm.sh
+      - plugins/exec-linux/web/browser/browser-v86*.js
+      - .github/workflows/browser-assets.yml
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - name: Upstream v86.wasm (checksum-verified)
+        run: sh scripts/fetch-v86-wasm.sh
+      - name: Build the Alpine image and the post-boot snapshot
+        env:
+          V86_OUT: ${{ runner.temp }}/v86
+        run: |
+          bash scripts/build-v86-image.sh
+          ls -l "$V86_OUT/vendor/v86/image"
+      - name: Reproducibility report
+        env:
+          V86_OUT: ${{ runner.temp }}/v86
+        run: |
+          IMG="$V86_OUT/vendor/v86/image"
+          # 1. image tree vs the files committed in Git (deterministic by construction)
+          cmp "$IMG/alpine-fs.json" apps/browser/vendor/v86/image/alpine-fs.json \
+            || echo "::warning::alpine-fs.json differs from the committed one"
+          for f in $(git ls-files apps/browser/vendor/v86/image/flat); do
+            cmp -s "$f" "$IMG/flat/$(basename "$f")" || echo "::warning::flat file differs or is gone: $(basename "$f")"
+          done
+          # 2. take the snapshot a second time and compare (it may not be bit-identical)
+          cp -R "$V86_OUT/vendor/v86" "$RUNNER_TEMP/v86-again"
+          rm -f "$RUNNER_TEMP/v86-again/image/alpine-state.bin.gz"
+          V86_VENDOR="$RUNNER_TEMP/v86-again" node scripts/v86-snapshot.mjs save
+          if cmp -s "$IMG/alpine-state.bin.gz" "$RUNNER_TEMP/v86-again/image/alpine-state.bin.gz"; then
+            echo "snapshot: bit-identical across two boots" | tee -a "$GITHUB_STEP_SUMMARY"
+          else
+            echo "snapshot: NOT bit-identical across two boots (verify against the release MANIFEST, not a local rebuild)" | tee -a "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Smoke-test the snapshot restore
+        env:
+          V86_VENDOR: ${{ runner.temp }}/v86/vendor/v86
+        run: node scripts/v86-snapshot.mjs restore
+      - name: Stage release files
+        env:
+          V86_OUT: ${{ runner.temp }}/v86
+        run: |
+          IMG="$V86_OUT/vendor/v86/image"
+          mkdir -p stage
+          cp apps/browser/vendor/v86/v86.wasm "$IMG/alpine-state.bin.gz" "$IMG/alpine-fs.json" stage/
+          for f in "$IMG"/flat/*.bin; do cp "$f" "stage/flat-$(basename "$f")"; done
+          cd stage
+          sha256sum * > ../SHA256SUMS
+          for f in *; do echo "$(sha256sum "$f" | cut -d' ' -f1) $(stat -c%s "$f") $f"; done > ../MANIFEST
+          mv ../SHA256SUMS ../MANIFEST .
+          cat SHA256SUMS | grep -v ' flat-' >> "$GITHUB_STEP_SUMMARY" || true
+          du -sh .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: browser-assets
+          path: stage/
+          compression-level: 0
+          retention-days: 30
+
+  release:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && inputs.assets_tag != ''
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+      ASSETS_TAG: ${{ inputs.assets_tag }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: browser-assets
+          path: stage
+      - name: Publish immutable release
+        run: |
+          [[ "$ASSETS_TAG" =~ ^assets-v[0-9A-Za-z_.-]+$ ]]
+          if gh release view "$ASSETS_TAG" >/dev/null 2>&1; then
+            echo '::error::Asset releases are immutable; choose a new tag.'; exit 1
+          fi
+          existing=$(gh api "repos/$GH_REPO/git/matching-refs/tags/$ASSETS_TAG" --jq ".[] | select(.ref == \"refs/tags/$ASSETS_TAG\") | .object.sha")
+          if [[ -n "$existing" ]]; then echo '::error::Tag already exists; choose a new tag.'; exit 1; fi
+          test "$(gh api "repos/$GH_REPO/commits/main" --jq .sha)" = "$GITHUB_SHA"
+          printf 'Built by CI from pinned inputs (browser-assets.yml): v86.wasm (upstream, checksum-verified), Alpine i686 9p image and post-boot snapshot.\nLicences: apps/browser/vendor/v86/PROVENANCE.md. Pin with scripts/update-assets-lock.sh %s\n' "$ASSETS_TAG" > "$RUNNER_TEMP/notes.md"
+          gh release create "$ASSETS_TAG" stage/* --target "$GITHUB_SHA" --latest=false \
+            --title "Browser edition assets ($ASSETS_TAG)" --notes-file "$RUNNER_TEMP/notes.md"

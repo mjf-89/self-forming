@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Browser network checks — Self Forming</title>
+<link rel="stylesheet" href="./app.css">
+</head>
+<body>
+<main style="padding:24px;max-width:900px;margin:auto;overflow-wrap:anywhere">
+<h1>Browser network checks</h1>
+<p><strong>Experimental Tor networking.</strong> HTTPS through Tor is TLS 1.3 with certificate checks, and the Tor directory must carry a quorum of pinned authority signatures. Anonymity is weaker than Tor Browser. Some sites block Tor exits.</p>
+<p>No requests run until you press a button. Do not enter credentials or private repository URLs.</p>
+<label for="mode">Transport for streaming and git checks</label>
+<select id="mode"><option value="tailscale" selected>Tailscale exit node (default)</option><option value="tor">Tor (Snowflake)</option></select>
+<p id="status" role="status">Tailscale. Tor has not been initialized.</p>
+<p><button id="ip" class="quiet-button">Tor: check exit IP</button></p>
+<label for="stream-url">Public streaming URL</label>
+<input id="stream-url" type="url" value="https://httpbin.org/stream/10" style="width:100%">
+<p><button id="stream" class="quiet-button">Read streaming response</button></p>
+<label for="git-url">Public git repository URL</label>
+<input id="git-url" type="url" value="https://github.com/isomorphic-git/isomorphic-git.git" style="width:100%">
+<p><button id="git" class="quiet-button">Discover git refs</button> <button id="cancel" class="quiet-button" disabled>Cancel</button></p>
+<pre id="output" aria-live="polite" style="white-space:pre-wrap"></pre>
+<p>Tor uses the bundled WASM and the public Snowflake bridge (WebSocket). The network directory is downloaded over Tor on first use and kept in this browser; the first start can take a minute or two. Relay availability can prevent circuits.</p>
+</main>
+<script type="module">
+import { createBrowserNetwork } from './cors-rot/network.js';
+const $ = (id) => document.getElementById(id);
+const network = createBrowserNetwork({ mode: 'tailscale' });
+network.subscribe((state) => { $('status').textContent = `${state.mode}; Tor ${state.torState}; available: ${state.torAvailable === true ? 'yes' : 'no'}. ${state.message}`; });
+$('mode').addEventListener('change', () => network.setMode($('mode').value));
+let active;
+const log = (line) => { $('output').textContent += `${line}\n`; };
+const publicUrl = (text) => {
+  const url = new URL(text);
+  if (!['https:', 'http:'].includes(url.protocol) || url.username || url.password || url.search || url.hash) throw new Error('Use a public HTTP(S) URL without credentials, query, or fragment.');
+  return url.href;
+};
+async function check(task) {
+  if (active) return;
+  active = new AbortController();
+  const timer = setTimeout(() => active?.abort(new DOMException('Check timed out', 'TimeoutError')), 180000);
+  for (const id of ['ip', 'stream', 'git', 'mode']) $(id).disabled = true;
+  $('cancel').disabled = false;
+  $('output').textContent = '';
+  try { await task(active.signal); }
+  catch (error) { log(`${error.name}: ${error.message}`); }
+  finally {
+    clearTimeout(timer);
+    active.abort(); active = undefined;
+    for (const id of ['ip', 'stream', 'git', 'mode']) $(id).disabled = false;
+    $('cancel').disabled = true;
+  }
+}
+$('cancel').addEventListener('click', () => active?.abort());
+addEventListener('pagehide', () => active?.abort());
+$('ip').addEventListener('click', () => check(async (signal) => {
+  log('Explicit Tor request: https://check.torproject.org/api/ip');
+  const response = await network.fetchTor('https://check.torproject.org/api/ip', { signal, credentials: 'omit' });
+  log(`HTTP ${response.status}`);
+  const data = await response.json();
+  log(JSON.stringify(data, null, 2));
+  log(response.ok && data.IsTor === true ? 'Endpoint reports a Tor exit. This does not verify provider authentication.' : 'Tor exit NOT verified by this response.');
+}));
+$('stream').addEventListener('click', () => check(async (signal) => {
+  const response = await network.fetch(publicUrl($('stream-url').value), { signal, credentials: 'omit' });
+  log(`HTTP ${response.status}; headers received before body consumption`);
+  if (!response.body) { log('No response body'); return; }
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let bytes = 0, chunks = 0;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      bytes += value.byteLength; chunks++;
+      log(`Chunk ${chunks}: ${value.byteLength} bytes (${bytes} total)`);
+      if (bytes <= 4096) log(decoder.decode(value, { stream: true }));
+      if (bytes >= 1024 * 1024) { log('Stopped at 1 MiB safety limit'); break; }
+      // Deliberately slow consumption makes progressive reads visible.
+      await new Promise((resolve) => setTimeout(resolve, 150));
+    }
+    log(`Finished: ${chunks} chunks. A single chunk is not proof of incremental delivery.`);
+  } finally { await reader.cancel().catch(() => {}); reader.releaseLock(); }
+}));
+$('git').addEventListener('click', () => check(async (signal) => {
+  const { createGitService } = await import('../../plugins/core-git/web/index.js');
+  // Public discovery only: the owner receives a filesystem that rejects every file operation.
+  const noFiles = Object.fromEntries(['readFile', 'writeFile', 'stat', 'readdir', 'mkdir', 'rm'].map(name => [name, async () => { throw new Error('Discovery must not access local files'); }]));
+  const service = createGitService({ fs: noFiles, fetch: (input, init) => network.fetch(input, { ...init, signal, credentials: 'omit' }) });
+  const refs = await service.call({ operation: 'listServerRefs', options: { url: publicUrl($('git-url').value) }, cwd: '/workspace', signal });
+  log(`Discovered ${refs.length} refs; first 20:`);
+  log(JSON.stringify(refs.slice(0, 20), null, 2));
+  log('Public discovery only: clone, push and authentication are not verified.');
+}));
+</script>
+</body>
+</html>

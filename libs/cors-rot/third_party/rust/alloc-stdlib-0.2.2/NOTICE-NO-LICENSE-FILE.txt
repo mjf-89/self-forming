@@ -1,0 +1,6 @@
+Crate: alloc-stdlib 0.2.2 (https://crates.io/crates/alloc-stdlib/0.2.2)
+License (SPDX, as declared in the crate's Cargo.toml): BSD-3-Clause
+Authors (Cargo.toml): ["Daniel Reiter Horn <danielrh@dropbox.com>"]
+
+The published crate ships no licence file; the licence text is the standard one for the declared SPDX
+identifier (MIT / Apache-2.0 / BSD-3-Clause), see ../../common/ and the authors above for the copyright holders.

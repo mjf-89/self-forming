@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>cors-rot demo</title>
+<style>
+  body { font: 15px/1.5 system-ui, sans-serif; max-width: 820px; margin: 24px auto; padding: 0 16px; color: #111; }
+  h1 { font-size: 1.4rem; }
+  fieldset { border: 1px solid #ccc; border-radius: 6px; margin: 14px 0; padding: 12px 14px; }
+  legend { font-weight: 600; padding: 0 6px; }
+  label { display: inline-block; }
+  input[type=url] { width: 100%; box-sizing: border-box; margin: 4px 0; }
+  button { cursor: pointer; padding: 5px 10px; }
+  pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #f5f5f5; border-radius: 6px; padding: 10px; max-height: 320px; overflow: auto; }
+  .note { color: #555; font-size: 0.9rem; }
+  a { color: #0a58ca; }
+</style>
+</head>
+<body>
+<h1>cors-rot demo</h1>
+<p class="note"><strong>Experimental and unaudited.</strong> A CORS workaround, not an anonymity tool.
+Do not enter credentials or private URLs. Requests run only when you press a button. Not endorsed by,
+sponsored by, or affiliated with the Tor Project.</p>
+
+<fieldset>
+  <legend>Transport</legend>
+  <label>Route <select id="transport">
+    <option value="tailscale">Tailscale exit node (default)</option>
+    <option value="tor">Tor (Snowflake)</option>
+  </select></label>
+  <p id="status" class="note" role="status">…</p>
+</fieldset>
+
+<fieldset>
+  <legend>Tailscale</legend>
+  <p id="ts-status" class="note" role="status">Tailscale starts when that transport is selected.</p>
+  <p><a id="ts-login" href="#" target="_blank" rel="noopener noreferrer" hidden>Sign in to Tailscale (new tab)</a></p>
+  <label hidden id="ts-exit-label">Exit node <select id="ts-exit"></select></label>
+</fieldset>
+
+<fieldset>
+  <legend>Fetch and stream a URL</legend>
+  <label for="url">URL</label>
+  <input id="url" type="url" value="https://check.torproject.org/api/ip" />
+  <p><button id="go">Fetch and stream</button></p>
+</fieldset>
+
+<fieldset>
+  <legend>Raw TLS GET</legend>
+  <label for="host">host:port and path</label>
+  <input id="raw" type="url" value="https://example.com/" />
+  <p><button id="raw-go">Raw TLS GET</button></p>
+</fieldset>
+
+<pre id="out" aria-live="polite"></pre>
+
+<script type="module">
+import { createCorsRot, validateHttpUrl } from '../index.js';
+
+const $ = (id) => document.getElementById(id);
+const out = $('out');
+const log = (line) => { out.textContent += line + '\n'; out.scrollTop = out.scrollHeight; };
+
+const net = createCorsRot({ transport: 'tailscale' });
+
+net.subscribe((s) => {
+  $('status').textContent = `Transport: ${s.transport} · Tor: ${s.torState}` +
+    (s.progress ? ` (${s.progress.phase})` : '') + ` · ${s.message ?? ''}`;
+});
+
+$('transport').addEventListener('change', () => { net.setTransport($('transport').value); });
+
+// Tailscale panel.
+net.tailscale.subscribe((s) => {
+  $('ts-status').textContent = s.state === 'error' ? `Tailscale error: ${s.error}` : `Tailscale: ${s.state}`;
+  const login = $('ts-login');
+  login.hidden = !s.loginURL;
+  if (s.loginURL) login.href = s.loginURL;
+  const exitLabel = $('ts-exit-label'), exit = $('ts-exit');
+  exitLabel.hidden = s.state !== 'Running' || !s.exitNodes.length;
+  exit.replaceChildren(new Option('Choose…', ''), ...s.exitNodes.map((n) => new Option(`${n.name}${n.online ? '' : ' (offline)'}`, n.id)));
+  exit.value = s.selectedExitNode ?? '';
+});
+$('ts-exit').addEventListener('change', () => { net.tailscale.setExitNode($('ts-exit').value); });
+
+$('go').addEventListener('click', async () => {
+  out.textContent = '';
+  try {
+    const url = validateHttpUrl($('url').value).href;
+    log(`→ ${url}`);
+    const response = await net.fetch(url);
+    log(`status ${response.status} ${response.statusText}`);
+    let total = 0;
+    for await (const chunk of response.body) {
+      total += chunk.byteLength;
+      log(new TextDecoder().decode(chunk));
+    }
+    log(`(${total} bytes)`);
+  } catch (error) { log('error: ' + (error?.message ?? error)); }
+});
+
+$('raw-go').addEventListener('click', async () => {
+  out.textContent = '';
+  try {
+    const url = validateHttpUrl($('raw').value);
+    const host = url.hostname, port = Number(url.port || (url.protocol === 'https:' ? 443 : 80));
+    log(`→ raw ${url.protocol === 'https:' ? 'TLS ' : ''}GET ${host}:${port}${url.pathname}`);
+    const stream = await net.connect(host, port, { tls: url.protocol === 'https:' });
+    const request = `GET ${url.pathname}${url.search} HTTP/1.1\r\nHost: ${url.host}\r\nConnection: close\r\nAccept-Encoding: identity\r\n\r\n`;
+    await stream.write(new TextEncoder().encode(request));
+    for (;;) {
+      const chunk = await stream.read();
+      if (chunk === undefined) break;
+      log(new TextDecoder().decode(chunk));
+    }
+    await stream.close();
+  } catch (error) { log('error: ' + (error?.message ?? error)); }
+});
+</script>
+</body>
+</html>

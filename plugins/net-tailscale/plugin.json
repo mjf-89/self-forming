@@ -1,0 +1,21 @@
+{
+  "id": "net-tailscale",
+  "name": "Tailscale network",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": false,
+  "bundle": "self-forming-net",
+  "provides": [
+    {
+      "id": "net.fetch",
+      "version": 1
+    }
+  ],
+  "requires": [],
+  "uses": []
+}

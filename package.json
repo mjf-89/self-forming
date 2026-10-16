@@ -1,0 +1,32 @@
+{
+  "name": "self-forming",
+  "version": "0.7.0",
+  "private": true,
+  "type": "module",
+  "description": "Self Forming — a self-shaping app powered by pi-durable",
+  "license": "MIT",
+  "engines": {
+    "node": ">=24"
+  },
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test": "node scripts/test.mjs",
+    "test:login": "node scripts/test-login-browser.mjs",
+    "dev": "node --use-system-ca scripts/serve.mjs",
+    "release:browser": "node scripts/release-browser.mjs"
+  },
+  "dependencies": {
+    "@earendil-works/chord": "1.3.0",
+    "@earendil-works/pi-ai": "1.3.0",
+    "@earendil-works/pi-durable": "1.3.0",
+    "jose": "6.2.12"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "esbuild": "0.25.10",
+    "playwright": "1.62.1",
+    "typescript": "5.9.3"
+  }
+}

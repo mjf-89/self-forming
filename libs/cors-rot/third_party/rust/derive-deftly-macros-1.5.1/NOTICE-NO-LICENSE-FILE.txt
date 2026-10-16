@@ -1,0 +1,6 @@
+Crate: derive-deftly-macros 1.5.1 (https://crates.io/crates/derive-deftly-macros/1.5.1)
+License (SPDX, as declared in the crate's Cargo.toml): MIT
+Authors (Cargo.toml): [
+
+The published crate ships no licence file; the licence text is the standard one for the declared SPDX
+identifier (MIT / Apache-2.0 / BSD-3-Clause), see ../../common/ and the authors above for the copyright holders.

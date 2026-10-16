@@ -1,0 +1,21 @@
+{
+  "id": "core-plugin-management",
+  "name": "Plugin management",
+  "version": "1.0.0",
+  "api": 1,
+  "web": {
+    "entry": "web/index.js"
+  },
+  "reload": "page",
+  "builtin": true,
+  "essential": true,
+  "bundle": "self-forming-tools",
+  "provides": [],
+  "requires": [],
+  "uses": [],
+  "styles": [
+    {
+      "href": "plugins.css"
+    }
+  ]
+}

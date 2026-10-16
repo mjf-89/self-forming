@@ -1,0 +1,68 @@
+name: Browser edition on GitHub Pages
+
+# Builds the public browser edition from this checkout (the public repository IS the public export) and
+# deploys it to https://demo.selfforming.incept.md. One-time setup: docs/browser-deploy.md.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    # The private working repository has the same file; only the public one publishes.
+    if: github.repository == 'mjf-89/self-forming'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+      - uses: pnpm/action-setup@v4
+      - name: Install and build the web library
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts
+          node scripts/build.mjs
+      - name: Cache binary assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            apps/browser/vendor/v86/v86.wasm
+            apps/browser/vendor/v86/image/alpine-state.bin.gz
+            apps/browser/vendor/v86/image/flat
+            libs/cors-rot/vendor/tailscale/tailscale.wasm
+            libs/cors-rot/vendor/webtor/webtor_wasm_bg.wasm
+          key: assets-${{ hashFiles('scripts/assets.lock') }}
+      - name: Assemble the static site
+        run: |
+          SF_STRIP_MAPS=1 sh scripts/build-browser.sh site   # downloads and verifies the pinned assets
+          echo demo.selfforming.incept.md > site/CNAME
+          touch site/.nojekyll
+          find site -type f -size +95M -print -exec false {} +   # Pages: 100 MB per file
+          du -sh site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
