@@ -106,7 +106,7 @@ test('skills section: essential skills, packaged and inline plugin skills (copie
   assert.match(text, /Skills under \.skills\/ are read-only copies from installed plugins/);
   assert.deepEqual(listed(text), [
     ['self-rebuild', '/workspace/plugins/rebuild-plus/SKILL.md'], // explicit replacement keeps the position
-    ['plugins', '/workspace/self-forming/skills/plugins/SKILL.md'],
+    ['plugins', '/workspace/self-forming/skills/plugins/SKILL.md'], // native
     ['forecast', '/workspace/.skills/weather/forecast/SKILL.md'],
     ['notes', '/workspace/.skills/notes/notes/SKILL.md']
   ], 'broken (files unreadable) and the rejected ones are not listed');

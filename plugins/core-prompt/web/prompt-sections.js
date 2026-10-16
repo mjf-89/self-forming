@@ -23,7 +23,8 @@ async function configurePrompt(tx, conversationId, { sections = MAIN_PROMPT_SECT
   selected.sections = [...new Set(sections)];
   selected.transcript = selected.sections.includes("transcript") ? transcript : "";
 }
-const PLUGINS_HINT = "Prefer plugins for new features; see the plugins section.";
+const PLUGINS_HINT = "New features are new plugins; change existing behaviour in the built-in plugin that owns it (see the plugins section).";
+const UPDATE_HINT = "Apply small, checked increments as you go so the user sees progress; after the app reloads continue with the next step instead of batching everything into one final update.";
 function createPromptExtension({ nativeEnvironment, appRevision, apkInstaller, projectGuide = "" } = {}) {
   const available = (input) => new Set(input.agent.tools.map((tool) => tool.name));
   const directory = (input) => input.env?.cwd ?? input.agent.cwd ?? nativeEnvironment?.cwd;
@@ -59,7 +60,8 @@ function createPromptExtension({ nativeEnvironment, appRevision, apkInstaller, p
     if (tools.has("app_update")) parts.push("Then call app_update with action apply by itself as the final step: it saves a revision and the page reloads into it. Staging is not proof that the changed app boots; if the new revision does not start, the browser host restores the previous one. The user can always open the page with ?safe to load the original app.");
     else parts.push("Check the changes and return what changed, the edited paths and any unverified behavior to the main agent.");
     parts.push("The plain monospace look is a deliberately neutral starting point: when the user repurposes the app, change its visual identity and design style to fit the new purpose.");
-    if (tools.has("subagent")) parts.push("Act as the orchestrator: offload independent parts to subagents (separate files), then merge, check and apply yourself.");
+    if (tools.has("app_update")) parts.push(UPDATE_HINT);
+    if (tools.has("subagent")) parts.push("Act as the orchestrator: split the work and offload independent parts to subagents (separate files), then merge, check and apply yourself.");
     if (tools.has("plugins")) parts.push(PLUGINS_HINT);
     return parts.join(" ");
   };
@@ -90,7 +92,8 @@ function createPromptExtension({ nativeEnvironment, appRevision, apkInstaller, p
       if (tools.has("app_update")) parts.push("Check the changes, then call app_update with action apply by itself as the final step. Apply stages a revision and ends the run so the host can reload after the tool result is committed. Staging is not proof that the changed app boots; the host verifies startup and can restore the prior revision.");
       else parts.push("Check the changes and return what changed, the edited paths and any unverified behavior to the main agent.");
       parts.push(`Before larger changes read ${directory(input)}/self-forming/AGENTS.md (section Self-modification). The plain monospace look is a deliberately neutral starting point: when the user repurposes the app, change its visual identity and design style to fit the new purpose.`);
-      if (tools.has("subagent")) parts.push("Act as the orchestrator: offload work to subagents, in parallel where parts are independent (separate files), then merge, check and apply yourself.");
+      if (tools.has("app_update")) parts.push(UPDATE_HINT + " Kotlin or manifest changes cannot be applied: they need an APK.");
+      if (tools.has("subagent")) parts.push("Act as the orchestrator: split the work and offload independent parts to subagents (separate files), then merge, check and apply yourself.");
       if (tools.has("plugins")) parts.push(PLUGINS_HINT);
       parts.push(`Copy changes the user wants to keep to ${directory(input)}/self-forming/apps/common so rebuilt and descendant apps keep them. Coordinate shared paths with the main agent when working as a helper.`);
       return parts.join(" ");
@@ -111,7 +114,7 @@ function createPromptExtension({ nativeEnvironment, appRevision, apkInstaller, p
     },
     subagents(input) {
       if (!available(input).has("subagent")) return;
-      return "You can delegate work to subagents with the subagent tool, each with the model, tools and context sections the task needs: action run waits for a focused helper and returns its answer (use it for self-contained steps); action spawn starts a named background subagent and its answer arrives later as a new message starting with [subagent NAME answered], so keep talking with the user meanwhile (use it for long independent work: research, builds, edits in separate folders). Pick a cheaper model (model fast, or one from action models) for simple work and a stronger one for hard work; give only the tools and context sections it needs. Give parallel helpers separate files and integrate and verify their work before reporting success.";
+      return "You can delegate work to subagents with the subagent tool, each with the model, tools and context sections the task needs: action run waits for a focused helper and returns its answer (use it for self-contained steps); action spawn starts a named background subagent and its answer arrives later as a new message starting with [subagent NAME answered], so keep talking with the user meanwhile (use it for long independent work: research, builds, edits in separate folders). Split non-trivial work into independent parts, give parallel helpers separate files and a short brief with clear done criteria, pick a cheaper model (model fast, or one from action models) for simple work and a stronger one for hard work, and give only the tools and context sections needed. Review, integrate and verify their work yourself before reporting success, and archive helpers when done.";
     },
     servers(input) {
       if (!available(input).has("manage_server")) return;

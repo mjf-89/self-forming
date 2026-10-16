@@ -59,6 +59,10 @@ function createSubagentExtensions({ getTool, toolNames, resolveModel, listModels
     }
     const available = toolNames(owner ?? {}).filter((name) => !NEVER.includes(name));
     if (tools) {
+      // Claude subscription sessions show the model Claude Code's tool casing (pi-ai anthropic-messages.ts
+      // toClaudeCodeName: "Read", "Write", "Bash", …), so match names case-insensitively.
+      const byLower = new Map(available.map((name) => [name.toLowerCase(), name]));
+      tools = tools.map((name) => byLower.get(String(name).toLowerCase()) ?? name);
       const unknown = tools.filter((name) => !available.includes(name));
       if (unknown.length) throw new Error(`Tools not available to this subagent: ${unknown.join(", ")}. Available: ${available.join(", ")}.`);
       change.tools = tools.map(getTool).filter(Boolean);

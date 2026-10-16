@@ -5,7 +5,7 @@ description: Rebuild and reinstall Self Forming itself (native Kotlin + web) on 
 
 # Rebuild Self Forming on this phone
 
-Use this when a change needs more than `app_update` can do. `app_update` only swaps the web layer (the JS/HTML/CSS in the live web app). Rebuild the full APK for: Kotlin/Java changes, `AndroidManifest.xml` or new permissions, `packages/native-host` changes, new native bridge methods, Gradle/dependency changes. For web-only edits prefer `app_update`; it is much faster.
+Use this when a change needs more than `app_update` can do. Apply and show the web-layer steps first (small `app_update` increments), and keep a rollback path (the previous APK/revision, a commit) before installing a native build; delegate independent pieces to subagents but build and install yourself. `app_update` only swaps the web layer (the JS/HTML/CSS in the live web app). Rebuild the full APK for: Kotlin/Java changes, `AndroidManifest.xml` or new permissions, `packages/native-host` changes, new native bridge methods, Gradle/dependency changes. For web-only edits prefer `app_update`; it is much faster.
 
 ## Where things are
 

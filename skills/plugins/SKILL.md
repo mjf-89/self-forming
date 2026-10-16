@@ -5,7 +5,7 @@ description: Create, check and compile trusted web/Kotlin plugins without rebuil
 
 # M1 plugins
 
-Read `docs/plugins.md` revision 3 first. Plugins are trusted same-process application code, **not sandboxed**. There is no plugin authorization, approval prompt, capability grant or development mode. Existing Android permissions, secret execution scopes and destructive-data confirmations still apply. Do not read credentials to build plugins.
+New features are new plugins (change existing behaviour in the built-in that owns it, the look in the look plugin); split independent plugins across subagents, then install and verify yourself, and ship each working plugin as its own small step so the user sees progress. Read `docs/plugins.md` revision 3 first. Plugins are trusted same-process application code, **not sandboxed**. There is no plugin authorization, approval prompt, capability grant or development mode. Existing Android permissions, secret execution scopes and destructive-data confirmations still apply. Do not read credentials to build plugins.
 
 ## Browser edition (web-only)
 

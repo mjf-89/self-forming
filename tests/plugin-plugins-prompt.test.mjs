@@ -36,7 +36,7 @@ test('Android variant: compact text with the skill pointer, Kotlin halves, resta
   const text = get(main, 'plugins');
   assert.ok(text, 'section present');
   assert.ok(text.split('\n').length <= 10 && text.length < 1700, `compact (${text.split('\n').length} lines, ${text.length} chars)`);
-  for (const part of [/plugins tool/, /isolated/, /disabled or rolled back/, /built-ins remain as fallback/, /plugins\/<id>/, /keep it there/, /repository and in the live copy/,
+  for (const part of [/plugins tool/, /not an edit of the shared engine/, /disabled or rolled back/, /built-ins remain as fallback/, /plugins\/<id>/, /keep it there/, /repository and in the live copy/,
     /revision restore \(previous revision\), not the bundled copy: both paths use the same file/, /never claim|Never claim a plugin is active without checking its state/i,
     /scripts\/plugin\.sh build\/check/, /ctx\.native\.call/, /restart/, /needs a new APK/, /web\/skills\//]) assert.match(text, part);
   assert.match(text, /read \/workspace\/self-forming\/skills\/plugins\/SKILL\.md/);
@@ -51,7 +51,7 @@ test('browser variant: web-only through the browser plugin host, no Kotlin', { s
   assert.ok(text, 'section present');
   assert.ok(text.split('\n').length <= 10 && text.length < 1700, `compact (${text.split('\n').length} lines, ${text.length} chars)`);
   for (const part of [/plugins tool/, /web-only/, /browser plugin host/, /Kotlin\/native parts is refused/, /built-ins remain as fallback/, /keep it there/,
-    /revision restore \(previous revision\), not a bundled copy: both use the same file/, /Never claim a plugin is active/, /read \/workspace\/self-forming\/skills\/plugins\/SKILL\.md/]) assert.match(text, part);
+    /revision restore \(previous revision\), not a bundled copy: both use the same file/, /Never claim a plugin is active/, /read \/workspace\/\.skills\/core-plugin-management\/plugins\/SKILL\.md/]) assert.match(text, part);
   assert.doesNotMatch(text, /scripts\/plugin\.sh|ctx\.native|APK|restart/);
   assert.doesNotMatch(text, WORDS);
   console.log(`\n--- browser ---\n${text}`);
@@ -63,7 +63,7 @@ test('main default includes it; the app section points to it; hosts without the 
   for (const name of ['native', 'browserPlugins']) {
     const { main } = await promptsFor(deps, name, { text: true, helpers: {} });
     assert.ok(main.map(([key]) => key).includes('plugins'), name);
-    assert.match(get(main, 'app'), /Prefer plugins for new features; see the plugins section\./, name);
+    assert.match(get(main, 'app'), /New features are new plugins; change existing behaviour in the built-in plugin that owns it \(see the plugins section\)\./, name);
   }
   // Fixtures without plugin support: no tool, no section, no pointer.
   for (const name of ['nativeMinimal', 'browser']) {
@@ -71,4 +71,20 @@ test('main default includes it; the app section points to it; hosts without the 
     assert.equal(get(main, 'plugins'), undefined, name);
     if (get(main, 'app')) assert.doesNotMatch(get(main, 'app'), /plugins section/, name);
   }
+});
+
+test('browser: the plugins skill file exists in the workspace at the path the prompt names (seeded from the single source)', { skip, timeout: 120000 }, async () => {
+  const { readFile } = await import('node:fs/promises');
+  let env;
+  const stock = CONFIGURATIONS.browserPlugins;
+  CONFIGURATIONS.browserSeeded = () => { const configuration = stock(); env = configuration.options.env; return configuration; };
+  const { main } = await promptsFor(deps, 'browserSeeded', { text: true, helpers: {} });
+  const named = get(main, 'plugins').match(/read (\/workspace\/\S+SKILL\.md)/)?.[1];
+  assert.equal(named, '/workspace/.skills/core-plugin-management/plugins/SKILL.md');
+  const { until } = await import('./plugin-agent-support.mjs');
+  await until(() => env.files.has(named), 'the skill file was not written');
+  const source = await readFile(new URL('../plugins/core-plugin-management/web/skills/plugins/SKILL.md', import.meta.url), 'utf8');
+  assert.equal(env.files.get(named), source, 'same text as the single source');
+  assert.equal(source, await readFile(new URL('../skills/plugins/SKILL.md', import.meta.url), 'utf8'), 'source-tree copy is in step');
+  assert.match(get(main, 'skills') ?? '', /- plugins: .*\(\/workspace\/\.skills\/core-plugin-management\/plugins\/SKILL\.md\)/);
 });
