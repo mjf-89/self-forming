@@ -146,7 +146,7 @@ test('app.js: no openAppSession; session options given before composition; bundl
   assert.ok(code.indexOf('sessions.connect({ sessionOptions') < code.indexOf('startPluginComposition'));
   assert.match(code, /builtinPlugin\("core-agent"\)\.entry\.openSessions\(sessions, "bundled"\)/);
   assert.match(code, /setTimeout\(bundledAgent, READY_TIMEOUT_MS\)/);
-  assert.match(code, /\.finally\(\(\) => \{\s*clearTimeout\(agentDeadline\);\s*bundledAgent\(\);\s*\}\)/);
+  assert.match(code, /\.finally\(\(\) => \{\s*clearTimeout\(agentDeadline\);(?:\s*globalThis\.__sfSplash\?\.mark\([^)]*\);[^\n]*)?\s*bundledAgent\(\);\s*\}\)/);
   assert.match(code, /await sessions\.begun;/);
   const entry = await readFile(new URL('plugins/core-agent/web/open-sessions.js', root), 'utf8');
   assert.match(entry, /onStaged: \(revision\) => revisions\?\.queue\(opened, revision\)/);
