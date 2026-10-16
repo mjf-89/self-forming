@@ -48,8 +48,8 @@ jobs:
         run: |
           pnpm install --frozen-lockfile --ignore-scripts
           pnpm check
-          pnpm test
           pnpm build
+          # the full suite (one process per file, with the pinned binary assets) is the tests job (test.yml); publish needs both
           bash scripts/font-notices.sh
       - name: Check release metadata
         id: version
