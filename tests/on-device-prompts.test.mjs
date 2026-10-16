@@ -72,7 +72,7 @@ test('main guidance uses native named sections, unchanged requests reuse them, c
   assert.match(first.device, /^<device>\n.*Ubuntu 24\.04/s);
   assert.match(first.app, /call app_update with action apply/);
   assert.match(first['self-rebuild'], /Install a finished APK with app_install_apk/);
-  assert.match(first.subagents, /Pick a cheaper model/);
+  assert.match(first.subagents, /pick a cheaper model/i);
   assert.match(first.servers, /manage_server/);
   assert.match(first['agents-guide'], /Never expose credentials/);
   await send(main);
