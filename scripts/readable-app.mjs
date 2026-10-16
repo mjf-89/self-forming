@@ -40,6 +40,9 @@ export async function buildReadableApp(root, browserEntryPoints, source = 'apps/
           const target = resolve(dirname(args.importer), args.path);
           const app = appFiles.get(target);
           if (app) return { path: `./${app}`, external: true };
+          // The optional dev tools module (private edition only): plugin-bootstrap.js imports it dynamically
+          // and treats a missing module as "no dev tools", so the public edition builds without it.
+          if (args.kind === 'dynamic-import' && args.path === './dev-plugins.js') return { path: args.path, external: true };
           const native = relative(nativeDirectory, target).replaceAll('\\', '/');
           if (!native.startsWith('../') && !native.startsWith('/') && native.endsWith('.ts'))
             return { path: './native-host.js', external: true };

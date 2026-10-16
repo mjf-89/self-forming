@@ -77,7 +77,8 @@ jobs:
           IMG="$V86_OUT/vendor/v86/image"
           mkdir -p stage
           cp apps/browser/vendor/v86/v86.wasm "$IMG/alpine-state.bin.gz" "$IMG/alpine-fs.json" stage/
-          for f in "$IMG"/flat/*.bin; do cp "$f" "stage/flat-$(basename "$f")"; done
+          # empty files (the 0-byte blob e3b0c44298.bin is committed) cannot be release assets
+          for f in "$IMG"/flat/*.bin; do [ -s "$f" ] || continue; cp "$f" "stage/flat-$(basename "$f")"; done
           cd stage
           sha256sum * > ../SHA256SUMS
           for f in *; do echo "$(sha256sum "$f" | cut -d' ' -f1) $(stat -c%s "$f") $f"; done > ../MANIFEST
